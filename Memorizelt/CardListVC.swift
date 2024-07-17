@@ -9,18 +9,21 @@ import UIKit
 
 class CardListVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    private var array = ["English","Music","Math","Words"]
     
-    var tableView: UITableView = {
+    
+    private var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         configureTableView()
+        configureNavigationBar()
     }
     
     
@@ -29,23 +32,36 @@ class CardListVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         tableView.frame = view.bounds
     }
     
-    func configureTableView() {
+    
+    private func configureNavigationBar() {
+        title = "Memorizelt"
+        navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
+    
+    private func configureTableView() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(CardListCell.self, forCellReuseIdentifier: Constant.cardListCell)
+        tableView.register(CardListCell.self, forCellReuseIdentifier: Cell.cardListCell)
         view.addSubview(tableView)
     }
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return array.count
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: Constant.cardListCell, for: indexPath) as? CardListCell else { return UITableViewCell() }
-        cell.titleLabel.text = "Card \(indexPath.row + 1)"
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: Cell.cardListCell, for: indexPath) as? CardListCell else { return UITableViewCell() }
+        cell.titleLabel.text = array[indexPath.row]
         return cell
     }
-
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        DispatchQueue.main.async {
+            let vc = CardVC()
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
 }

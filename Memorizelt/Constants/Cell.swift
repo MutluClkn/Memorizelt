@@ -1,12 +1,12 @@
 //
-//  Constant.swift
+//  Cell.swift
 //  Memorizelt
 //
-//  Created by Mutlu Çalkan on 15.07.2024.
+//  Created by Mutlu Çalkan on 17.07.2024.
 //
 
 import Foundation
 
-struct Constant {
+struct Cell {
     static let cardListCell = "CardListCell"
 }
