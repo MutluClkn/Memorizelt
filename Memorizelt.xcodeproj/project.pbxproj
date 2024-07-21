@@ -19,6 +19,8 @@
 		FA82507C2C47A96000675C7D /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA82507B2C47A96000675C7D /* Fonts.swift */; };
 		FA82507E2C47AB5600675C7D /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA82507D2C47AB5600675C7D /* Cell.swift */; };
 		FA8250802C47B0E800675C7D /* CardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA82507F2C47B0E800675C7D /* CardVC.swift */; };
+		FAB0AA382C4CF1DA0049EAFD /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB0AA372C4CF1DA0049EAFD /* TabBarVC.swift */; };
+		FAB0AA3A2C4CF2DA0049EAFD /* DecksVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB0AA392C4CF2DA0049EAFD /* DecksVC.swift */; };
 		FAB9DC3C2C4530FC0051D754 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB9DC3B2C4530FC0051D754 /* AppDelegate.swift */; };
 		FAB9DC3E2C4530FC0051D754 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB9DC3D2C4530FC0051D754 /* SceneDelegate.swift */; };
 		FAB9DC462C4530FC0051D754 /* Memorizelt.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FAB9DC442C4530FC0051D754 /* Memorizelt.xcdatamodeld */; };
@@ -41,6 +43,8 @@
 		FA82507B2C47A96000675C7D /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		FA82507D2C47AB5600675C7D /* Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
 		FA82507F2C47B0E800675C7D /* CardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardVC.swift; sourceTree = "<group>"; };
+		FAB0AA372C4CF1DA0049EAFD /* TabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
+		FAB0AA392C4CF2DA0049EAFD /* DecksVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecksVC.swift; sourceTree = "<group>"; };
 		FAB9DC382C4530FC0051D754 /* Memorizelt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Memorizelt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAB9DC3B2C4530FC0051D754 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FAB9DC3D2C4530FC0051D754 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -112,6 +116,8 @@
 				FAB9DC3B2C4530FC0051D754 /* AppDelegate.swift */,
 				FAB9DC3D2C4530FC0051D754 /* SceneDelegate.swift */,
 				FAB9DC582C4541E30051D754 /* CardListCell.swift */,
+				FAB0AA372C4CF1DA0049EAFD /* TabBarVC.swift */,
+				FAB0AA392C4CF2DA0049EAFD /* DecksVC.swift */,
 				FAB9DC542C453E000051D754 /* CardListVC.swift */,
 				FAB9DC472C4530FE0051D754 /* Assets.xcassets */,
 				FAB9DC492C4530FE0051D754 /* LaunchScreen.storyboard */,
@@ -205,10 +211,12 @@
 				FAB9DC3E2C4530FC0051D754 /* SceneDelegate.swift in Sources */,
 				FA8250802C47B0E800675C7D /* CardVC.swift in Sources */,
 				FA82507C2C47A96000675C7D /* Fonts.swift in Sources */,
+				FAB0AA382C4CF1DA0049EAFD /* TabBarVC.swift in Sources */,
 				FAB9DC592C4541E30051D754 /* CardListCell.swift in Sources */,
 				FA82507E2C47AB5600675C7D /* Cell.swift in Sources */,
 				FAB9DC552C453E000051D754 /* CardListVC.swift in Sources */,
 				FAB9DC462C4530FC0051D754 /* Memorizelt.xcdatamodeld in Sources */,
+				FAB0AA3A2C4CF2DA0049EAFD /* DecksVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

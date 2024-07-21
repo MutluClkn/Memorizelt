@@ -15,9 +15,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        let cardListViewController = CardListVC()
-        let navigationController = UINavigationController(rootViewController: cardListViewController)
-        window?.rootViewController = navigationController
+        let tabBarVC = TabBarVC()
+        window?.rootViewController = tabBarVC
         window?.makeKeyAndVisible()
     }
 

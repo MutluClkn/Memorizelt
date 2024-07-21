@@ -34,7 +34,7 @@ class CardListVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     
     private func configureNavigationBar() {
-        title = "Memorizelt"
+        title = "Cards"
         navigationController?.navigationBar.prefersLargeTitles = true
     }
     
