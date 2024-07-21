@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		41CA7204AE540A9DF448D126 /* Pods_Memorizelt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60BBCA37F83E892C6D1F2757 /* Pods_Memorizelt.framework */; };
 		FA8250712C47A92D00675C7D /* Inter-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA8250682C47A92D00675C7D /* Inter-ExtraLight.ttf */; };
 		FA8250722C47A92D00675C7D /* Inter-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA8250692C47A92D00675C7D /* Inter-SemiBold.ttf */; };
 		FA8250732C47A92D00675C7D /* Inter-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA82506A2C47A92D00675C7D /* Inter-Thin.ttf */; };
@@ -21,6 +22,7 @@
 		FA8250802C47B0E800675C7D /* CardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA82507F2C47B0E800675C7D /* CardVC.swift */; };
 		FAB0AA382C4CF1DA0049EAFD /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB0AA372C4CF1DA0049EAFD /* TabBarVC.swift */; };
 		FAB0AA3A2C4CF2DA0049EAFD /* DecksVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB0AA392C4CF2DA0049EAFD /* DecksVC.swift */; };
+		FAB0AA3C2C4CF6E40049EAFD /* AddNewDeckVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB0AA3B2C4CF6E40049EAFD /* AddNewDeckVC.swift */; };
 		FAB9DC3C2C4530FC0051D754 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB9DC3B2C4530FC0051D754 /* AppDelegate.swift */; };
 		FAB9DC3E2C4530FC0051D754 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB9DC3D2C4530FC0051D754 /* SceneDelegate.swift */; };
 		FAB9DC462C4530FC0051D754 /* Memorizelt.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FAB9DC442C4530FC0051D754 /* Memorizelt.xcdatamodeld */; };
@@ -31,6 +33,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		60BBCA37F83E892C6D1F2757 /* Pods_Memorizelt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Memorizelt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		612378C9DA60801679ADC8CA /* Pods-Memorizelt.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Memorizelt.release.xcconfig"; path = "Target Support Files/Pods-Memorizelt/Pods-Memorizelt.release.xcconfig"; sourceTree = "<group>"; };
+		BA2F07060C42BB07BE7F4434 /* Pods-Memorizelt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Memorizelt.debug.xcconfig"; path = "Target Support Files/Pods-Memorizelt/Pods-Memorizelt.debug.xcconfig"; sourceTree = "<group>"; };
 		FA8250682C47A92D00675C7D /* Inter-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-ExtraLight.ttf"; sourceTree = "<group>"; };
 		FA8250692C47A92D00675C7D /* Inter-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-SemiBold.ttf"; sourceTree = "<group>"; };
 		FA82506A2C47A92D00675C7D /* Inter-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Thin.ttf"; sourceTree = "<group>"; };
@@ -45,6 +50,7 @@
 		FA82507F2C47B0E800675C7D /* CardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardVC.swift; sourceTree = "<group>"; };
 		FAB0AA372C4CF1DA0049EAFD /* TabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
 		FAB0AA392C4CF2DA0049EAFD /* DecksVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecksVC.swift; sourceTree = "<group>"; };
+		FAB0AA3B2C4CF6E40049EAFD /* AddNewDeckVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewDeckVC.swift; sourceTree = "<group>"; };
 		FAB9DC382C4530FC0051D754 /* Memorizelt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Memorizelt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAB9DC3B2C4530FC0051D754 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FAB9DC3D2C4530FC0051D754 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -61,12 +67,31 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41CA7204AE540A9DF448D126 /* Pods_Memorizelt.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		009BADB7736D5FE9B9E14225 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				60BBCA37F83E892C6D1F2757 /* Pods_Memorizelt.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7390339CA5F42C28C72A827F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BA2F07060C42BB07BE7F4434 /* Pods-Memorizelt.debug.xcconfig */,
+				612378C9DA60801679ADC8CA /* Pods-Memorizelt.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		FA8250672C47A8CB00675C7D /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -97,6 +122,8 @@
 			children = (
 				FAB9DC3A2C4530FC0051D754 /* Memorizelt */,
 				FAB9DC392C4530FC0051D754 /* Products */,
+				7390339CA5F42C28C72A827F /* Pods */,
+				009BADB7736D5FE9B9E14225 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -116,14 +143,15 @@
 				FAB9DC3B2C4530FC0051D754 /* AppDelegate.swift */,
 				FAB9DC3D2C4530FC0051D754 /* SceneDelegate.swift */,
 				FAB9DC582C4541E30051D754 /* CardListCell.swift */,
+				FAB0AA3B2C4CF6E40049EAFD /* AddNewDeckVC.swift */,
 				FAB0AA372C4CF1DA0049EAFD /* TabBarVC.swift */,
 				FAB0AA392C4CF2DA0049EAFD /* DecksVC.swift */,
 				FAB9DC542C453E000051D754 /* CardListVC.swift */,
+				FA82507F2C47B0E800675C7D /* CardVC.swift */,
 				FAB9DC472C4530FE0051D754 /* Assets.xcassets */,
 				FAB9DC492C4530FE0051D754 /* LaunchScreen.storyboard */,
 				FAB9DC4C2C4530FE0051D754 /* Info.plist */,
 				FAB9DC442C4530FC0051D754 /* Memorizelt.xcdatamodeld */,
-				FA82507F2C47B0E800675C7D /* CardVC.swift */,
 			);
 			path = Memorizelt;
 			sourceTree = "<group>";
@@ -135,9 +163,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FAB9DC4F2C4530FE0051D754 /* Build configuration list for PBXNativeTarget "Memorizelt" */;
 			buildPhases = (
+				EC844AF080989A8FBF6EA39E /* [CP] Check Pods Manifest.lock */,
 				FAB9DC342C4530FC0051D754 /* Sources */,
 				FAB9DC352C4530FC0051D754 /* Frameworks */,
 				FAB9DC362C4530FC0051D754 /* Resources */,
+				5FCDB7F58D2D6215BEF35126 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -202,6 +232,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		5FCDB7F58D2D6215BEF35126 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Memorizelt/Pods-Memorizelt-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Memorizelt/Pods-Memorizelt-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Memorizelt/Pods-Memorizelt-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EC844AF080989A8FBF6EA39E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Memorizelt-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		FAB9DC342C4530FC0051D754 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -214,6 +286,7 @@
 				FAB0AA382C4CF1DA0049EAFD /* TabBarVC.swift in Sources */,
 				FAB9DC592C4541E30051D754 /* CardListCell.swift in Sources */,
 				FA82507E2C47AB5600675C7D /* Cell.swift in Sources */,
+				FAB0AA3C2C4CF6E40049EAFD /* AddNewDeckVC.swift in Sources */,
 				FAB9DC552C453E000051D754 /* CardListVC.swift in Sources */,
 				FAB9DC462C4530FC0051D754 /* Memorizelt.xcdatamodeld in Sources */,
 				FAB0AA3A2C4CF2DA0049EAFD /* DecksVC.swift in Sources */,
@@ -350,6 +423,7 @@
 		};
 		FAB9DC502C4530FE0051D754 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BA2F07060C42BB07BE7F4434 /* Pods-Memorizelt.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -378,6 +452,7 @@
 		};
 		FAB9DC512C4530FE0051D754 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 612378C9DA60801679ADC8CA /* Pods-Memorizelt.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
