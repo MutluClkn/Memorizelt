@@ -10,6 +10,18 @@ import SnapKit
 
 class CardVC: UIViewController {
     
+    let flipButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "arrow.2.circlepath"), for: .normal)
+        button.tintColor = .white
+        // button.backgroundColor = UIColor(hex: "#333B4C")
+        button.layer.cornerRadius = 25
+        button.layer.masksToBounds = true
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    
     let closeButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "xmark"), for: .normal)
@@ -27,6 +39,7 @@ class CardVC: UIViewController {
     let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: Fonts.interBold, size: 25)
+        label.numberOfLines = 1
         return label
     }()
     
@@ -64,11 +77,25 @@ class CardVC: UIViewController {
         return view
     }()
     
+    let contentView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+    
     let cardLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.numberOfLines = 0
         label.textColor = .white
+        label.font = UIFont(name: Fonts.interMedium, size: 16)
         return label
     }()
     
@@ -83,6 +110,7 @@ class CardVC: UIViewController {
     let hardButton: UIButton = {
         let button = UIButton()
         button.setTitle("Hard", for: .normal)
+        button.titleLabel?.font = UIFont(name: Fonts.interMedium, size: 14)
         button.backgroundColor = .systemGray6
         button.layer.borderWidth = 0.7
         button.layer.borderColor = UIColor.systemGray3.cgColor
@@ -93,6 +121,7 @@ class CardVC: UIViewController {
     let normalButton: UIButton = {
         let button = UIButton()
         button.setTitle("Normal", for: .normal)
+        button.titleLabel?.font = UIFont(name: Fonts.interMedium, size: 14)
         button.backgroundColor = .systemGray6
         button.layer.borderWidth = 0.7
         button.layer.borderColor = UIColor.systemGray3.cgColor
@@ -103,6 +132,7 @@ class CardVC: UIViewController {
     let easyButton: UIButton = {
         let button = UIButton()
         button.setTitle("Easy", for: .normal)
+        button.titleLabel?.font = UIFont(name: Fonts.interMedium, size: 14)
         button.backgroundColor = .systemGray6
         button.layer.borderWidth = 0.7
         button.layer.borderColor = UIColor.systemGray3.cgColor
@@ -114,7 +144,25 @@ class CardVC: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .black
         setupCardView()
+        cardLabel.text = frontText
     }
+    
+    var isShowingFront = true
+    let frontText = "Walk" // Example front text
+    let backText = """
+Where does it come from?
+Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
+
+The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
+"""
+    
+    @objc func flipCard() {
+        UIView.transition(with: cardView, duration: 0.3, options: .transitionFlipFromRight, animations: {
+            self.cardLabel.text = self.isShowingFront ? self.backText : self.frontText
+        }, completion: nil)
+        isShowingFront.toggle()
+    }
+    
     
     @objc func closeButtonTapped(){
         self.dismiss(animated: true)
@@ -144,7 +192,7 @@ class CardVC: UIViewController {
         closeButton.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
             make.left.equalTo(view).offset(20)
-            make.width.height.equalTo(30)
+            make.width.height.equalTo(20)
         }
         
         infoButton.snp.makeConstraints { make in
@@ -158,10 +206,11 @@ class CardVC: UIViewController {
             make.top.equalTo(closeButton.snp.bottom).offset(20)
             make.left.equalTo(view).offset(20)
             make.right.equalTo(view).offset(-20)
+            make.height.equalTo(30)
         }
         
         progressView.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(10)
+            make.top.equalTo(titleLabel.snp.bottom).offset(15)
             make.left.equalTo(view).offset(20)
             make.right.equalTo(view).offset(-20)
             make.height.equalTo(2)
@@ -170,39 +219,60 @@ class CardVC: UIViewController {
         reviewedLabel.snp.makeConstraints { make in
             make.top.equalTo(progressView.snp.bottom).offset(10)
             make.left.equalTo(view).offset(20)
+            make.height.equalTo(15)
         }
         
         totalLabel.snp.makeConstraints { make in
-            make.top.equalTo(progressView.snp.bottom).offset(10)
+            make.centerY.equalTo(reviewedLabel)
             make.right.equalTo(view).offset(-20)
+            make.height.equalTo(15)
         }
         
         cardView.snp.makeConstraints { make in
-            make.top.equalTo(reviewedLabel.snp.bottom).offset(70)
+            make.top.equalTo(reviewedLabel.snp.bottom).offset(50)
             make.left.equalTo(view).offset(20)
             make.right.equalTo(view).offset(-20)
-            make.bottom.equalTo(buttonStack.snp.top).offset(-50)
+            make.bottom.equalTo(buttonStack.snp.top).offset(-40)
         }
         
         buttonStack.snp.makeConstraints { make in
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-25)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-30)
             make.left.equalTo(view).offset(20)
             make.right.equalTo(view).offset(-20)
-            make.height.equalTo(35)
+            make.height.equalTo(30)
         }
         
         
-        //Label, Uzun metin yazabilecegim bir seyle degistirecegim. View icerisinde asagi kaydirma da olabilir. Sag ust kosede karti cevirmek icin bu dondurme butonu koyacagim.
         
-        /*
-         cardView.addSubview(cardLabel)
-         
-         cardLabel.snp.makeConstraints { make in
-             make.edges.equalTo(cardView).inset(20)
-         }
-         
-         cardLabel.text = "Walk"
-         */
+        cardView.addSubview(flipButton)
+        
+        flipButton.snp.makeConstraints { make in
+            make.width.height.equalTo(30)
+            make.top.equalTo(cardView.snp.top).offset(8)
+            make.right.equalTo(cardView.snp.right).offset(-8)
+        }
+        
+        
+        cardView.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        contentView.addSubview(cardLabel)
+        
+        scrollView.snp.makeConstraints { make in
+            make.edges.equalToSuperview().inset(32)
+        }
+        
+        contentView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+            make.width.equalTo(scrollView)
+        }
+        
+        cardLabel.snp.makeConstraints { make in
+            make.centerX.centerY.equalToSuperview()
+            make.left.top.equalTo(contentView)
+        }
+        
+        
+        flipButton.addTarget(self, action: #selector(flipCard), for: .touchUpInside)
         
         closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
         infoButton.addTarget(self, action: #selector(infoButtonTapped), for: .touchUpInside)
