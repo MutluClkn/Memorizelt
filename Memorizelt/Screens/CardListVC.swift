@@ -21,7 +21,7 @@ class CardListVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .black
         configureTableView()
         configureNavigationBar()
     }
@@ -61,7 +61,9 @@ class CardListVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         DispatchQueue.main.async {
             let vc = CardVC()
-            self.navigationController?.pushViewController(vc, animated: true)
+            vc.titleLabel.text = self.array[indexPath.row]
+            vc.modalPresentationStyle = .overFullScreen
+            self.present(vc, animated: true)
         }
     }
 }

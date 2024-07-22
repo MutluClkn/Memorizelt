@@ -20,6 +20,7 @@
 		FA82507C2C47A96000675C7D /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA82507B2C47A96000675C7D /* Fonts.swift */; };
 		FA82507E2C47AB5600675C7D /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA82507D2C47AB5600675C7D /* Cell.swift */; };
 		FA8250802C47B0E800675C7D /* CardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA82507F2C47B0E800675C7D /* CardVC.swift */; };
+		FAACADFA2C4E51BF00DBB93A /* HexColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAACADF92C4E51BF00DBB93A /* HexColor.swift */; };
 		FAB0AA382C4CF1DA0049EAFD /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB0AA372C4CF1DA0049EAFD /* TabBarVC.swift */; };
 		FAB0AA3A2C4CF2DA0049EAFD /* DecksVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB0AA392C4CF2DA0049EAFD /* DecksVC.swift */; };
 		FAB0AA3C2C4CF6E40049EAFD /* AddNewDeckVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB0AA3B2C4CF6E40049EAFD /* AddNewDeckVC.swift */; };
@@ -48,6 +49,7 @@
 		FA82507B2C47A96000675C7D /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		FA82507D2C47AB5600675C7D /* Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
 		FA82507F2C47B0E800675C7D /* CardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardVC.swift; sourceTree = "<group>"; };
+		FAACADF92C4E51BF00DBB93A /* HexColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexColor.swift; sourceTree = "<group>"; };
 		FAB0AA372C4CF1DA0049EAFD /* TabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
 		FAB0AA392C4CF2DA0049EAFD /* DecksVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecksVC.swift; sourceTree = "<group>"; };
 		FAB0AA3B2C4CF6E40049EAFD /* AddNewDeckVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewDeckVC.swift; sourceTree = "<group>"; };
@@ -88,7 +90,6 @@
 				BA2F07060C42BB07BE7F4434 /* Pods-Memorizelt.debug.xcconfig */,
 				612378C9DA60801679ADC8CA /* Pods-Memorizelt.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -117,6 +118,71 @@
 			path = Constants;
 			sourceTree = "<group>";
 		};
+		FAACADF82C4E51B000DBB93A /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				FAACADF92C4E51BF00DBB93A /* HexColor.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		FAB0AA3D2C4D149D0049EAFD /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				FAB0AA3B2C4CF6E40049EAFD /* AddNewDeckVC.swift */,
+				FAB0AA372C4CF1DA0049EAFD /* TabBarVC.swift */,
+				FAB0AA392C4CF2DA0049EAFD /* DecksVC.swift */,
+				FAB9DC542C453E000051D754 /* CardListVC.swift */,
+				FA82507F2C47B0E800675C7D /* CardVC.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		FAB0AA3E2C4D14E10049EAFD /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				FAB9DC472C4530FE0051D754 /* Assets.xcassets */,
+				FAB0AA402C4D150F0049EAFD /* Base */,
+				FAB9DC3B2C4530FC0051D754 /* AppDelegate.swift */,
+				FAB9DC3D2C4530FC0051D754 /* SceneDelegate.swift */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		FAB0AA3F2C4D14EB0049EAFD /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				FAACADF82C4E51B000DBB93A /* Extensions */,
+				FA8250672C47A8CB00675C7D /* Fonts */,
+				FA82507A2C47A95200675C7D /* Constants */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		FAB0AA402C4D150F0049EAFD /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				FAB9DC492C4530FE0051D754 /* LaunchScreen.storyboard */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		FAB0AA412C4D15320049EAFD /* CustomViews */ = {
+			isa = PBXGroup;
+			children = (
+				FAB0AA422C4D15380049EAFD /* Cells */,
+			);
+			path = CustomViews;
+			sourceTree = "<group>";
+		};
+		FAB0AA422C4D15380049EAFD /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				FAB9DC582C4541E30051D754 /* CardListCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		FAB9DC2F2C4530FC0051D754 = {
 			isa = PBXGroup;
 			children = (
@@ -138,18 +204,10 @@
 		FAB9DC3A2C4530FC0051D754 /* Memorizelt */ = {
 			isa = PBXGroup;
 			children = (
-				FA82507A2C47A95200675C7D /* Constants */,
-				FA8250672C47A8CB00675C7D /* Fonts */,
-				FAB9DC3B2C4530FC0051D754 /* AppDelegate.swift */,
-				FAB9DC3D2C4530FC0051D754 /* SceneDelegate.swift */,
-				FAB9DC582C4541E30051D754 /* CardListCell.swift */,
-				FAB0AA3B2C4CF6E40049EAFD /* AddNewDeckVC.swift */,
-				FAB0AA372C4CF1DA0049EAFD /* TabBarVC.swift */,
-				FAB0AA392C4CF2DA0049EAFD /* DecksVC.swift */,
-				FAB9DC542C453E000051D754 /* CardListVC.swift */,
-				FA82507F2C47B0E800675C7D /* CardVC.swift */,
-				FAB9DC472C4530FE0051D754 /* Assets.xcassets */,
-				FAB9DC492C4530FE0051D754 /* LaunchScreen.storyboard */,
+				FAB0AA412C4D15320049EAFD /* CustomViews */,
+				FAB0AA3F2C4D14EB0049EAFD /* Utilities */,
+				FAB0AA3E2C4D14E10049EAFD /* Support */,
+				FAB0AA3D2C4D149D0049EAFD /* Screens */,
 				FAB9DC4C2C4530FE0051D754 /* Info.plist */,
 				FAB9DC442C4530FC0051D754 /* Memorizelt.xcdatamodeld */,
 			);
@@ -280,6 +338,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FAB9DC3C2C4530FC0051D754 /* AppDelegate.swift in Sources */,
+				FAACADFA2C4E51BF00DBB93A /* HexColor.swift in Sources */,
 				FAB9DC3E2C4530FC0051D754 /* SceneDelegate.swift in Sources */,
 				FA8250802C47B0E800675C7D /* CardVC.swift in Sources */,
 				FA82507C2C47A96000675C7D /* Fonts.swift in Sources */,

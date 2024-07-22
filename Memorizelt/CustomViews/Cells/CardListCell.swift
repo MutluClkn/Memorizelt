@@ -12,7 +12,7 @@ class CardListCell: UITableViewCell {
     let titleLabel : UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: Fonts.medium, size: 15)
+        label.font = UIFont(name: Fonts.interMedium, size: 15)
         return label
     }()
     
@@ -20,7 +20,7 @@ class CardListCell: UITableViewCell {
         let label = UILabel()
         label.textColor = UIColor.systemYellow
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: Fonts.medium, size: 15)
+        label.font = UIFont(name: Fonts.interMedium, size: 15)
         return label
     }()
     
