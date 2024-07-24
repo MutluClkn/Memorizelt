@@ -147,6 +147,10 @@ class CardVC: UIViewController {
         cardLabel.text = frontText
     }
     
+    
+    let frontFont = UIFont(name: Fonts.interBold, size: 40) // Font for front side
+    let backFont = UIFont(name: Fonts.interRegular, size: 16) // Font for back side
+    
     var isShowingFront = true
     let frontText = "Walk" // Example front text
     let backText = """
@@ -158,7 +162,13 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     
     @objc func flipCard() {
         UIView.transition(with: cardView, duration: 0.3, options: .transitionFlipFromRight, animations: {
-            self.cardLabel.text = self.isShowingFront ? self.backText : self.frontText
+            if self.isShowingFront {
+                self.cardLabel.text = self.backText
+                self.cardLabel.font = self.backFont // Set the back font
+            } else {
+                self.cardLabel.text = self.frontText
+                self.cardLabel.font = self.frontFont // Set the front font
+            }
         }, completion: nil)
         isShowingFront.toggle()
     }
@@ -176,6 +186,12 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     }
     
     func setupCardView() {
+        
+        
+        cardLabel.text = frontText
+        cardLabel.font = frontFont
+        
+        
         view.addSubview(closeButton)
         view.addSubview(titleLabel)
         view.addSubview(cardView)
@@ -244,7 +260,7 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
         
         
         
-        cardView.addSubview(flipButton)
+        view.addSubview(flipButton)
         
         flipButton.snp.makeConstraints { make in
             make.width.height.equalTo(30)
@@ -252,8 +268,9 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
             make.right.equalTo(cardView.snp.right).offset(-8)
         }
         
-        
         cardView.addSubview(scrollView)
+        
+        
         scrollView.addSubview(contentView)
         contentView.addSubview(cardLabel)
         
