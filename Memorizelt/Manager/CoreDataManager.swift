@@ -11,7 +11,6 @@ import CoreData
 class CoreDataManager {
     static let shared = CoreDataManager()
     let persistentContainer: NSPersistentContainer
-    //let appDelegate = UIApplication.shared.delegate as? AppDelegate
     
     private init() {
         persistentContainer = NSPersistentContainer(name: "Flashcard")

@@ -8,23 +8,23 @@
 import UIKit
 import SnapKit
 
-class CardVC: UIViewController {
+final class CardVC: UIViewController {
     
     //MARK: - Buttons
-    let flipButton = MZFloatingButton(bgColor: UIColor(hex: "#333B4C"),
+    private let flipButton = MZFloatingButton(bgColor: UIColor(hex: "#333B4C"),
                                       cornerRadius: 25,
                                       systemImage: "arrow.2.circlepath")
     
-    let hardButton = MZButton(title: "Hard")
+    private let hardButton = MZButton(title: "Hard")
     
-    let normalButton = MZButton(title: "Normal")
+    private let normalButton = MZButton(title: "Normal")
     
-    let easyButton = MZButton(title: "Easy")
+    private let easyButton = MZButton(title: "Easy")
     
-    let closeButton = MZImageButton(systemImage: "xmark",
+    private let closeButton = MZImageButton(systemImage: "xmark",
                                     tintColor: .white)
     
-    let infoButton = MZImageButton(systemImage: "info.circle",
+    private let infoButton = MZImageButton(systemImage: "info.circle",
                                    tintColor: .secondaryLabel)
     
     
@@ -60,7 +60,7 @@ class CardVC: UIViewController {
     
     
     //MARK: - ProgressView
-    let progressView: UIProgressView = {
+    private let progressView: UIProgressView = {
         let progressView = UIProgressView(progressViewStyle: .default)
         progressView.translatesAutoresizingMaskIntoConstraints = false
         progressView.progressTintColor = .blue
@@ -72,7 +72,7 @@ class CardVC: UIViewController {
     
     
     //MARK: - Views
-    let cardView: UIView = {
+    private let cardView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 20
         view.backgroundColor = UIColor(hex: "#333B4C")
@@ -80,14 +80,14 @@ class CardVC: UIViewController {
         return view
     }()
     
-    let scrollView: UIScrollView = {
+    private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.showsVerticalScrollIndicator = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
     
-    let buttonStack: UIStackView = {
+    private let buttonStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
         stack.distribution = .fillEqually
@@ -105,12 +105,12 @@ class CardVC: UIViewController {
         cardLabel.text = frontText
     }
     
-    let frontFont = UIFont(name: Fonts.interBold, size: 40) // Font for front side
-    let backFont = UIFont(name: Fonts.interRegular, size: 16) // Font for back side
+    private let frontFont = UIFont(name: Fonts.interBold, size: 40) // Font for front side
+    private let backFont = UIFont(name: Fonts.interRegular, size: 16) // Font for back side
     
-    var isShowingFront = true
-    let frontText = "FRONT"
-    let backText = "BACK"
+    private var isShowingFront = true
+    private let frontText = "FRONT"
+    private let backText = "BACK"
     
     
     //MARK: - Button Actions
@@ -133,9 +133,9 @@ class CardVC: UIViewController {
     
     @objc func infoButtonTapped(){
         let alertController = UIAlertController(title: "Button Info", message: "Hard: Indicates difficult questions\nNormal: Indicates medium difficulty questions\nEasy: Indicates easy questions", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        let okAction = UIAlertAction(title: "OK", style: .default)
         alertController.addAction(okAction)
-        self.present(alertController, animated: true, completion: nil)
+        self.present(alertController, animated: true)
     }
 }
 
@@ -143,7 +143,7 @@ class CardVC: UIViewController {
 //MARK: - Setup Card View Extension
 extension CardVC {
     
-    func setupCardView() {
+    private func setupCardView() {
         cardLabel.text = frontText
         cardLabel.font = frontFont
         
