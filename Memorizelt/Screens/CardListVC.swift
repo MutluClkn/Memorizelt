@@ -7,14 +7,16 @@
 
 import UIKit
 import SnapKit
+import CoreData
 
 //MARK: - CARD LIST VC
 final class CardListVC: UIViewController, AddNewDeckDelegate {
     
+    
+    //Variables
     private let addCardButton = MZFloatingButton(bgColor: UIColor(hex: "#333B4C"),
                                                  cornerRadius: 35,
                                                  systemImage: "plus")
-    
     let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -26,6 +28,7 @@ final class CardListVC: UIViewController, AddNewDeckDelegate {
     private var categories: [String] = []
     
     
+    //Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
@@ -36,19 +39,18 @@ final class CardListVC: UIViewController, AddNewDeckDelegate {
         loadFlashcards()
     }
     
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
     }
     
-    
+    //NavigationBar
     private func configureNavigationBar() {
         title = "Cards"
         navigationController?.navigationBar.prefersLargeTitles = true
     }
     
-    
+    //Load Flashcards
     private func loadFlashcards() {
         flashcardsByCategory = coreDataManager.fetchFlashcardsGroupedByCategory()
         
@@ -123,5 +125,9 @@ extension CardListVC: UITableViewDataSource, UITableViewDelegate {
             vc.modalPresentationStyle = .overFullScreen
             self.present(vc, animated: true)
         }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 40
     }
 }

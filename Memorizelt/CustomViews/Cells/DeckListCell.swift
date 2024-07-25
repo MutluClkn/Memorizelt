@@ -1,24 +1,17 @@
 //
-//  CardListCell.swift
+//  DeckListCell.swift
 //  Memorizelt
 //
-//  Created by Mutlu Çalkan on 15.07.2024.
+//  Created by Mutlu Çalkan on 25.07.2024.
 //
 
 import UIKit
 import SnapKit
 
-class CardListCell: UITableViewCell {
-    
+class DeckListCell: UITableViewCell {
+
     let titleLabel : UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: Fonts.interMedium, size: 15)
-        return label
-    }()
-    
-    let pendingLabel : UILabel = {
-        let label = UILabel()
-        label.textColor = UIColor.systemYellow
         label.font = UIFont(name: Fonts.interMedium, size: 15)
         return label
     }()
@@ -37,19 +30,14 @@ class CardListCell: UITableViewCell {
     
     private func setupViews() {
         contentView.addSubview(titleLabel)
-        contentView.addSubview(pendingLabel)
-        
-        pendingLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(contentView)
-            make.right.equalTo(contentView).offset(-16)
-        }
         
         titleLabel.snp.makeConstraints { make in
             make.centerY.equalTo(contentView)
             make.left.equalTo(contentView).offset(16)
-            make.right.equalTo(pendingLabel.snp.left).offset(-16)
+            make.right.equalTo(contentView).offset(-16)
         }
         
     }
     
+
 }

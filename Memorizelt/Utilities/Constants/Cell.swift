@@ -9,4 +9,5 @@ import Foundation
 
 struct Cell {
     static let cardListCell = "CardListCell"
+    static let deckListCell = "DeckListCell"
 }

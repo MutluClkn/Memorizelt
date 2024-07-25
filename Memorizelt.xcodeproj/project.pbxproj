@@ -37,6 +37,7 @@
 		FAD6DD1E2C52473900A65EA7 /* MZLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD6DD1D2C52473900A65EA7 /* MZLabel.swift */; };
 		FAD6DD202C524F3B00A65EA7 /* CardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD6DD1F2C524F3B00A65EA7 /* CardVC.swift */; };
 		FAD6DD222C5266E900A65EA7 /* MZTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD6DD212C5266E900A65EA7 /* MZTextField.swift */; };
+		FAD6DD2A2C5295B600A65EA7 /* DeckListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD6DD292C5295B600A65EA7 /* DeckListCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -74,6 +75,7 @@
 		FAD6DD1D2C52473900A65EA7 /* MZLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MZLabel.swift; sourceTree = "<group>"; };
 		FAD6DD1F2C524F3B00A65EA7 /* CardVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardVC.swift; sourceTree = "<group>"; };
 		FAD6DD212C5266E900A65EA7 /* MZTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MZTextField.swift; sourceTree = "<group>"; };
+		FAD6DD292C5295B600A65EA7 /* DeckListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckListCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,6 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				FAB9DC582C4541E30051D754 /* CardListCell.swift */,
+				FAD6DD292C5295B600A65EA7 /* DeckListCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -374,6 +377,7 @@
 				FA82507C2C47A96000675C7D /* Fonts.swift in Sources */,
 				FAB0AA382C4CF1DA0049EAFD /* TabBarVC.swift in Sources */,
 				FAB9DC592C4541E30051D754 /* CardListCell.swift in Sources */,
+				FAD6DD2A2C5295B600A65EA7 /* DeckListCell.swift in Sources */,
 				FAD6DD162C522D0900A65EA7 /* CoreDataManager.swift in Sources */,
 				FA82507E2C47AB5600675C7D /* Cell.swift in Sources */,
 				FAB0AA3C2C4CF6E40049EAFD /* AddNewDeckVC.swift in Sources */,
