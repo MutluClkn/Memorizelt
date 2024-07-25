@@ -97,11 +97,16 @@ final class CardVC: UIViewController {
     
     
     
+    //MARK: - Variables
+    var flashcards: [Flashcard] = []
+    
+    
     //MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
         setupCardView()
+        currentQuestionAndAnswer()
         cardLabel.text = frontText
     }
     
@@ -109,11 +114,27 @@ final class CardVC: UIViewController {
     private let backFont = UIFont(name: Fonts.interRegular, size: 16) // Font for back side
     
     private var isShowingFront = true
-    private let frontText = "FRONT"
-    private let backText = "BACK"
+    var frontText = "FRONT"
+    var backText = "BACK"
+    var cardIndex = 0
     
+    
+    private func currentQuestionAndAnswer() {
+        if !flashcards.isEmpty {
+            frontText = flashcards[cardIndex].question!
+            backText = flashcards[cardIndex].answer!
+        }
+    }
+
     
     //MARK: - Button Actions
+    @objc func nextQuestion(){
+        if !flashcards.isEmpty, flashcards.count >= cardIndex {
+            cardIndex = cardIndex + 1
+            print(cardIndex)
+        }
+    }
+    
     @objc func flipCard() {
         UIView.transition(with: cardView, duration: 0.3, options: .transitionFlipFromRight, animations: {
             if self.isShowingFront {
@@ -235,6 +256,7 @@ extension CardVC {
         flipButton.addTarget(self, action: #selector(flipCard), for: .touchUpInside)
         closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
         infoButton.addTarget(self, action: #selector(infoButtonTapped), for: .touchUpInside)
+        easyButton.addTarget(self, action: #selector(nextQuestion), for: .touchUpInside)
         
     }
 }

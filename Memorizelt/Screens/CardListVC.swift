@@ -22,7 +22,8 @@ final class CardListVC: UIViewController {
     }()
     
     private let coreDataManager = CoreDataManager.shared
-    private var flashcards: [Flashcard] = []
+    private var flashcardsByCategory: [String: [Flashcard]] = [:]
+    private var categories: [String] = []
     
     
     override func viewDidLoad() {
@@ -49,10 +50,11 @@ final class CardListVC: UIViewController {
     
     
     private func loadFlashcards() {
-        flashcards = coreDataManager.fetchFlashcards()
+        flashcardsByCategory = coreDataManager.fetchFlashcardsGroupedByCategory()
+        categories = Array(flashcardsByCategory.keys)
         tableView.reloadData()
     }
-
+    
     
     private func configureTableView() {
         tableView.dataSource = self
@@ -88,20 +90,24 @@ final class CardListVC: UIViewController {
 extension CardListVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return flashcards.count
+        return categories.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Cell.cardListCell, for: indexPath) as? CardListCell else { return UITableViewCell() }
-        let flashcard = flashcards[indexPath.row]
-        cell.titleLabel.text = flashcard.category
+        let category = categories[indexPath.row]
+                cell.titleLabel.text = category
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let category = categories[indexPath.row]
+        guard let flashcards = flashcardsByCategory[category] else { return }
+        
         DispatchQueue.main.async {
             let vc = CardVC()
-            vc.titleLabel.text = self.flashcards[indexPath.row].category
+            vc.titleLabel.text = category
+            vc.flashcards = flashcards
             vc.modalPresentationStyle = .overFullScreen
             self.present(vc, animated: true)
         }

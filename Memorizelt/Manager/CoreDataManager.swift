@@ -21,15 +21,39 @@ class CoreDataManager {
         }
     }
     
-    func fetchFlashcards() -> [Flashcard] {
+    /*
+     func fetchFlashcards() -> [Flashcard] {
+     let fetchRequest: NSFetchRequest<Flashcard> = Flashcard.fetchRequest()
+     do {
+     return try persistentContainer.viewContext.fetch(fetchRequest)
+     } catch {
+     print("Error fetching flashcards: \(error)")
+     return []
+     }
+     }*/
+    
+    func fetchFlashcardsGroupedByCategory() -> [String: [Flashcard]] {
         let fetchRequest: NSFetchRequest<Flashcard> = Flashcard.fetchRequest()
+        var flashcardsByCategory = [String: [Flashcard]]()
+        
         do {
-            return try persistentContainer.viewContext.fetch(fetchRequest)
+            let flashcards = try persistentContainer.viewContext.fetch(fetchRequest)
+            for flashcard in flashcards {
+                if let category = flashcard.category {
+                    if flashcardsByCategory[category] != nil {
+                        flashcardsByCategory[category]?.append(flashcard)
+                    } else {
+                        flashcardsByCategory[category] = [flashcard]
+                    }
+                }
+            }
         } catch {
             print("Error fetching flashcards: \(error)")
-            return []
         }
+        
+        return flashcardsByCategory
     }
+    
     
     func addFlashcard(question: String, answer: String, category: String) {
         let context = persistentContainer.viewContext
