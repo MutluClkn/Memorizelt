@@ -19,7 +19,6 @@
 		FA8250792C47A92D00675C7D /* Inter-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA8250702C47A92D00675C7D /* Inter-ExtraBold.ttf */; };
 		FA82507C2C47A96000675C7D /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA82507B2C47A96000675C7D /* Fonts.swift */; };
 		FA82507E2C47AB5600675C7D /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA82507D2C47AB5600675C7D /* Cell.swift */; };
-		FA8250802C47B0E800675C7D /* CardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA82507F2C47B0E800675C7D /* CardVC.swift */; };
 		FAACADFA2C4E51BF00DBB93A /* HexColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAACADF92C4E51BF00DBB93A /* HexColor.swift */; };
 		FAB0AA382C4CF1DA0049EAFD /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB0AA372C4CF1DA0049EAFD /* TabBarVC.swift */; };
 		FAB0AA3A2C4CF2DA0049EAFD /* DecksVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB0AA392C4CF2DA0049EAFD /* DecksVC.swift */; };
@@ -36,6 +35,7 @@
 		FAD6DD1A2C52431E00A65EA7 /* MZButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD6DD192C52431E00A65EA7 /* MZButton.swift */; };
 		FAD6DD1C2C52449200A65EA7 /* MZImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD6DD1B2C52449200A65EA7 /* MZImageButton.swift */; };
 		FAD6DD1E2C52473900A65EA7 /* MZLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD6DD1D2C52473900A65EA7 /* MZLabel.swift */; };
+		FAD6DD202C524F3B00A65EA7 /* CardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD6DD1F2C524F3B00A65EA7 /* CardVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,7 +53,6 @@
 		FA8250702C47A92D00675C7D /* Inter-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-ExtraBold.ttf"; sourceTree = "<group>"; };
 		FA82507B2C47A96000675C7D /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		FA82507D2C47AB5600675C7D /* Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
-		FA82507F2C47B0E800675C7D /* CardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardVC.swift; sourceTree = "<group>"; };
 		FAACADF92C4E51BF00DBB93A /* HexColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexColor.swift; sourceTree = "<group>"; };
 		FAB0AA372C4CF1DA0049EAFD /* TabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
 		FAB0AA392C4CF2DA0049EAFD /* DecksVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecksVC.swift; sourceTree = "<group>"; };
@@ -72,6 +71,7 @@
 		FAD6DD192C52431E00A65EA7 /* MZButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MZButton.swift; sourceTree = "<group>"; };
 		FAD6DD1B2C52449200A65EA7 /* MZImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MZImageButton.swift; sourceTree = "<group>"; };
 		FAD6DD1D2C52473900A65EA7 /* MZLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MZLabel.swift; sourceTree = "<group>"; };
+		FAD6DD1F2C524F3B00A65EA7 /* CardVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,11 +139,11 @@
 		FAB0AA3D2C4D149D0049EAFD /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				FAD6DD1F2C524F3B00A65EA7 /* CardVC.swift */,
 				FAB0AA3B2C4CF6E40049EAFD /* AddNewDeckVC.swift */,
 				FAB0AA372C4CF1DA0049EAFD /* TabBarVC.swift */,
 				FAB0AA392C4CF2DA0049EAFD /* DecksVC.swift */,
 				FAB9DC542C453E000051D754 /* CardListVC.swift */,
-				FA82507F2C47B0E800675C7D /* CardVC.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -362,11 +362,11 @@
 			files = (
 				FAD6DD182C523C0900A65EA7 /* MZFloatingButton.swift in Sources */,
 				FAB9DC3C2C4530FC0051D754 /* AppDelegate.swift in Sources */,
+				FAD6DD202C524F3B00A65EA7 /* CardVC.swift in Sources */,
 				FAD6DD1E2C52473900A65EA7 /* MZLabel.swift in Sources */,
 				FAACADFA2C4E51BF00DBB93A /* HexColor.swift in Sources */,
 				FAB9DC3E2C4530FC0051D754 /* SceneDelegate.swift in Sources */,
 				FAD6DD1C2C52449200A65EA7 /* MZImageButton.swift in Sources */,
-				FA8250802C47B0E800675C7D /* CardVC.swift in Sources */,
 				FAD6DD1A2C52431E00A65EA7 /* MZButton.swift in Sources */,
 				FA82507C2C47A96000675C7D /* Fonts.swift in Sources */,
 				FAB0AA382C4CF1DA0049EAFD /* TabBarVC.swift in Sources */,

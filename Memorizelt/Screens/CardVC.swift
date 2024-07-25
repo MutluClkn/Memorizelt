@@ -154,7 +154,6 @@ extension CardVC {
         view.addSubview(progressView)
         view.addSubview(reviewedLabel)
         view.addSubview(totalLabel)
-        view.addSubview(flipButton)
         view.addSubview(cardView)
         cardView.addSubview(scrollView)
         scrollView.addSubview(cardLabel)
@@ -214,6 +213,8 @@ extension CardVC {
             make.right.equalTo(view).offset(-20)
             make.height.equalTo(30)
         }
+        
+        view.addSubview(flipButton)
         
         flipButton.snp.makeConstraints { make in
             make.width.height.equalTo(30)
