@@ -10,30 +10,56 @@ import SnapKit
 
 class CardVC: UIViewController {
     
-    let flipButton = MZFloatingButton(bgColor: UIColor(hex: "#333B4C"), cornerRadius: 25, systemImage: "arrow.2.circlepath")
+    //MARK: - Buttons
+    let flipButton = MZFloatingButton(bgColor: UIColor(hex: "#333B4C"),
+                                      cornerRadius: 25,
+                                      systemImage: "arrow.2.circlepath")
+    
+    let hardButton = MZButton(title: "Hard")
+    
+    let normalButton = MZButton(title: "Normal")
+    
+    let easyButton = MZButton(title: "Easy")
+    
+    let closeButton = MZImageButton(systemImage: "xmark",
+                                    tintColor: .white)
+    
+    let infoButton = MZImageButton(systemImage: "info.circle",
+                                   tintColor: .secondaryLabel)
+
     
     
-    let closeButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "xmark"), for: .normal)
-        button.tintColor = .white
-        return button
-    }()
+    //MARK: - Labels
+    let titleLabel = MZLabel(text: "",
+                             textAlignment: .left,
+                             numberOfLines: 1,
+                             fontName: Fonts.interBold,
+                             fontSize: 25,
+                             textColor: .white)
     
-    let infoButton: UIButton = {
-        let button = UIButton(type: .infoLight)
-        button.tintColor = .secondaryLabel
-        return button
-    }()
+    let reviewedLabel = MZLabel(text: "2 cards reviewed", //Example initial value
+                                textAlignment: .left,
+                                numberOfLines: 1,
+                                fontName: Fonts.interRegular,
+                                fontSize: 14,
+                                textColor: .secondaryLabel)
+    
+    let totalLabel = MZLabel(text: "30 cards", //Example initial value
+                             textAlignment: .right,
+                             numberOfLines: 1,
+                             fontName: Fonts.interRegular,
+                             fontSize: 14,
+                             textColor: .secondaryLabel)
+    
+    let cardLabel = MZLabel(text: "",
+                            textAlignment: .center,
+                            numberOfLines: 0,
+                            fontName: Fonts.interMedium,
+                            fontSize: 16,
+                            textColor: .white)
     
     
-    let titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont(name: Fonts.interBold, size: 25)
-        label.numberOfLines = 1
-        return label
-    }()
-    
+    //MARK: - ProgressView
     let progressView: UIProgressView = {
         let progressView = UIProgressView(progressViewStyle: .default)
         progressView.translatesAutoresizingMaskIntoConstraints = false
@@ -43,34 +69,14 @@ class CardVC: UIViewController {
         return progressView
     }()
     
-    let reviewedLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .secondaryLabel
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.text = "2 cards reviewed"
-        return label
-    }()
-    
-    let totalLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .secondaryLabel
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.text = "30 cards"
-        return label
-    }()
     
     
+    //MARK: - Views
     let cardView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 20
         view.backgroundColor = UIColor(hex: "#333B4C")
         
-        return view
-    }()
-    
-    let contentView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -81,15 +87,6 @@ class CardVC: UIViewController {
         return scrollView
     }()
     
-    let cardLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        label.textColor = .white
-        label.font = UIFont(name: Fonts.interMedium, size: 16)
-        return label
-    }()
-    
     let buttonStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
@@ -98,39 +95,9 @@ class CardVC: UIViewController {
         return stack
     }()
     
-    let hardButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Hard", for: .normal)
-        button.titleLabel?.font = UIFont(name: Fonts.interMedium, size: 14)
-        button.backgroundColor = .systemGray6
-        button.layer.borderWidth = 0.7
-        button.layer.borderColor = UIColor.systemGray3.cgColor
-        button.layer.cornerRadius = 7
-        return button
-    }()
     
-    let normalButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Normal", for: .normal)
-        button.titleLabel?.font = UIFont(name: Fonts.interMedium, size: 14)
-        button.backgroundColor = .systemGray6
-        button.layer.borderWidth = 0.7
-        button.layer.borderColor = UIColor.systemGray3.cgColor
-        button.layer.cornerRadius = 7
-        return button
-    }()
     
-    let easyButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Easy", for: .normal)
-        button.titleLabel?.font = UIFont(name: Fonts.interMedium, size: 14)
-        button.backgroundColor = .systemGray6
-        button.layer.borderWidth = 0.7
-        button.layer.borderColor = UIColor.systemGray3.cgColor
-        button.layer.cornerRadius = 7
-        return button
-    }()
-    
+    //MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
@@ -143,14 +110,11 @@ class CardVC: UIViewController {
     let backFont = UIFont(name: Fonts.interRegular, size: 16) // Font for back side
     
     var isShowingFront = true
-    let frontText = "Walk" // Example front text
-    let backText = """
-Where does it come from?
-Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
-
-The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
-"""
+    let frontText = "FRONT"
+    let backText = "BACK"
     
+    
+    //MARK: - Button Actions
     @objc func flipCard() {
         UIView.transition(with: cardView, duration: 0.3, options: .transitionFlipFromRight, animations: {
             if self.isShowingFront {
@@ -164,7 +128,6 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
         isShowingFront.toggle()
     }
     
-    
     @objc func closeButtonTapped(){
         self.dismiss(animated: true)
     }
@@ -176,21 +139,24 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
         self.present(alertController, animated: true, completion: nil)
     }
     
+    
+    
+    //MARK: - SetupCardView
     func setupCardView() {
-        
-        
         cardLabel.text = frontText
         cardLabel.font = frontFont
         
-        
         view.addSubview(closeButton)
         view.addSubview(titleLabel)
-        view.addSubview(cardView)
         view.addSubview(buttonStack)
         view.addSubview(infoButton)
         view.addSubview(progressView)
         view.addSubview(reviewedLabel)
         view.addSubview(totalLabel)
+        view.addSubview(flipButton)
+        view.addSubview(cardView)
+        cardView.addSubview(scrollView)
+        scrollView.addSubview(cardLabel)
         
         buttonStack.addArrangedSubview(hardButton)
         buttonStack.addArrangedSubview(normalButton)
@@ -207,7 +173,6 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
             make.right.equalTo(view).offset(-20)
             make.width.height.equalTo(20)
         }
-        
         
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(closeButton.snp.bottom).offset(20)
@@ -249,39 +214,23 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
             make.height.equalTo(30)
         }
         
-        
-        
-        view.addSubview(flipButton)
-        
         flipButton.snp.makeConstraints { make in
             make.width.height.equalTo(30)
             make.top.equalTo(cardView.snp.top).offset(8)
             make.right.equalTo(cardView.snp.right).offset(-8)
         }
         
-        cardView.addSubview(scrollView)
-        
-        
-        scrollView.addSubview(contentView)
-        contentView.addSubview(cardLabel)
-        
         scrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(32)
         }
         
-        contentView.snp.makeConstraints { make in
+        cardLabel.snp.makeConstraints { make in
             make.edges.equalToSuperview()
             make.width.equalTo(scrollView)
         }
         
-        cardLabel.snp.makeConstraints { make in
-            make.centerX.centerY.equalToSuperview()
-            make.left.top.equalTo(contentView)
-        }
-        
-        
+        //Buttons' Target
         flipButton.addTarget(self, action: #selector(flipCard), for: .touchUpInside)
-        
         closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
         infoButton.addTarget(self, action: #selector(infoButtonTapped), for: .touchUpInside)
         
