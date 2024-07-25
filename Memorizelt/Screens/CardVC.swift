@@ -26,7 +26,7 @@ class CardVC: UIViewController {
     
     let infoButton = MZImageButton(systemImage: "info.circle",
                                    tintColor: .secondaryLabel)
-
+    
     
     
     //MARK: - Labels
@@ -105,7 +105,6 @@ class CardVC: UIViewController {
         cardLabel.text = frontText
     }
     
-    
     let frontFont = UIFont(name: Fonts.interBold, size: 40) // Font for front side
     let backFont = UIFont(name: Fonts.interRegular, size: 16) // Font for back side
     
@@ -138,10 +137,12 @@ class CardVC: UIViewController {
         alertController.addAction(okAction)
         self.present(alertController, animated: true, completion: nil)
     }
+}
+
+
+//MARK: - Setup Card View Extension
+extension CardVC {
     
-    
-    
-    //MARK: - SetupCardView
     func setupCardView() {
         cardLabel.text = frontText
         cardLabel.font = frontFont
@@ -236,3 +237,11 @@ class CardVC: UIViewController {
         
     }
 }
+    
+    
+    
+    
+    
+    
+    
+
