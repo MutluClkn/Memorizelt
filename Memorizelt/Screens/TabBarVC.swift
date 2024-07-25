@@ -16,10 +16,6 @@ class TabBarVC: UITabBarController {
     }
     
     private func controllersConfiguration() {
-        let addNewDeck = UINavigationController(rootViewController: AddNewDeckVC())
-        addNewDeck.tabBarItem.image = UIImage(systemName: "plus.rectangle.portrait")
-        addNewDeck.title = "Add"
-        
         
         let cardListVC = UINavigationController(rootViewController: CardListVC())
         cardListVC.tabBarItem.image = UIImage(systemName: "list.bullet.rectangle")
@@ -31,7 +27,7 @@ class TabBarVC: UITabBarController {
         decksVC.title = "Decks"
         
         
-        setViewControllers([addNewDeck, cardListVC, decksVC], animated: true)
+        setViewControllers([cardListVC, decksVC], animated: true)
         
     }
 

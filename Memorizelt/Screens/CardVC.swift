@@ -10,16 +10,7 @@ import SnapKit
 
 class CardVC: UIViewController {
     
-    let flipButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "arrow.2.circlepath"), for: .normal)
-        button.tintColor = .white
-        // button.backgroundColor = UIColor(hex: "#333B4C")
-        button.layer.cornerRadius = 25
-        button.layer.masksToBounds = true
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    let flipButton = MZFloatingButton(bgColor: UIColor(hex: "#333B4C"), cornerRadius: 25, systemImage: "arrow.2.circlepath")
     
     
     let closeButton: UIButton = {
