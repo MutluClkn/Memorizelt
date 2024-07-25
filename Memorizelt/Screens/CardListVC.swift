@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 //MARK: - CARD LIST VC
-final class CardListVC: UIViewController {
+final class CardListVC: UIViewController, AddNewDeckDelegate {
     
     private let addCardButton = MZFloatingButton(bgColor: UIColor(hex: "#333B4C"),
                                                  cornerRadius: 35,
@@ -51,7 +51,14 @@ final class CardListVC: UIViewController {
     
     private func loadFlashcards() {
         flashcardsByCategory = coreDataManager.fetchFlashcardsGroupedByCategory()
-        categories = Array(flashcardsByCategory.keys)
+        
+        // Sort categories by the earliest creation date within each category
+        categories = flashcardsByCategory.keys.sorted { category1, category2 in
+            let date1 = flashcardsByCategory[category1]?.first?.creationDate ?? Date.distantPast
+            let date2 = flashcardsByCategory[category2]?.first?.creationDate ?? Date.distantPast
+            return date1 > date2
+        }
+        
         tableView.reloadData()
     }
     
@@ -78,9 +85,14 @@ final class CardListVC: UIViewController {
     @objc func pushAddCardVC() {
         DispatchQueue.main.async {
             let vc = AddNewDeckVC()
+            vc.delegate = self
             vc.modalPresentationStyle = .overFullScreen
             self.present(vc, animated: true)
         }
+    }
+    
+    func didAddNewDeck() {
+        loadFlashcards()
     }
     
 }
@@ -96,7 +108,7 @@ extension CardListVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Cell.cardListCell, for: indexPath) as? CardListCell else { return UITableViewCell() }
         let category = categories[indexPath.row]
-                cell.titleLabel.text = category
+        cell.titleLabel.text = category
         return cell
     }
     

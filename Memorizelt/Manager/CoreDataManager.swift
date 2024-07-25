@@ -21,19 +21,9 @@ class CoreDataManager {
         }
     }
     
-    /*
-     func fetchFlashcards() -> [Flashcard] {
-     let fetchRequest: NSFetchRequest<Flashcard> = Flashcard.fetchRequest()
-     do {
-     return try persistentContainer.viewContext.fetch(fetchRequest)
-     } catch {
-     print("Error fetching flashcards: \(error)")
-     return []
-     }
-     }*/
-    
     func fetchFlashcardsGroupedByCategory() -> [String: [Flashcard]] {
         let fetchRequest: NSFetchRequest<Flashcard> = Flashcard.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
         var flashcardsByCategory = [String: [Flashcard]]()
         
         do {
@@ -62,6 +52,7 @@ class CoreDataManager {
         flashcard.question = question
         flashcard.answer = answer
         flashcard.category = category
+        flashcard.creationDate = Date()
         saveContext()
     }
     

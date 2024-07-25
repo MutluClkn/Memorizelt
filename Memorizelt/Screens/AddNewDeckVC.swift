@@ -9,6 +9,14 @@ import UIKit
 import CoreData
 import SnapKit
 
+
+//MARK: - AddNewDeckDelegate Protocol
+protocol AddNewDeckDelegate: AnyObject {
+    func didAddNewDeck()
+}
+
+
+//MARK: - AddNewDeck ViewController
 class AddNewDeckVC: UIViewController {
     
     //Buttons
@@ -48,10 +56,11 @@ class AddNewDeckVC: UIViewController {
     private let saveButton = MZButton(title: "Save")
     
     
-    //Objects
+    //Variables
     private var flashcards: [Flashcard] = []
     private let coreDataManager = CoreDataManager.shared
     private let cardListVC = CardListVC()
+    weak var delegate: AddNewDeckDelegate?
     
     //viewDidLoad
     override func viewDidLoad() {
@@ -77,19 +86,24 @@ class AddNewDeckVC: UIViewController {
         
         guard let question = questionTextField.text, !question.isEmpty,
               let answer = answerTextView.text, !answer.isEmpty,
-              let category = categoryTextField.text, !category.isEmpty else {
+              let category = categoryTextField.text, !category.isEmpty
+        else {
+            
             let alertController = UIAlertController(title: "Error", message: "Missing arguments.", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "Ok", style: .default)
             alertController.addAction(okAction)
             self.present(alertController, animated: true)
+            
             return
         }
         
         // Save flashcard to Core Data
         CoreDataManager.shared.addFlashcard(question: question, answer: answer, category: category)
-
+        
+        delegate?.didAddNewDeck()
+        
         self.dismiss(animated: true)
-        cardListVC.tableView.reloadData()
+        
     }
     
     private func setupConstraints() {
