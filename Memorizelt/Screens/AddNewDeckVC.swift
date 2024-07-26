@@ -70,12 +70,6 @@ class AddNewDeckVC: UIViewController {
         createDismissKeyboardTapGesture()
     }
     
-    //Hide Keyboard
-    func createDismissKeyboardTapGesture() {
-        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
-        view.addGestureRecognizer(tap)
-    }
-    
     //Close Button Tapped
     @objc func closeButtonTapped(){
         self.dismiss(animated: true)
@@ -89,10 +83,8 @@ class AddNewDeckVC: UIViewController {
               let category = categoryTextField.text, !category.isEmpty
         else {
             
-            let alertController = UIAlertController(title: "Error", message: "Missing arguments.", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "Ok", style: .default)
-            alertController.addAction(okAction)
-            self.present(alertController, animated: true)
+            alertMessage(alertTitle: "Error", alertMesssage: "Missing arguments.", completionHandler: nil)
+            
             
             return
         }
@@ -102,10 +94,15 @@ class AddNewDeckVC: UIViewController {
         
         delegate?.didAddNewDeck()
         
-        self.dismiss(animated: true)
+        questionTextField.text = ""
+        answerTextView.text = ""
+        
+        alertMessage(alertTitle: "Success", alertMesssage: "Success", completionHandler: nil)
         
     }
     
+    
+    //Setup Constraints
     private func setupConstraints() {
         view.addSubview(closeButton)
         view.addSubview(categoryLabel)
