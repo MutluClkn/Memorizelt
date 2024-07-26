@@ -33,16 +33,15 @@ class AddNewDeckVC: UIViewController {
     
     
     //TextFields
-    private let categoryTextField = MZTextField()
+    private let categoryTextField = MZTextField(returnKeyType: .next)
     
-    private let questionTextField = MZTextField()
+    private let questionTextField = MZTextField(returnKeyType: .next)
     
     
     //TextView
     private let answerTextView: UITextView = {
         let textView = UITextView()
         textView.layer.borderColor = UIColor.systemGray2.cgColor
-        textView.backgroundColor = .systemGray6
         textView.layer.borderWidth = 1.0
         textView.layer.cornerRadius = 8.0
         textView.textAlignment = .center
@@ -53,7 +52,7 @@ class AddNewDeckVC: UIViewController {
     
     
     //Button
-    private let saveButton = MZButton(title: "Save")
+    private let saveButton = MZButton(title: "Save", backgroundColor: UIColor(hex: "#333B4C"))
     
     
     //Variables

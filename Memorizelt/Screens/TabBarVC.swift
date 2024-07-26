@@ -20,11 +20,13 @@ class TabBarVC: UITabBarController {
         let cardListVC = UINavigationController(rootViewController: CardListVC())
         cardListVC.tabBarItem.image = UIImage(systemName: "list.bullet.rectangle")
         cardListVC.title = "Cards"
+        cardListVC.navigationBar.tintColor = .white
         
         
         let decksVC = UINavigationController(rootViewController: DecksVC())
         decksVC.tabBarItem.image = UIImage(systemName: "lanyardcard")
         decksVC.title = "Decks"
+        decksVC.navigationBar.tintColor = .white
         
         
         setViewControllers([cardListVC, decksVC], animated: true)

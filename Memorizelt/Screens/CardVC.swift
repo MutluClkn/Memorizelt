@@ -15,11 +15,11 @@ final class CardVC: UIViewController {
                                       cornerRadius: 25,
                                       systemImage: "arrow.2.circlepath")
     
-    private let hardButton = MZButton(title: "Hard")
+    private let hardButton = MZButton(title: "Hard", backgroundColor: .systemGray6)
     
-    private let normalButton = MZButton(title: "Normal")
+    private let normalButton = MZButton(title: "Normal", backgroundColor: .systemGray6)
     
-    private let easyButton = MZButton(title: "Easy")
+    private let easyButton = MZButton(title: "Easy", backgroundColor: .systemGray6)
     
     private let closeButton = MZImageButton(systemImage: "xmark",
                                     tintColor: .white)

@@ -18,9 +18,10 @@ class MZButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(title: String) {
+    init(title: String, backgroundColor: UIColor) {
         super.init(frame: .zero)
-        setTitle(title, for: .normal)
+        self.setTitle(title, for: .normal)
+        self.backgroundColor = backgroundColor
         configure()
     }
     
@@ -28,7 +29,6 @@ class MZButton: UIButton {
         setTitleColor(.white, for: .normal)
         titleLabel?.font = UIFont(name: Fonts.interMedium, size: 14)
         layer.cornerRadius = 7
-        backgroundColor = .systemGray6
         layer.borderWidth = 0.7
         layer.borderColor = UIColor.systemGray3.cgColor
         translatesAutoresizingMaskIntoConstraints = false

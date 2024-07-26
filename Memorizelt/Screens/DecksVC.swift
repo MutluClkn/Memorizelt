@@ -21,7 +21,7 @@ final class DecksVC: UIViewController {
     private let coreDataManager = CoreDataManager.shared
     private var flashcardsByCategory: [String: [Flashcard]] = [:]
     private var categories: [String] = []
-
+    
     
     //Lifecycle
     override func viewDidLoad() {
@@ -37,13 +37,21 @@ final class DecksVC: UIViewController {
         tableView.frame = view.bounds
     }
     
-
-    //NavigationBar
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadFlashcards()
+    }
+    
+    
+    //NavigationBar & TabBar
     private func configureNavigationBar() {
         title = "Decks"
         navigationController?.navigationBar.prefersLargeTitles = true
+        self.tabBarController?.tabBar.tintColor = .white
     }
     
+    
+    //Configure TableView
     private func configureTableView() {
         tableView.dataSource = self
         tableView.delegate = self
@@ -51,7 +59,7 @@ final class DecksVC: UIViewController {
         view.addSubview(tableView)
     }
     
-    //CoreDataManager
+    
     //Load Flashcards
     private func loadFlashcards() {
         flashcardsByCategory = coreDataManager.fetchFlashcardsGroupedByCategory()
@@ -65,10 +73,10 @@ final class DecksVC: UIViewController {
         
         tableView.reloadData()
     }
-
+    
 }
 
-
+//MARK: - TableView Delegate/DataSource
 extension DecksVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return categories.count
@@ -89,5 +97,35 @@ extension DecksVC: UITableViewDataSource, UITableViewDelegate {
         return 40
     }
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let category = categories[indexPath.row]
+            
+            if let flashcards = flashcardsByCategory[category] {
+                for flashcard in flashcards {
+                    coreDataManager.deleteFlashcard(flashcard: flashcard)
+                }
+            }
+            
+            flashcardsByCategory.removeValue(forKey: category)
+            categories.remove(at: indexPath.row)
+            
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+    }
+    
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let category = categories[indexPath.row]
+        let flashcards = flashcardsByCategory[category] ?? []
+        
+        let editDeckVC = EditDeckVC()
+        
+        editDeckVC.flashcards = flashcards
+        editDeckVC.category = category
+        
+        navigationController?.pushViewController(editDeckVC, animated: true)
+        
+    }
     
 }

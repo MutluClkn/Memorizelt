@@ -18,14 +18,15 @@ class MZTextField: UITextField {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(placeholder: String) {
+    init(returnKeyType: UIReturnKeyType) {
         super.init(frame: .zero)
+        self.returnKeyType = returnKeyType
         configure()
     }
     
     
     private func configure() {
-        layer.cornerRadius = 10
+        layer.cornerRadius = 7
         layer.borderWidth = 1
         layer.borderColor = UIColor.systemGray2.cgColor
         
@@ -36,9 +37,7 @@ class MZTextField: UITextField {
         adjustsFontSizeToFitWidth = true
         minimumFontSize = 11
         
-        backgroundColor = .systemGray6
         autocorrectionType = .no
-        returnKeyType = .next
         
         translatesAutoresizingMaskIntoConstraints = false
     }

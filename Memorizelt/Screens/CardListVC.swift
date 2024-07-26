@@ -44,10 +44,16 @@ final class CardListVC: UIViewController, AddNewDeckDelegate {
         tableView.frame = view.bounds
     }
     
-    //NavigationBar
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadFlashcards()
+    }
+    
+    //NavigationBar & TabBar
     private func configureNavigationBar() {
         title = "Cards"
         navigationController?.navigationBar.prefersLargeTitles = true
+        self.tabBarController?.tabBar.tintColor = .white
     }
     
     //Load Flashcards

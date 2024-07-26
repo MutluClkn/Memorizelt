@@ -20,6 +20,8 @@
 		FA82507C2C47A96000675C7D /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA82507B2C47A96000675C7D /* Fonts.swift */; };
 		FA82507E2C47AB5600675C7D /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA82507D2C47AB5600675C7D /* Cell.swift */; };
 		FAA5A04A2C53831000840F05 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA5A0492C53831000840F05 /* UIViewControllerExtension.swift */; };
+		FAA5A04C2C538B9E00840F05 /* EditDeckVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA5A04B2C538B9E00840F05 /* EditDeckVC.swift */; };
+		FAA5A04E2C538F5800840F05 /* EditFlashcardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA5A04D2C538F5800840F05 /* EditFlashcardVC.swift */; };
 		FAACADFA2C4E51BF00DBB93A /* HexColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAACADF92C4E51BF00DBB93A /* HexColor.swift */; };
 		FAB0AA382C4CF1DA0049EAFD /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB0AA372C4CF1DA0049EAFD /* TabBarVC.swift */; };
 		FAB0AA3A2C4CF2DA0049EAFD /* DecksVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB0AA392C4CF2DA0049EAFD /* DecksVC.swift */; };
@@ -57,6 +59,8 @@
 		FA82507B2C47A96000675C7D /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		FA82507D2C47AB5600675C7D /* Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
 		FAA5A0492C53831000840F05 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
+		FAA5A04B2C538B9E00840F05 /* EditDeckVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDeckVC.swift; sourceTree = "<group>"; };
+		FAA5A04D2C538F5800840F05 /* EditFlashcardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditFlashcardVC.swift; sourceTree = "<group>"; };
 		FAACADF92C4E51BF00DBB93A /* HexColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexColor.swift; sourceTree = "<group>"; };
 		FAB0AA372C4CF1DA0049EAFD /* TabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
 		FAB0AA392C4CF2DA0049EAFD /* DecksVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecksVC.swift; sourceTree = "<group>"; };
@@ -151,6 +155,8 @@
 				FAB0AA392C4CF2DA0049EAFD /* DecksVC.swift */,
 				FAB9DC542C453E000051D754 /* CardListVC.swift */,
 				FAD6DD1F2C524F3B00A65EA7 /* CardVC.swift */,
+				FAA5A04B2C538B9E00840F05 /* EditDeckVC.swift */,
+				FAA5A04D2C538F5800840F05 /* EditFlashcardVC.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -370,10 +376,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				FAD6DD182C523C0900A65EA7 /* MZFloatingButton.swift in Sources */,
+				FAA5A04E2C538F5800840F05 /* EditFlashcardVC.swift in Sources */,
 				FAB9DC3C2C4530FC0051D754 /* AppDelegate.swift in Sources */,
 				FAD6DD202C524F3B00A65EA7 /* CardVC.swift in Sources */,
 				FAD6DD1E2C52473900A65EA7 /* MZLabel.swift in Sources */,
 				FAACADFA2C4E51BF00DBB93A /* HexColor.swift in Sources */,
+				FAA5A04C2C538B9E00840F05 /* EditDeckVC.swift in Sources */,
 				FAB9DC3E2C4530FC0051D754 /* SceneDelegate.swift in Sources */,
 				FAD6DD1C2C52449200A65EA7 /* MZImageButton.swift in Sources */,
 				FAD6DD1A2C52431E00A65EA7 /* MZButton.swift in Sources */,
