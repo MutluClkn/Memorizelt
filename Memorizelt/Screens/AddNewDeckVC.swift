@@ -8,100 +8,69 @@
 import UIKit
 import CoreData
 import SnapKit
-
+import SearchTextField
 
 //MARK: - AddNewDeckDelegate Protocol
 protocol AddNewDeckDelegate: AnyObject {
     func didAddNewDeck()
 }
 
-
 //MARK: - AddNewDeck ViewController
 class AddNewDeckVC: UIViewController {
     
-    //Buttons
+    // UI Elements
     private let closeButton = MZImageButton(systemImage: "xmark", tintColor: .white)
-    
-    
-    //Labels
     private let categoryLabel = MZLabel(text: "Category", textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: .white)
-    
     private let questionLabel = MZLabel(text: "Question", textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: .white)
-    
     private let answerLabel = MZLabel(text: "Answer", textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: .white)
-    
-    
-    
-    //TextFields
-    private let categoryTextField = MZTextField(returnKeyType: .next)
-    
+    private let categoryTextField = MZSearchTextField(returnKeyType: .done, filterStringsArray: [""])
     private let questionTextField = MZTextField(returnKeyType: .next)
-    
-    
-    //TextView
-    private let answerTextView: UITextView = {
-        let textView = UITextView()
-        textView.layer.borderColor = UIColor.systemGray2.cgColor
-        textView.layer.borderWidth = 1.0
-        textView.layer.cornerRadius = 8.0
-        textView.textAlignment = .center
-        textView.font = UIFont.systemFont(ofSize: 16)
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        return textView
-    }()
-    
-    
-    //Button
+    private let answerTextView = MZTextView()
     private let saveButton = MZButton(title: "Save", backgroundColor: UIColor(hex: "#333B4C"))
     
-    
-    //Variables
-    private var flashcards: [Flashcard] = []
+    // Core Data
     private let coreDataManager = CoreDataManager.shared
-    private let cardListVC = CardListVC()
+    private var categories: [String] = []
     weak var delegate: AddNewDeckDelegate?
     
-    //viewDidLoad
+    
+    // Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
         setupConstraints()
         createDismissKeyboardTapGesture()
-    }
-    
-    //Close Button Tapped
-    @objc func closeButtonTapped(){
-        self.dismiss(animated: true)
-    }
-    
-    //Save Button Tapped
-    @objc func saveButtonTapped() {
         
+        loadCategories()
+    }
+    
+    // Load categories from Core Data
+    private func loadCategories() {
+        let flashcardsByCategory = coreDataManager.fetchFlashcardsGroupedByCategory()
+        categories = Array(flashcardsByCategory.keys).sorted()
+        categoryTextField.filterStrings(categories)
+    }
+    
+    
+    // Save Button Tapped
+    @objc func saveButtonTapped() {
         guard let question = questionTextField.text, !question.isEmpty,
               let answer = answerTextView.text, !answer.isEmpty,
-              let category = categoryTextField.text, !category.isEmpty
-        else {
-            
+              let category = categoryTextField.text, !category.isEmpty else {
             alertMessage(alertTitle: "Error", alertMesssage: "Missing arguments.", completionHandler: nil)
-            
-            
             return
         }
         
         // Save flashcard to Core Data
-        CoreDataManager.shared.addFlashcard(question: question, answer: answer, category: category)
-        
+        coreDataManager.addFlashcard(question: question, answer: answer, category: category)
         delegate?.didAddNewDeck()
-        
         questionTextField.text = ""
         answerTextView.text = ""
-        
         alertMessage(alertTitle: "Success", alertMesssage: "Success", completionHandler: nil)
-        
+        loadCategories()
     }
     
-    
-    //Setup Constraints
+    // Setup Constraints
     private func setupConstraints() {
         view.addSubview(closeButton)
         view.addSubview(categoryLabel)
@@ -162,16 +131,14 @@ class AddNewDeckVC: UIViewController {
             make.right.equalTo(-60)
             make.height.equalTo(30)
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-30)
-            
         }
-        
         
         closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
         saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
     }
     
-}
-
-extension AddNewDeckVC: UITextFieldDelegate {
-    
+    // Close Button Tapped
+    @objc func closeButtonTapped() {
+        self.dismiss(animated: true)
+    }
 }

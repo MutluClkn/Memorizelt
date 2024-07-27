@@ -1,14 +1,15 @@
 //
-//  MZTextField.swift
+//  MZSearchTextField.swift
 //  Memorizelt
 //
-//  Created by Mutlu Çalkan on 25.07.2024.
+//  Created by Mutlu Çalkan on 27.07.2024.
 //
 
 import UIKit
+import SearchTextField
 
-class MZTextField: UITextField {
-    
+class MZSearchTextField: SearchTextField {
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         configure()
@@ -18,22 +19,31 @@ class MZTextField: UITextField {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(returnKeyType: UIReturnKeyType) {
+    init(returnKeyType: UIReturnKeyType, filterStringsArray: [String]) {
         super.init(frame: .zero)
         self.returnKeyType = returnKeyType
+        self.filterStrings(filterStringsArray)
         configure()
     }
     
     
     private func configure() {
-        layer.cornerRadius = 7
+        maxResultsListHeight = 300
+        
+        startVisible = true
+        
         layer.borderWidth = 1
+        layer.cornerRadius = 7
         layer.borderColor = UIColor.systemGray2.cgColor
+        theme = .darkTheme()
+        theme.bgColor = .systemGray6
+        theme.font = UIFont.systemFont(ofSize: 14)
+        theme.cellHeight = 40
+        
         
         textColor = .white
         tintColor = .white
-        textAlignment = .center
-        font = UIFont.systemFont(ofSize: 14)
+        textAlignment = .left
         adjustsFontSizeToFitWidth = true
         minimumFontSize = 11
         
@@ -41,5 +51,5 @@ class MZTextField: UITextField {
         
         translatesAutoresizingMaskIntoConstraints = false
     }
-    
+
 }

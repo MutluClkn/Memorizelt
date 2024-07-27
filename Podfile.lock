@@ -1,16 +1,20 @@
 PODS:
+  - SearchTextField (1.2.4)
   - SnapKit (5.6.0)
 
 DEPENDENCIES:
+  - SearchTextField
   - SnapKit
 
 SPEC REPOS:
   trunk:
+    - SearchTextField
     - SnapKit
 
 SPEC CHECKSUMS:
+  SearchTextField: 40dc3cc57def5a211f263cac263622c163bbc25a
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
 
-PODFILE CHECKSUM: 368a866df4d30a68b19e8e179e00e2680134beaa
+PODFILE CHECKSUM: 06c82199c138312eb839fe027acd1815f88dd472
 
 COCOAPODS: 1.15.2

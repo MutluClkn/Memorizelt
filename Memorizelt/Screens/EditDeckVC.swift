@@ -28,6 +28,8 @@ final class EditDeckVC: UIViewController {
     var category: String?
     var declineTextFieldChange: String?
     
+    
+    //Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
@@ -40,26 +42,40 @@ final class EditDeckVC: UIViewController {
         categoryTextField.delegate = self
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        sortFlashcardsByDate()
+        tableView.reloadData()
+    }
+    
+    
+    // Sort Flashcards by Date
+        private func sortFlashcardsByDate() {
+            flashcards.sort { $0.creationDate ?? Date.distantPast > $1.creationDate ?? Date.distantPast }
+        }
+    
+    //Setup Views
     private func setupViews() {
         view.addSubview(categoryTextField)
         view.addSubview(tableView)
         
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "flashcardCell")
+        tableView.register(DeckListCell.self, forCellReuseIdentifier: Cell.deckListCell)
     }
     
+    //Setup Constraints
     private func setupConstraints() {
         
         categoryTextField.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(30)
             make.left.equalTo(view.safeAreaLayoutGuide).offset(20)
             make.right.equalTo(view.safeAreaLayoutGuide).offset(-20)
-            make.height.equalTo(30)
+            make.height.equalTo(35)
         }
         
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(categoryTextField.snp.bottom).offset(20)
+            make.top.equalTo(categoryTextField.snp.bottom).offset(30)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
             make.bottom.equalToSuperview()
@@ -67,15 +83,18 @@ final class EditDeckVC: UIViewController {
         
     }
     
+    //Configure Navigation Bar
     private func configureNavigationBar() {
         title = category
     }
     
+    //Load Category Data
     private func loadCategoryData() {
         categoryTextField.text = category
         declineTextFieldChange = category
     }
     
+    //Save Changes for Category Name
     @objc private func saveChanges() {
         guard let newCategoryName = categoryTextField.text, !newCategoryName.isEmpty else {
             // Show an alert or handle empty category name
@@ -116,14 +135,15 @@ final class EditDeckVC: UIViewController {
     }
 }
 
+//MARK: - TableView Delegate/DataSource
 extension EditDeckVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return flashcards.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "flashcardCell", for: indexPath)
-        cell.textLabel?.text = flashcards[indexPath.row].question
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: Cell.deckListCell, for: indexPath) as? DeckListCell else { return UITableViewCell() }
+        cell.titleLabel.text = flashcards[indexPath.row].question
         cell.accessoryType = .disclosureIndicator
         return cell
     }
@@ -133,12 +153,27 @@ extension EditDeckVC: UITableViewDataSource, UITableViewDelegate {
         
         // Navigate to the edit flashcard screen
         let editFlashcardVC = EditFlashcardVC()
-        //editFlashcardVC.flashcard = flashcard
+        editFlashcardVC.flashcard = flashcard
+        editFlashcardVC.delegate = self
         navigationController?.pushViewController(editFlashcardVC, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let flashcardToDelete = flashcards[indexPath.row]
+            flashcards.remove(at: indexPath.row)
+            coreDataManager.deleteFlashcard(flashcard: flashcardToDelete)
+            
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 40
     }
 }
 
-
+//MARK: - TextFieldDelegate
 extension EditDeckVC: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -148,5 +183,13 @@ extension EditDeckVC: UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         changeCategoryNameControl()
+    }
+}
+
+// MARK: - EditFlashcardDelegate
+extension EditDeckVC: EditFlashcardDelegate {
+    func didUpdateFlashcard() {
+        sortFlashcardsByDate()
+        tableView.reloadData()
     }
 }

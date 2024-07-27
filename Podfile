@@ -7,4 +7,5 @@ target 'Memorizelt' do
 
   # Pods for Memorizelt
 	pod 'SnapKit'
+  pod "SearchTextField"
 end
