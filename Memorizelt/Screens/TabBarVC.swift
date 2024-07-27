@@ -17,9 +17,9 @@ class TabBarVC: UITabBarController {
     
     private func controllersConfiguration() {
         
-        let cardListVC = UINavigationController(rootViewController: CardListVC())
-        cardListVC.tabBarItem.image = UIImage(systemName: "list.bullet.rectangle")
-        cardListVC.title = "Cards"
+        let cardListVC = UINavigationController(rootViewController: HomeVC())
+        cardListVC.tabBarItem.image = UIImage(systemName: "house")
+        cardListVC.title = "Home"
         cardListVC.navigationBar.tintColor = .white
         
         

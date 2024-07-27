@@ -72,29 +72,11 @@ final class CardVC: UIViewController {
     
     
     //MARK: - Views
-    private let cardView: UIView = {
-        let view = UIView()
-        view.layer.cornerRadius = 20
-        view.backgroundColor = UIColor(hex: "#333B4C")
-        
-        return view
-    }()
+    private let cardView = MZContainerView(cornerRadius: 20, bgColor: UIColor(hex: "#333B4C"))
     
-    private let scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.showsVerticalScrollIndicator = false
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        return scrollView
-    }()
+    private let scrollView = MZScrollView()
     
-    private let buttonStack: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .horizontal
-        stack.distribution = .fillEqually
-        stack.spacing = 10
-        return stack
-    }()
-    
+    private let buttonStack = MZStackView(axis: .horizontal, distribution: .fillEqually, spacing: 10)
     
     
     //MARK: - Variables
