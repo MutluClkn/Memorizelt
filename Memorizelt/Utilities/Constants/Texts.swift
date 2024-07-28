@@ -10,7 +10,6 @@ import Foundation
 struct Texts {
     
     struct PrototypeTexts {
-        static let dashboardTitle = "Pending Studies"
         static let dashboardInfo = "You have 3 cards to study today"
         static let pendingCategories = "English, Deneme, Math"
         
@@ -27,6 +26,8 @@ struct Texts {
     }
     
     struct HomeScreen {
+        static let dashboardTitle = "Pending Studies"
+        
         static let plusIcon = "plus"
         static let calendarIcon = "calendar"
         
@@ -56,11 +57,10 @@ struct Texts {
         
         static let infoIcon = "info.circle"
         
-        static let alerTitle = "Button Instructions"
+        static let alerTitle = "Card Interaction Instructions"
         static let alertMessage = """
-\nAgain: Press if you couldn't answer the question.\n\n
-Hard: Press if the question was difficult to answer.\n\n
-Good: Press if you answered the question correctly.\n\n
+\nSlide Right: If you can answer the question, slide the card to the right.\n\n
+Slide Left: If you cannot answer the question or find it difficult, slide the card to the left.\n\nFlip Card: Tap the "Flip Card" button to see the answer on the other side.\n\n
 """
     }
     

@@ -19,7 +19,7 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
     private let dashboardContainer = MZContainerView(cornerRadius: 20, bgColor: Colors.tintColor)
     private let calendarIcon = UIImageView()
     private let dateLabel = MZLabel(text: "", textAlignment: .left, numberOfLines: 1, fontName: Fonts.interSemiBold, fontSize: 15, textColor: Colors.alternativeTextColor)
-    private let dashboardTitleLabel = MZLabel(text: Texts.PrototypeTexts.dashboardTitle, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: Colors.alternativeTextColor)
+    private let dashboardTitleLabel = MZLabel(text: Texts.HomeScreen.dashboardTitle, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: Colors.alternativeTextColor)
     private let dashboardInfoLabel = MZLabel(text: Texts.PrototypeTexts.dashboardInfo, textAlignment: .left, numberOfLines: 0, fontName: Fonts.interSemiBold, fontSize: 25, textColor: Colors.alternativeTextColor)
     private let separatorLine = MZContainerView(cornerRadius: 0, bgColor: Colors.alternativeTextColor)
     private let pendingCategoriesLabel = MZLabel(text: Texts.PrototypeTexts.pendingCategories, textAlignment: .left, numberOfLines: 0, fontName: Fonts.interMedium, fontSize: 13, textColor: Colors.alternativeTextColor)

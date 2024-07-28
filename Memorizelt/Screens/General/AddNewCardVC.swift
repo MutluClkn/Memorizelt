@@ -127,9 +127,9 @@ class AddNewCardVC: UIViewController {
         
         saveButton.snp.makeConstraints { make in
             make.top.equalTo(answerTextView.snp.bottom).offset(30)
-            make.left.equalTo(60)
-            make.right.equalTo(-60)
-            make.height.equalTo(32)
+            make.centerX.equalTo(view.safeAreaLayoutGuide)
+            make.width.equalTo(150)
+            make.height.equalTo(36)
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-30)
         }
         
