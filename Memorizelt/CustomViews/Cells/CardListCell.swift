@@ -13,12 +13,13 @@ class CardListCell: UITableViewCell {
     let titleLabel : UILabel = {
         let label = UILabel()
         label.font = UIFont(name: Fonts.interMedium, size: 15)
+        label.textColor = Colors.mainTextColor
         return label
     }()
     
     let pendingLabel : UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.systemYellow
+        label.textColor = Colors.progColor
         label.font = UIFont(name: Fonts.interMedium, size: 15)
         return label
     }()
@@ -26,6 +27,7 @@ class CardListCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.backgroundColor = Colors.bgColor
         setupViews()
     }
     

@@ -18,16 +18,16 @@ class MZFloatingButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(bgColor: UIColor, cornerRadius: CGFloat, systemImage: String) {
+    init(bgColor: UIColor, tintColor: UIColor, cornerRadius: CGFloat, systemImage: String) {
         super.init(frame: .zero)
-        layer.cornerRadius = cornerRadius
-        setImage(UIImage(systemName: systemImage), for: .normal)
-        backgroundColor = bgColor
+        self.layer.cornerRadius = cornerRadius
+        self.setImage(UIImage(systemName: systemImage), for: .normal)
+        self.backgroundColor = bgColor
+        self.tintColor = tintColor
         configure()
     }
     
     private func configure() {
-        tintColor = .white
         layer.masksToBounds = true
         translatesAutoresizingMaskIntoConstraints = false
     }

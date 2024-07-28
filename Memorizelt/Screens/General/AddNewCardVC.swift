@@ -1,5 +1,5 @@
 //
-//  AddNewDeckVC.swift
+//  AddNewCardVC.swift
 //  Memorizelt
 //
 //  Created by Mutlu Çalkan on 21.07.2024.
@@ -10,34 +10,34 @@ import CoreData
 import SnapKit
 import SearchTextField
 
-//MARK: - AddNewDeckDelegate Protocol
-protocol AddNewDeckDelegate: AnyObject {
-    func didAddNewDeck()
+//MARK: - AddNewCardDelegate Protocol
+protocol AddNewCardDelegate: AnyObject {
+    func didAddNewCard()
 }
 
-//MARK: - AddNewDeck ViewController
-class AddNewDeckVC: UIViewController {
+//MARK: - AddNewCard ViewController
+class AddNewCardVC: UIViewController {
     
     // UI Elements
-    private let closeButton = MZImageButton(systemImage: "xmark", tintColor: .white)
-    private let categoryLabel = MZLabel(text: "Category", textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: .white)
-    private let questionLabel = MZLabel(text: "Question", textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: .white)
-    private let answerLabel = MZLabel(text: "Answer", textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: .white)
+    private let closeButton = MZImageButton(systemImage: Texts.AddNewCardScreen.closeIcon, tintColor: .white)
+    private let categoryLabel = MZLabel(text: Texts.AddNewCardScreen.categoryTitle, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: Colors.mainTextColor)
+    private let questionLabel = MZLabel(text: Texts.AddNewCardScreen.questionTitle, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: Colors.mainTextColor)
+    private let answerLabel = MZLabel(text: Texts.AddNewCardScreen.answerTitle, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: Colors.mainTextColor)
     private let categoryTextField = MZSearchTextField(returnKeyType: .done, filterStringsArray: [""])
     private let questionTextField = MZTextField(returnKeyType: .next)
     private let answerTextView = MZTextView()
-    private let saveButton = MZButton(title: "Save", backgroundColor: UIColor(hex: "#333B4C"))
+    private let saveButton = MZButton(title: Texts.AddNewCardScreen.saveButtonTitle, backgroundColor: Colors.buttonColor)
     
     // Core Data
     private let coreDataManager = CoreDataManager.shared
     private var categories: [String] = []
-    weak var delegate: AddNewDeckDelegate?
+    weak var delegate: AddNewCardDelegate?
     
     
     // Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .black
+        view.backgroundColor = Colors.bgColor
         setupConstraints()
         createDismissKeyboardTapGesture()
         
@@ -63,10 +63,10 @@ class AddNewDeckVC: UIViewController {
         
         // Save flashcard to Core Data
         coreDataManager.addFlashcard(question: question, answer: answer, category: category)
-        delegate?.didAddNewDeck()
+        delegate?.didAddNewCard()
         questionTextField.text = ""
         answerTextView.text = ""
-        alertMessage(alertTitle: "Success", alertMesssage: "Success", completionHandler: nil)
+        alertMessage(alertTitle: "Success", alertMesssage: "You added a new card", completionHandler: nil)
         loadCategories()
     }
     
@@ -129,7 +129,7 @@ class AddNewDeckVC: UIViewController {
             make.top.equalTo(answerTextView.snp.bottom).offset(30)
             make.left.equalTo(60)
             make.right.equalTo(-60)
-            make.height.equalTo(30)
+            make.height.equalTo(32)
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-30)
         }
         

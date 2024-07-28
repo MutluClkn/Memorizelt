@@ -19,10 +19,12 @@ class MZTextView: UITextView {
     }
     
     private func configure() {
-        layer.borderColor = UIColor.systemGray2.cgColor
+        layer.borderColor = Colors.mainTextColor.cgColor
+        backgroundColor = Colors.bgColor
         layer.borderWidth = 1.0
         layer.cornerRadius = 8.0
         textAlignment = .center
+        textColor = Colors.mainTextColor
         font = UIFont.systemFont(ofSize: 14)
         translatesAutoresizingMaskIntoConstraints = false
     }

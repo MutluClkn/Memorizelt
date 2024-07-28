@@ -12,12 +12,7 @@ import CoreData
 final class DecksVC: UIViewController {
     
     //Variables
-    let tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .plain)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        return tableView
-    }()
-    
+    private let tableView = MZTableView(isScrollEnabled: true)
     private let coreDataManager = CoreDataManager.shared
     private var flashcardsByCategory: [String: [Flashcard]] = [:]
     private var categories: [String] = []
@@ -26,7 +21,7 @@ final class DecksVC: UIViewController {
     //Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .black
+        view.backgroundColor = Colors.bgColor
         configureNavigationBar()
         configureTableView()
         loadFlashcards()
@@ -34,6 +29,8 @@ final class DecksVC: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        view.backgroundColor = Colors.bgColor
+        tableView.backgroundColor = Colors.bgColor
         tableView.frame = view.bounds
     }
     
@@ -45,9 +42,10 @@ final class DecksVC: UIViewController {
     
     //NavigationBar & TabBar
     private func configureNavigationBar() {
-        title = "Decks"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        self.tabBarController?.tabBar.tintColor = .white
+        self.title = Texts.TabBar.deckTitle
+        self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: Colors.mainTextColor]
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.tabBarController?.tabBar.tintColor = Colors.mainTextColor
     }
     
     

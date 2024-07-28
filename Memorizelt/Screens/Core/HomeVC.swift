@@ -10,30 +10,22 @@ import SnapKit
 import CoreData
 
 //MARK: - HomeVC
-final class HomeVC: UIViewController, AddNewDeckDelegate {
-    
-    
-    
+final class HomeVC: UIViewController, AddNewCardDelegate {
     
     
     //UI Elements
     private let scrollView = MZScrollView()
     private let contentView = UIView()
-    private let dashboardContainer = MZContainerView(cornerRadius: 20, bgColor: UIColor(hex: "#CDA164"))
+    private let dashboardContainer = MZContainerView(cornerRadius: 20, bgColor: Colors.tintColor)
     private let calendarIcon = UIImageView()
-    private let dateLabel = MZLabel(text: "", textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 15, textColor: .systemGray3)
-    private let dashboardTitleLabel = MZLabel(text: "Pending Studies", textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: .black)
-    private let dashboardInfoLabel = MZLabel(text: "You have 3 cards to study today", textAlignment: .left, numberOfLines: 0, fontName: Fonts.interSemiBold, fontSize: 25, textColor: .black)
-    private let separatorLine = MZContainerView(cornerRadius: 0, bgColor: UIColor(hex: "#333B4C"))
-    private let pendingCategoriesLabel = MZLabel(text: "English, Deneme, Math", textAlignment: .left, numberOfLines: 0, fontName: Fonts.interMedium, fontSize: 13, textColor: .systemGray3)
-    private let tableViewTitleLabel = MZLabel(text: "Pending Cards", textAlignment: .left, numberOfLines: 1, fontName: Fonts.interBold, fontSize: 17, textColor: .white)
-    private let tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .plain)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.isScrollEnabled = false
-        return tableView
-    }()
-    private let addCardButton = MZFloatingButton(bgColor: UIColor(hex: "#333B4C"), cornerRadius: 35, systemImage: "plus")
+    private let dateLabel = MZLabel(text: "", textAlignment: .left, numberOfLines: 1, fontName: Fonts.interSemiBold, fontSize: 15, textColor: Colors.alternativeTextColor)
+    private let dashboardTitleLabel = MZLabel(text: Texts.PrototypeTexts.dashboardTitle, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: Colors.alternativeTextColor)
+    private let dashboardInfoLabel = MZLabel(text: Texts.PrototypeTexts.dashboardInfo, textAlignment: .left, numberOfLines: 0, fontName: Fonts.interSemiBold, fontSize: 25, textColor: Colors.alternativeTextColor)
+    private let separatorLine = MZContainerView(cornerRadius: 0, bgColor: Colors.alternativeTextColor)
+    private let pendingCategoriesLabel = MZLabel(text: Texts.PrototypeTexts.pendingCategories, textAlignment: .left, numberOfLines: 0, fontName: Fonts.interMedium, fontSize: 13, textColor: Colors.alternativeTextColor)
+    private let tableViewTitleLabel = MZLabel(text: Texts.HomeScreen.tableViewTitle, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interBold, fontSize: 17, textColor: Colors.mainTextColor)
+    private let tableView = MZTableView(isScrollEnabled: false)
+    private let addCardButton = MZFloatingButton(bgColor: Colors.buttonColor, tintColor: Colors.tintColor, cornerRadius: 35, systemImage: Texts.HomeScreen.plusIcon)
     
     //Variables
     private let coreDataManager = CoreDataManager.shared
@@ -43,10 +35,10 @@ final class HomeVC: UIViewController, AddNewDeckDelegate {
     //Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .black
+        view.backgroundColor = Colors.bgColor
         loadFlashcards()
         configureTableView()
-        configureTabBar()
+        configureNavAndTabBar()
         configureAddCardButton()
         setDateLabel()
         configureCalendarIcon()
@@ -69,17 +61,18 @@ final class HomeVC: UIViewController, AddNewDeckDelegate {
     
     // Configure Calendar Icon
     private func configureCalendarIcon() {
-        calendarIcon.image = UIImage(systemName: "calendar")
-        calendarIcon.tintColor = .black
+        calendarIcon.image = UIImage(systemName: Texts.HomeScreen.calendarIcon)
+        calendarIcon.tintColor = Colors.alternativeTextColor
         calendarIcon.contentMode = .scaleAspectFit
     }
     
     
     //TabBar
-    private func configureTabBar() {
-        self.navigationItem.title = "Dashboard"
+    private func configureNavAndTabBar() {
+        self.navigationItem.title = Texts.HomeScreen.navigationTitle
+        self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: Colors.mainTextColor]
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.tabBarController?.tabBar.tintColor = .white
+        self.tabBarController?.tabBar.tintColor = Colors.mainTextColor
     }
     
     //Load Flashcards
@@ -114,14 +107,14 @@ final class HomeVC: UIViewController, AddNewDeckDelegate {
     
     @objc func pushAddCardVC() {
         DispatchQueue.main.async {
-            let vc = AddNewDeckVC()
+            let vc = AddNewCardVC()
             vc.delegate = self
             vc.modalPresentationStyle = .overFullScreen
             self.present(vc, animated: true)
         }
     }
     
-    func didAddNewDeck() {
+    func didAddNewCard() {
         loadFlashcards()
     }
 }
@@ -238,7 +231,7 @@ extension HomeVC {
             make.top.equalTo(separatorLine.snp.bottom).offset(10)
             make.left.equalTo(dashboardContainer).offset(20)
             make.right.equalTo(dashboardContainer).offset(-20)
-            make.bottom.equalTo(dashboardContainer).offset(-10)
+            make.bottom.equalTo(dashboardContainer).offset(-20)
         }
         
         tableViewTitleLabel.snp.makeConstraints { make in
@@ -252,7 +245,7 @@ extension HomeVC {
             make.left.equalTo(contentView)
             make.right.equalTo(contentView)
             make.bottom.equalTo(contentView.snp.bottom).offset(-20)
-            make.height.equalTo(categories.count * 40)
+            make.height.equalTo(categories.count * 60)
         }
     }
 }

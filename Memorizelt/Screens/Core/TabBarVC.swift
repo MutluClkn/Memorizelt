@@ -18,15 +18,15 @@ class TabBarVC: UITabBarController {
     private func controllersConfiguration() {
         
         let cardListVC = UINavigationController(rootViewController: HomeVC())
-        cardListVC.tabBarItem.image = UIImage(systemName: "house")
-        cardListVC.title = "Home"
-        cardListVC.navigationBar.tintColor = .white
+        cardListVC.tabBarItem.image = UIImage(systemName: Texts.TabBar.houseIcon)
+        cardListVC.title = Texts.TabBar.homeTitle
+        cardListVC.navigationBar.tintColor = Colors.mainTextColor
         
         
         let decksVC = UINavigationController(rootViewController: DecksVC())
-        decksVC.tabBarItem.image = UIImage(systemName: "lanyardcard")
-        decksVC.title = "Decks"
-        decksVC.navigationBar.tintColor = .white
+        decksVC.tabBarItem.image = UIImage(systemName: Texts.TabBar.lanyardcardIcon)
+        decksVC.title = Texts.TabBar.deckTitle
+        decksVC.navigationBar.tintColor = Colors.mainTextColor
         
         
         setViewControllers([cardListVC, decksVC], animated: true)

@@ -13,12 +13,14 @@ class DeckListCell: UITableViewCell {
     let titleLabel : UILabel = {
         let label = UILabel()
         label.font = UIFont(name: Fonts.interMedium, size: 15)
+        label.textColor = Colors.mainTextColor
         return label
     }()
     
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        backgroundColor = Colors.bgColor
         setupViews()
     }
     

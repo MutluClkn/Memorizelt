@@ -16,9 +16,9 @@ protocol EditFlashcardDelegate: AnyObject {
 class EditFlashcardVC: UIViewController {
     
     //Labels
-    private let questionLabel = MZLabel(text: "Question", textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: .white)
+    private let questionLabel = MZLabel(text: Texts.AddNewCardScreen.questionTitle, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: Colors.mainTextColor)
     
-    private let answerLabel = MZLabel(text: "Answer", textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: .white)
+    private let answerLabel = MZLabel(text: Texts.AddNewCardScreen.answerTitle, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: Colors.mainTextColor)
     
     //TextField
     private let questionTextField = MZTextField(returnKeyType: .next)
@@ -28,7 +28,7 @@ class EditFlashcardVC: UIViewController {
     private let answerTextView = MZTextView()
     
     //Button
-    private let saveButton = MZButton(title: "Save", backgroundColor: UIColor(hex: "#333B4C"))
+    private let saveButton = MZButton(title: Texts.AddNewCardScreen.saveButtonTitle, backgroundColor: Colors.buttonColor)
     
     
     //Variables
@@ -41,7 +41,7 @@ class EditFlashcardVC: UIViewController {
     //Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .black
+        view.backgroundColor = Colors.bgColor
         createDismissKeyboardTapGesture()
         setupConstraints()
         loadFlashcardData()
@@ -66,7 +66,7 @@ class EditFlashcardVC: UIViewController {
         coreDataManager.saveContext()
         delegate?.didUpdateFlashcard()
         
-        alertMessage(alertTitle: "Success", alertMesssage: "Success", completionHandler: nil)
+        alertMessage(alertTitle: Texts.EditFlashcarScreen.alertTitle, alertMesssage: Texts.EditFlashcarScreen.alertMessage, completionHandler: nil)
         
     }
     
@@ -109,7 +109,7 @@ extension EditFlashcardVC {
             make.top.equalTo(answerTextView.snp.bottom).offset(30)
             make.left.equalTo(60)
             make.right.equalTo(-60)
-            make.height.equalTo(30)
+            make.height.equalTo(32)
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-30)
         }
         

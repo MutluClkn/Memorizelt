@@ -28,10 +28,10 @@ class MZTextField: UITextField {
     private func configure() {
         layer.cornerRadius = 7
         layer.borderWidth = 1
-        layer.borderColor = UIColor.systemGray2.cgColor
+        layer.borderColor = Colors.mainTextColor.cgColor
         
-        textColor = .white
-        tintColor = .white
+        textColor = Colors.mainTextColor
+        tintColor = Colors.mainTextColor
         textAlignment = .center
         font = UIFont.systemFont(ofSize: 14)
         adjustsFontSizeToFitWidth = true

@@ -11,21 +11,22 @@ import SnapKit
 final class CardVC: UIViewController {
     
     //MARK: - Buttons
-    private let flipButton = MZFloatingButton(bgColor: UIColor(hex: "#333B4C"),
-                                      cornerRadius: 25,
-                                      systemImage: "arrow.2.circlepath")
+    private let flipButton = MZFloatingButton(bgColor: Colors.buttonColor,
+                                              tintColor: Colors.tintColor,
+                                      cornerRadius: 20,
+                                              systemImage: Texts.CardScreen.flipButtonIcon)
     
-    private let hardButton = MZButton(title: "Hard", backgroundColor: .systemGray6)
+    private let againButton = MZButton(title: Texts.CardScreen.againButtonTitle, backgroundColor: Colors.buttonColor)
     
-    private let normalButton = MZButton(title: "Normal", backgroundColor: .systemGray6)
+    private let hardButton = MZButton(title: Texts.CardScreen.hardButtonTitle, backgroundColor: Colors.buttonColor)
     
-    private let easyButton = MZButton(title: "Easy", backgroundColor: .systemGray6)
+    private let goodButton = MZButton(title: Texts.CardScreen.goodButtonTitle, backgroundColor: Colors.buttonColor)
     
-    private let closeButton = MZImageButton(systemImage: "xmark",
-                                    tintColor: .white)
+    private let closeButton = MZImageButton(systemImage: Texts.AddNewCardScreen.closeIcon,
+                                            tintColor: Colors.tintColor)
     
-    private let infoButton = MZImageButton(systemImage: "info.circle",
-                                   tintColor: .secondaryLabel)
+    private let infoButton = MZImageButton(systemImage: Texts.CardScreen.infoIcon,
+                                           tintColor: Colors.tintColor)
     
     
     
@@ -35,36 +36,36 @@ final class CardVC: UIViewController {
                              numberOfLines: 1,
                              fontName: Fonts.interBold,
                              fontSize: 25,
-                             textColor: .white)
+                             textColor: Colors.mainTextColor)
     
-    let reviewedLabel = MZLabel(text: "2 cards reviewed", //Example initial value
+    let reviewedLabel = MZLabel(text: Texts.PrototypeTexts.reviewedCardText, //Example initial value
                                 textAlignment: .left,
                                 numberOfLines: 1,
                                 fontName: Fonts.interRegular,
                                 fontSize: 14,
-                                textColor: .secondaryLabel)
+                                textColor: Colors.mainTextColor)
     
-    let totalLabel = MZLabel(text: "30 cards", //Example initial value
+    let totalLabel = MZLabel(text: Texts.PrototypeTexts.totalCardText, //Example initial value
                              textAlignment: .right,
                              numberOfLines: 1,
                              fontName: Fonts.interRegular,
                              fontSize: 14,
-                             textColor: .secondaryLabel)
+                             textColor: Colors.mainTextColor)
     
     let cardLabel = MZLabel(text: "",
                             textAlignment: .center,
                             numberOfLines: 0,
                             fontName: Fonts.interMedium,
                             fontSize: 16,
-                            textColor: .white)
+                            textColor: Colors.bgColor)
     
     
     //MARK: - ProgressView
     private let progressView: UIProgressView = {
         let progressView = UIProgressView(progressViewStyle: .default)
         progressView.translatesAutoresizingMaskIntoConstraints = false
-        progressView.progressTintColor = .blue
-        progressView.trackTintColor = .lightGray
+        progressView.progressTintColor = Colors.buttonColor
+        progressView.trackTintColor = Colors.mainTextColor
         progressView.setProgress(0.2, animated: false) // Example initial progress
         return progressView
     }()
@@ -72,7 +73,7 @@ final class CardVC: UIViewController {
     
     
     //MARK: - Views
-    private let cardView = MZContainerView(cornerRadius: 20, bgColor: UIColor(hex: "#333B4C"))
+    private let cardView = MZContainerView(cornerRadius: 20, bgColor: Colors.progColor)
     
     private let scrollView = MZScrollView()
     
@@ -86,14 +87,14 @@ final class CardVC: UIViewController {
     //MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .black
+        view.backgroundColor = Colors.bgColor
         setupCardView()
         currentQuestionAndAnswer()
         cardLabel.text = frontText
     }
     
-    private let frontFont = UIFont(name: Fonts.interBold, size: 40) // Font for front side
-    private let backFont = UIFont(name: Fonts.interRegular, size: 16) // Font for back side
+    private let frontFont = UIFont(name: Fonts.interBold, size: 50) // Font for front side
+    private let backFont = UIFont(name: Fonts.interMedium, size: 20) // Font for back side
     
     private var isShowingFront = true
     var frontText = "FRONT"
@@ -135,7 +136,7 @@ final class CardVC: UIViewController {
     }
     
     @objc func infoButtonTapped(){
-        let alertController = UIAlertController(title: "Button Info", message: "Hard: Indicates difficult questions\nNormal: Indicates medium difficulty questions\nEasy: Indicates easy questions", preferredStyle: .alert)
+        let alertController = UIAlertController(title: Texts.CardScreen.alerTitle, message: Texts.CardScreen.alertMessage, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default)
         alertController.addAction(okAction)
         self.present(alertController, animated: true)
@@ -161,9 +162,9 @@ extension CardVC {
         cardView.addSubview(scrollView)
         scrollView.addSubview(cardLabel)
         
+        buttonStack.addArrangedSubview(againButton)
         buttonStack.addArrangedSubview(hardButton)
-        buttonStack.addArrangedSubview(normalButton)
-        buttonStack.addArrangedSubview(easyButton)
+        buttonStack.addArrangedSubview(goodButton)
         
         closeButton.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
@@ -188,7 +189,7 @@ extension CardVC {
             make.top.equalTo(titleLabel.snp.bottom).offset(15)
             make.left.equalTo(view).offset(20)
             make.right.equalTo(view).offset(-20)
-            make.height.equalTo(2)
+            make.height.equalTo(5)
         }
         
         reviewedLabel.snp.makeConstraints { make in
@@ -214,13 +215,13 @@ extension CardVC {
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-30)
             make.left.equalTo(view).offset(20)
             make.right.equalTo(view).offset(-20)
-            make.height.equalTo(30)
+            make.height.equalTo(32)
         }
         
         view.addSubview(flipButton)
         
         flipButton.snp.makeConstraints { make in
-            make.width.height.equalTo(30)
+            make.width.height.equalTo(40)
             make.top.equalTo(cardView.snp.top).offset(8)
             make.right.equalTo(cardView.snp.right).offset(-8)
         }
@@ -238,7 +239,7 @@ extension CardVC {
         flipButton.addTarget(self, action: #selector(flipCard), for: .touchUpInside)
         closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
         infoButton.addTarget(self, action: #selector(infoButtonTapped), for: .touchUpInside)
-        easyButton.addTarget(self, action: #selector(nextQuestion), for: .touchUpInside)
+        goodButton.addTarget(self, action: #selector(nextQuestion), for: .touchUpInside)
         
     }
 }

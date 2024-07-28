@@ -14,11 +14,7 @@ final class EditDeckVC: UIViewController {
     // UI Elements
     private let categoryTextField = MZTextField(returnKeyType: .done)
     
-    private let tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .plain)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        return tableView
-    }()
+    private let tableView = MZTableView(isScrollEnabled: true)
     
     // Core Data
     private let coreDataManager = CoreDataManager.shared
@@ -32,7 +28,7 @@ final class EditDeckVC: UIViewController {
     //Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .black
+        view.backgroundColor = Colors.bgColor
         setupViews()
         setupConstraints()
         configureNavigationBar()
@@ -44,6 +40,8 @@ final class EditDeckVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        view.backgroundColor = Colors.bgColor
+        tableView.backgroundColor = Colors.bgColor
         sortFlashcardsByDate()
         tableView.reloadData()
     }
@@ -85,7 +83,8 @@ final class EditDeckVC: UIViewController {
     
     //Configure Navigation Bar
     private func configureNavigationBar() {
-        title = category
+        self.title = category
+        self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: Colors.mainTextColor]
     }
     
     //Load Category Data
@@ -97,7 +96,6 @@ final class EditDeckVC: UIViewController {
     //Save Changes for Category Name
     @objc private func saveChanges() {
         guard let newCategoryName = categoryTextField.text, !newCategoryName.isEmpty else {
-            // Show an alert or handle empty category name
             return
         }
         
@@ -118,7 +116,7 @@ final class EditDeckVC: UIViewController {
     
     // When user change category name, it is going to ask if user is certain to change it.
     private func changeCategoryNameControl() {
-        let alertController = UIAlertController(title: "Change", message: "Are you sure you want to change the category name?", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Confirm Deck Name Change", message: "Do you wish to proceed with renaming the deck name?", preferredStyle: .alert)
         
         let yesAction = UIAlertAction(title: "Yes", style: .default){ _ in
             self.saveChanges()
