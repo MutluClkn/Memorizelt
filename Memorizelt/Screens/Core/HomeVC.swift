@@ -36,13 +36,8 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Colors.bgColor
+        configureView()
         loadFlashcards()
-        configureTableView()
-        configureNavAndTabBar()
-        configureAddCardButton()
-        setDateLabel()
-        configureCalendarIcon()
-        setupConstraints()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -50,6 +45,15 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
         loadFlashcards()
     }
     
+    // Configure the initial view setup
+        private func configureView() {
+            configureTableView()
+            configureNavAndTabBar()
+            configureAddCardButton()
+            setDateLabel()
+            configureCalendarIcon()
+            setupConstraints()
+        }
     
     // Set Date Label
     private func setDateLabel() {
@@ -90,6 +94,8 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
         
         // Update pending categories label
         pendingCategoriesLabel.text = categories.joined(separator: ", ")
+        
+        updateTableViewHeight()
     }
     
     
@@ -104,6 +110,14 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
         addCardButton.addTarget(self, action: #selector(pushAddCardVC), for: .touchUpInside)
         
     }
+    
+    // Update the height of the table view based on the number of categories
+        private func updateTableViewHeight() {
+            tableView.snp.updateConstraints { make in
+                make.height.equalTo(categories.count == 0 ? 40 : categories.count * 50)
+            }
+        }
+    
     
     @objc func pushAddCardVC() {
         DispatchQueue.main.async {
@@ -193,7 +207,7 @@ extension HomeVC {
             make.top.equalTo(contentView).offset(20)
             make.left.equalTo(contentView).offset(20)
             make.right.equalTo(contentView).offset(-20)
-            make.height.equalTo(view.frame.size.height * 0.25)
+            make.height.greaterThanOrEqualTo(view.frame.size.height * 0.25)
         }
         
         calendarIcon.snp.makeConstraints { make in
@@ -209,6 +223,7 @@ extension HomeVC {
         
         
         dashboardTitleLabel.snp.makeConstraints { make in
+            make.top.greaterThanOrEqualTo(dateLabel.snp.bottom).offset(10)
             make.bottom.equalTo(dashboardInfoLabel.snp.top).offset(-5)
             make.left.equalTo(dashboardContainer).offset(20)
             make.right.equalTo(dashboardContainer).offset(-20)
@@ -245,7 +260,7 @@ extension HomeVC {
             make.left.equalTo(contentView)
             make.right.equalTo(contentView)
             make.bottom.equalTo(contentView.snp.bottom).offset(-20)
-            make.height.equalTo(categories.count * 60)
+            make.height.equalTo(categories.count == 0 ? 40 : categories.count * 50)
         }
     }
 }

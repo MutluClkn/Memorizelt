@@ -26,6 +26,7 @@ class MZTextView: UITextView {
         textAlignment = .center
         textColor = Colors.mainTextColor
         font = UIFont.systemFont(ofSize: 14)
+        autocorrectionType = .no
         translatesAutoresizingMaskIntoConstraints = false
     }
 }
