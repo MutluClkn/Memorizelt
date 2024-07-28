@@ -11,31 +11,31 @@ import SnapKit
 final class CardVC: UIViewController {
 
     // MARK: - Buttons
-    private let flipButton = MZButton(title: "Flip Card", backgroundColor: Colors.buttonColor)
-    private let closeButton = MZImageButton(systemImage: Texts.AddNewCardScreen.closeIcon, tintColor: Colors.tintColor)
-    private let infoButton = MZImageButton(systemImage: Texts.CardScreen.infoIcon, tintColor: Colors.tintColor)
+    private let flipButton = MZButton(title: "Flip Card", backgroundColor: Colors.primary)
+    private let closeButton = MZImageButton(systemImage: Texts.AddNewCardScreen.closeIcon, tintColor: Colors.accent)
+    private let infoButton = MZImageButton(systemImage: Texts.CardScreen.infoIcon, tintColor: Colors.accent)
 
     // MARK: - Labels
     let titleLabel = MZLabel(text: "", textAlignment: .left, numberOfLines: 1, fontName: Fonts.interBold, fontSize: 25, textColor: Colors.mainTextColor)
     let reviewedLabel = MZLabel(text: Texts.PrototypeTexts.reviewedCardText, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interRegular, fontSize: 14, textColor: Colors.mainTextColor)
     let totalLabel = MZLabel(text: Texts.PrototypeTexts.totalCardText, textAlignment: .right, numberOfLines: 1, fontName: Fonts.interRegular, fontSize: 14, textColor: Colors.mainTextColor)
-    let cardLabel = MZLabel(text: "", textAlignment: .center, numberOfLines: 0, fontName: Fonts.interMedium, fontSize: 16, textColor: Colors.bgColor)
+    let cardLabel = MZLabel(text: "", textAlignment: .center, numberOfLines: 0, fontName: Fonts.interMedium, fontSize: 16, textColor: Colors.background)
 
     // MARK: - ProgressView
     private let progressView: UIProgressView = {
         let progressView = UIProgressView(progressViewStyle: .default)
         progressView.translatesAutoresizingMaskIntoConstraints = false
-        progressView.progressTintColor = Colors.buttonColor
-        progressView.trackTintColor = Colors.mainTextColor
+        progressView.progressTintColor = Colors.accent
+        progressView.trackTintColor = Colors.secondary
         progressView.setProgress(0.2, animated: false)
         return progressView
     }()
 
     // MARK: - Views
-    private let cardView = MZContainerView(cornerRadius: 20, bgColor: Colors.progColor)
+    private let cardView = MZContainerView(cornerRadius: 20, bgColor: Colors.primary)
     private let scrollView = MZScrollView()
-    private let nextCardView1 = MZContainerView(cornerRadius: 20, bgColor: Colors.progColor)
-    private let nextCardView2 = MZContainerView(cornerRadius: 20, bgColor: Colors.progColor)
+    private let nextCardView1 = MZContainerView(cornerRadius: 20, bgColor: Colors.primary)
+    private let nextCardView2 = MZContainerView(cornerRadius: 20, bgColor: Colors.primary)
 
     // MARK: - Variables
     var flashcards: [Flashcard] = []
@@ -49,7 +49,7 @@ final class CardVC: UIViewController {
     // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Colors.bgColor
+        view.backgroundColor = Colors.background
         setupCardView()
         setupGestureRecognizers()
         currentQuestionAndAnswer()
@@ -224,7 +224,7 @@ extension CardVC {
 
     private func setupNextCardView(nextCardView: MZContainerView, offset: CGFloat) {
         view.addSubview(nextCardView)
-        nextCardView.backgroundColor = Colors.progColor.withAlphaComponent(0.8)
+        nextCardView.backgroundColor = Colors.primary.withAlphaComponent(0.8)
         nextCardView.layer.cornerRadius = 20
         nextCardView.layer.shadowColor = UIColor.black.cgColor
         nextCardView.layer.shadowOpacity = 0.2
@@ -245,7 +245,7 @@ extension CardVC {
         cardView.layer.shadowOpacity = 0.3
         cardView.layer.shadowOffset = CGSize(width: 0, height: 10)
         cardView.layer.shadowRadius = 20
-        cardView.layer.borderColor = UIColor.lightGray.cgColor
+        cardView.layer.borderColor = Colors.secondary.cgColor
         cardView.layer.borderWidth = 0.5
 
         view.addSubview(cardView)

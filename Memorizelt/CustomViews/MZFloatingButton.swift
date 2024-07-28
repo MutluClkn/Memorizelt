@@ -21,7 +21,9 @@ class MZFloatingButton: UIButton {
     init(bgColor: UIColor, tintColor: UIColor, cornerRadius: CGFloat, systemImage: String) {
         super.init(frame: .zero)
         self.layer.cornerRadius = cornerRadius
-        self.setImage(UIImage(systemName: systemImage), for: .normal)
+        let configuration = UIImage.SymbolConfiguration(pointSize: 17, weight: .semibold, scale: .large)
+        let sysImage = UIImage(systemName: systemImage, withConfiguration: configuration)
+        self.setImage(sysImage, for: .normal)
         self.backgroundColor = bgColor
         self.tintColor = tintColor
         configure()
@@ -31,5 +33,4 @@ class MZFloatingButton: UIButton {
         layer.masksToBounds = true
         translatesAutoresizingMaskIntoConstraints = false
     }
-    
 }

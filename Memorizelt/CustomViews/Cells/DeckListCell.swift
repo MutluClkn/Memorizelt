@@ -12,7 +12,7 @@ class DeckListCell: UITableViewCell {
 
     let titleLabel : UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: Fonts.interMedium, size: 15)
+        label.font = UIFont(name: Fonts.interSemiBold, size: 16)
         label.textColor = Colors.mainTextColor
         return label
     }()
@@ -20,7 +20,7 @@ class DeckListCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        backgroundColor = Colors.bgColor
+        backgroundColor = Colors.background
         setupViews()
     }
     
@@ -32,14 +32,11 @@ class DeckListCell: UITableViewCell {
     
     private func setupViews() {
         contentView.addSubview(titleLabel)
-        
+
         titleLabel.snp.makeConstraints { make in
             make.centerY.equalTo(contentView)
-            make.left.equalTo(contentView).offset(16)
-            make.right.equalTo(contentView).offset(-16)
+            make.left.equalTo(contentView).offset(20)
+            make.right.equalTo(contentView).offset(-20)
         }
-        
     }
-    
-
 }

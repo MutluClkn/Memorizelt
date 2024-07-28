@@ -26,11 +26,11 @@ class MZButton: UIButton {
     }
     
     private func configure() {
-        setTitleColor(Colors.tintColor, for: .normal)
-        titleLabel?.font = UIFont(name: Fonts.interMedium, size: 14)
+        setTitleColor(Colors.background, for: .normal)
+        titleLabel?.font = UIFont(name: Fonts.interMedium, size: 15)
         layer.cornerRadius = 16
         layer.borderWidth = 0.7
-        layer.borderColor = Colors.tintColor.cgColor
+        layer.borderColor = Colors.secondary.cgColor
         translatesAutoresizingMaskIntoConstraints = false
     }
 

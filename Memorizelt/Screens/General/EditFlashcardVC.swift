@@ -28,7 +28,7 @@ class EditFlashcardVC: UIViewController {
     private let answerTextView = MZTextView()
     
     //Button
-    private let saveButton = MZButton(title: Texts.AddNewCardScreen.saveButtonTitle, backgroundColor: Colors.buttonColor)
+    private let saveButton = MZButton(title: Texts.AddNewCardScreen.saveButtonTitle, backgroundColor: Colors.primary)
     
     
     //Variables
@@ -41,7 +41,7 @@ class EditFlashcardVC: UIViewController {
     //Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Colors.bgColor
+        view.backgroundColor = Colors.background
         createDismissKeyboardTapGesture()
         setupConstraints()
         loadFlashcardData()

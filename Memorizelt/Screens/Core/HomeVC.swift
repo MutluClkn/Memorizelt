@@ -16,16 +16,16 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
     //UI Elements
     private let scrollView = MZScrollView()
     private let contentView = UIView()
-    private let dashboardContainer = MZContainerView(cornerRadius: 20, bgColor: Colors.tintColor)
+    private let dashboardContainer = MZContainerView(cornerRadius: 20, bgColor: Colors.primary)
     private let calendarIcon = UIImageView()
     private let dateLabel = MZLabel(text: "", textAlignment: .left, numberOfLines: 1, fontName: Fonts.interSemiBold, fontSize: 15, textColor: Colors.alternativeTextColor)
     private let dashboardTitleLabel = MZLabel(text: Texts.HomeScreen.dashboardTitle, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: Colors.alternativeTextColor)
     private let dashboardInfoLabel = MZLabel(text: Texts.PrototypeTexts.dashboardInfo, textAlignment: .left, numberOfLines: 0, fontName: Fonts.interSemiBold, fontSize: 25, textColor: Colors.alternativeTextColor)
-    private let separatorLine = MZContainerView(cornerRadius: 0, bgColor: Colors.alternativeTextColor)
-    private let pendingCategoriesLabel = MZLabel(text: Texts.PrototypeTexts.pendingCategories, textAlignment: .left, numberOfLines: 0, fontName: Fonts.interMedium, fontSize: 13, textColor: Colors.alternativeTextColor)
+    private let separatorLine = MZContainerView(cornerRadius: 0, bgColor: Colors.secondary)
+    private let pendingCategoriesLabel = MZLabel(text: Texts.PrototypeTexts.pendingCategories, textAlignment: .left, numberOfLines: 0, fontName: Fonts.interMedium, fontSize: 14, textColor: Colors.accent)
     private let tableViewTitleLabel = MZLabel(text: Texts.HomeScreen.tableViewTitle, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interBold, fontSize: 17, textColor: Colors.mainTextColor)
     private let tableView = MZTableView(isScrollEnabled: false)
-    private let addCardButton = MZFloatingButton(bgColor: Colors.buttonColor, tintColor: Colors.tintColor, cornerRadius: 35, systemImage: Texts.HomeScreen.plusIcon)
+    private let addCardButton = MZFloatingButton(bgColor: Colors.primary, tintColor: Colors.background, cornerRadius: 35, systemImage: Texts.HomeScreen.plusIcon)
     
     //Variables
     private let coreDataManager = CoreDataManager.shared
@@ -35,7 +35,7 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
     //Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Colors.bgColor
+        view.backgroundColor = Colors.background
         configureView()
         loadFlashcards()
     }
@@ -66,7 +66,7 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
     // Configure Calendar Icon
     private func configureCalendarIcon() {
         calendarIcon.image = UIImage(systemName: Texts.HomeScreen.calendarIcon)
-        calendarIcon.tintColor = Colors.alternativeTextColor
+        calendarIcon.tintColor = Colors.accent
         calendarIcon.contentMode = .scaleAspectFit
     }
     
@@ -76,7 +76,7 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
         self.navigationItem.title = Texts.HomeScreen.navigationTitle
         self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: Colors.mainTextColor]
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.tabBarController?.tabBar.tintColor = Colors.mainTextColor
+        self.tabBarController?.tabBar.tintColor = Colors.primary
     }
     
     //Load Flashcards
@@ -144,6 +144,7 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Cell.cardListCell, for: indexPath) as? CardListCell else { return UITableViewCell() }
         let category = categories[indexPath.row]
         cell.titleLabel.text = category
+        cell.pendingLabel.text = "3"
         return cell
     }
     

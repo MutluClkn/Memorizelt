@@ -11,7 +11,7 @@ class TabBarVC: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .black
+        view.backgroundColor = Colors.background
         controllersConfiguration()
     }
     
@@ -20,13 +20,13 @@ class TabBarVC: UITabBarController {
         let cardListVC = UINavigationController(rootViewController: HomeVC())
         cardListVC.tabBarItem.image = UIImage(systemName: Texts.TabBar.houseIcon)
         cardListVC.title = Texts.TabBar.homeTitle
-        cardListVC.navigationBar.tintColor = Colors.mainTextColor
+        cardListVC.navigationBar.tintColor = Colors.accent
         
         
         let decksVC = UINavigationController(rootViewController: DecksVC())
         decksVC.tabBarItem.image = UIImage(systemName: Texts.TabBar.lanyardcardIcon)
         decksVC.title = Texts.TabBar.deckTitle
-        decksVC.navigationBar.tintColor = Colors.mainTextColor
+        decksVC.navigationBar.tintColor = Colors.accent
         
         
         setViewControllers([cardListVC, decksVC], animated: true)

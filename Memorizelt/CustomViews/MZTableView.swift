@@ -26,6 +26,6 @@ class MZTableView: UITableView {
     
     private func configure() {
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.backgroundColor = Colors.bgColor
+        self.backgroundColor = Colors.background
     }
 }

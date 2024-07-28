@@ -34,9 +34,9 @@ class MZSearchTextField: SearchTextField {
         
         layer.borderWidth = 1
         layer.cornerRadius = 7
-        layer.borderColor = Colors.mainTextColor.cgColor
-        theme = .lightTheme()
-        theme.bgColor = Colors.tintColor
+        layer.borderColor = Colors.primary.cgColor
+        theme = .darkTheme()
+        theme.bgColor = .systemGray5
         theme.font = UIFont.systemFont(ofSize: 14)
         theme.cellHeight = 40
         

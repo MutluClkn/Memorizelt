@@ -28,7 +28,7 @@ class MZTextField: UITextField {
     private func configure() {
         layer.cornerRadius = 7
         layer.borderWidth = 1
-        layer.borderColor = Colors.mainTextColor.cgColor
+        layer.borderColor = Colors.primary.cgColor
         
         textColor = Colors.mainTextColor
         tintColor = Colors.mainTextColor

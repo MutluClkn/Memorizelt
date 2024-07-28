@@ -21,7 +21,7 @@ final class DecksVC: UIViewController {
     //Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Colors.bgColor
+        view.backgroundColor = Colors.background
         configureNavigationBar()
         configureTableView()
         loadFlashcards()
@@ -29,8 +29,8 @@ final class DecksVC: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        view.backgroundColor = Colors.bgColor
-        tableView.backgroundColor = Colors.bgColor
+        view.backgroundColor = Colors.background
+        tableView.backgroundColor = Colors.background
         tableView.frame = view.bounds
     }
     
@@ -45,7 +45,7 @@ final class DecksVC: UIViewController {
         self.title = Texts.TabBar.deckTitle
         self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: Colors.mainTextColor]
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.tabBarController?.tabBar.tintColor = Colors.mainTextColor
+        self.tabBarController?.tabBar.tintColor = Colors.primary
     }
     
     
@@ -86,7 +86,9 @@ extension DecksVC: UITableViewDataSource, UITableViewDelegate {
         let category = categories[indexPath.row]
         cell.titleLabel.text = category
         
+        cell.tintColor = Colors.accent
         cell.accessoryType = .disclosureIndicator
+        
         
         return cell
     }

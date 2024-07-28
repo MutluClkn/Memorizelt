@@ -28,7 +28,7 @@ final class EditDeckVC: UIViewController {
     //Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Colors.bgColor
+        view.backgroundColor = Colors.background
         setupViews()
         setupConstraints()
         configureNavigationBar()
@@ -40,8 +40,8 @@ final class EditDeckVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        view.backgroundColor = Colors.bgColor
-        tableView.backgroundColor = Colors.bgColor
+        view.backgroundColor = Colors.background
+        tableView.backgroundColor = Colors.background
         sortFlashcardsByDate()
         tableView.reloadData()
     }

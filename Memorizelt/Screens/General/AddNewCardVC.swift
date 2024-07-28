@@ -19,14 +19,17 @@ protocol AddNewCardDelegate: AnyObject {
 class AddNewCardVC: UIViewController {
     
     // UI Elements
-    private let closeButton = MZImageButton(systemImage: Texts.AddNewCardScreen.closeIcon, tintColor: .white)
+    private let closeButton = MZImageButton(systemImage: Texts.AddNewCardScreen.closeIcon, tintColor: Colors.accent)
+    
     private let categoryLabel = MZLabel(text: Texts.AddNewCardScreen.categoryTitle, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: Colors.mainTextColor)
     private let questionLabel = MZLabel(text: Texts.AddNewCardScreen.questionTitle, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: Colors.mainTextColor)
     private let answerLabel = MZLabel(text: Texts.AddNewCardScreen.answerTitle, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: Colors.mainTextColor)
+    
     private let categoryTextField = MZSearchTextField(returnKeyType: .done, filterStringsArray: [""])
     private let questionTextField = MZTextField(returnKeyType: .next)
+    
     private let answerTextView = MZTextView()
-    private let saveButton = MZButton(title: Texts.AddNewCardScreen.saveButtonTitle, backgroundColor: Colors.buttonColor)
+    private let saveButton = MZButton(title: Texts.AddNewCardScreen.saveButtonTitle, backgroundColor: Colors.primary)
     
     // Core Data
     private let coreDataManager = CoreDataManager.shared
@@ -37,7 +40,7 @@ class AddNewCardVC: UIViewController {
     // Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Colors.bgColor
+        view.backgroundColor = Colors.background
         setupConstraints()
         createDismissKeyboardTapGesture()
         
@@ -66,7 +69,7 @@ class AddNewCardVC: UIViewController {
         delegate?.didAddNewCard()
         questionTextField.text = ""
         answerTextView.text = ""
-        alertMessage(alertTitle: "Success", alertMesssage: "You added a new card", completionHandler: nil)
+        alertMessage(alertTitle: Texts.AddNewCardScreen.alertTitle, alertMesssage: Texts.AddNewCardScreen.alertMessage, completionHandler: nil)
         loadCategories()
     }
     
