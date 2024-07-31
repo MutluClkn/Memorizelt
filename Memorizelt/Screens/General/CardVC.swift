@@ -8,6 +8,10 @@
 import UIKit
 import SnapKit
 
+protocol CardDelegate: AnyObject {
+    func didFinishReviewingFlashcard()
+}
+
 final class CardVC: UIViewController {
 
     // MARK: - Buttons
@@ -45,6 +49,7 @@ final class CardVC: UIViewController {
     var frontText = "FRONT"
     var backText = "BACK"
     var cardIndex = 0
+    weak var delegate: CardDelegate?
 
     // MARK: - viewDidLoad
     override func viewDidLoad() {
@@ -109,7 +114,9 @@ final class CardVC: UIViewController {
             cardLabel.text = frontText
             isShowingFront = true
         } else {
-            // Handle the end of the deck
+            // Notify the delegate that the review session is finished
+            delegate?.didFinishReviewingFlashcard()
+            dismiss(animated: true, completion: nil)
         }
     }
 
@@ -128,14 +135,14 @@ final class CardVC: UIViewController {
     }
 
     @objc func closeButtonTapped() {
-        self.dismiss(animated: true)
+        dismiss(animated: true, completion: nil)
     }
 
     @objc func infoButtonTapped() {
         let alertController = UIAlertController(title: Texts.CardScreen.alerTitle, message: Texts.CardScreen.alertMessage, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default)
         alertController.addAction(okAction)
-        self.present(alertController, animated: true)
+        present(alertController, animated: true)
     }
 }
 

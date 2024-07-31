@@ -9,11 +9,10 @@ import UIKit
 import SnapKit
 import CoreData
 
-//MARK: - HomeVC
+// MARK: - HomeVC
 final class HomeVC: UIViewController, AddNewCardDelegate {
     
-    
-    //UI Elements
+    // UI Elements
     private let scrollView = MZScrollView()
     private let contentView = UIView()
     private let dashboardContainer = MZContainerView(cornerRadius: 20, bgColor: Colors.primary)
@@ -22,38 +21,38 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
     private let dashboardTitleLabel = MZLabel(text: Texts.HomeScreen.dashboardTitle, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: Colors.alternativeTextColor)
     private let dashboardInfoLabel = MZLabel(text: Texts.PrototypeTexts.dashboardInfo, textAlignment: .left, numberOfLines: 0, fontName: Fonts.interSemiBold, fontSize: 25, textColor: Colors.alternativeTextColor)
     private let separatorLine = MZContainerView(cornerRadius: 0, bgColor: Colors.secondary)
-    private let pendingCategoriesLabel = MZLabel(text: Texts.PrototypeTexts.pendingCategories, textAlignment: .left, numberOfLines: 0, fontName: Fonts.interMedium, fontSize: 14, textColor: Colors.accent)
+    private let pendingFlashcardsLabel = MZLabel(text: "", textAlignment: .left, numberOfLines: 0, fontName: Fonts.interMedium, fontSize: 14, textColor: Colors.accent)
     private let tableViewTitleLabel = MZLabel(text: Texts.HomeScreen.tableViewTitle, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interBold, fontSize: 17, textColor: Colors.mainTextColor)
     private let tableView = MZTableView(isScrollEnabled: false)
     private let addCardButton = MZFloatingButton(bgColor: Colors.primary, tintColor: Colors.background, cornerRadius: 35, systemImage: Texts.HomeScreen.plusIcon)
     
-    //Variables
+    // Variables
     private let coreDataManager = CoreDataManager.shared
-    private var flashcardsByCategory: [String: [Flashcard]] = [:]
-    private var categories: [String] = []
+    private var flashcardsDue: [Flashcard] = []
+    private var flashcardArray : [String] = []
     
-    //Lifecycle
+    // Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Colors.background
         configureView()
-        loadFlashcards()
+        loadDueFlashcards()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        loadFlashcards()
+        loadDueFlashcards()
     }
     
     // Configure the initial view setup
-        private func configureView() {
-            configureTableView()
-            configureNavAndTabBar()
-            configureAddCardButton()
-            setDateLabel()
-            configureCalendarIcon()
-            setupConstraints()
-        }
+    private func configureView() {
+        configureTableView()
+        configureNavAndTabBar()
+        configureAddCardButton()
+        setDateLabel()
+        configureCalendarIcon()
+        setupConstraints()
+    }
     
     // Set Date Label
     private func setDateLabel() {
@@ -70,8 +69,7 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
         calendarIcon.contentMode = .scaleAspectFit
     }
     
-    
-    //TabBar
+    // Configure Navigation and Tab Bar
     private func configureNavAndTabBar() {
         self.navigationItem.title = Texts.HomeScreen.navigationTitle
         self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: Colors.mainTextColor]
@@ -79,25 +77,25 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
         self.tabBarController?.tabBar.tintColor = Colors.primary
     }
     
-    //Load Flashcards
-    private func loadFlashcards() {
-        flashcardsByCategory = coreDataManager.fetchFlashcardsGroupedByCategory()
-        
-        // Sort categories by the earliest creation date within each category
-        categories = flashcardsByCategory.keys.sorted { category1, category2 in
-            let date1 = flashcardsByCategory[category1]?.first?.creationDate ?? Date.distantPast
-            let date2 = flashcardsByCategory[category2]?.first?.creationDate ?? Date.distantPast
-            return date1 > date2
-        }
-        
+    // Load Due Flashcards
+    private func loadDueFlashcards() {
+        flashcardsDue = coreDataManager.fetchDueFlashcards()
         tableView.reloadData()
         
-        // Update pending categories label
-        pendingCategoriesLabel.text = categories.joined(separator: ", ")
         
+        self.flashcardArray = []
+        
+        for flashcard in flashcardsDue {
+            
+            flashcardArray.append(flashcard.category ?? "null")
+        }
+        // Update pending categories label
+        pendingFlashcardsLabel.text = self.flashcardArray.joined(separator: ", ")
         updateTableViewHeight()
+        print(flashcardsDue)
+        print("##############################################")
+        print(flashcardsDue.count)
     }
-    
     
     private func configureTableView() {
         tableView.dataSource = self
@@ -106,18 +104,8 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
     }
     
     private func configureAddCardButton() {
-        
         addCardButton.addTarget(self, action: #selector(pushAddCardVC), for: .touchUpInside)
-        
     }
-    
-    // Update the height of the table view based on the number of categories
-        private func updateTableViewHeight() {
-            tableView.snp.updateConstraints { make in
-                make.height.equalTo(categories.count == 0 ? 40 : categories.count * 50)
-            }
-        }
-    
     
     @objc func pushAddCardVC() {
         DispatchQueue.main.async {
@@ -129,35 +117,40 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
     }
     
     func didAddNewCard() {
-        loadFlashcards()
+        loadDueFlashcards()
+    }
+    
+    // Update the height of the table view based on the number of categories
+    private func updateTableViewHeight() {
+        tableView.snp.updateConstraints { make in
+            make.height.equalTo(flashcardsDue.count == 0 ? 40 : flashcardsDue.count * 50)
+        }
     }
 }
 
-//MARK: - TABLE VIEW CONFIGURATIONS
+// MARK: - UITableViewDataSource, UITableViewDelegate
 extension HomeVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categories.count
+        return flashcardsDue.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Cell.cardListCell, for: indexPath) as? CardListCell else { return UITableViewCell() }
-        let category = categories[indexPath.row]
-        cell.titleLabel.text = category
+        let flashcard = flashcardsDue[indexPath.row]
+        cell.titleLabel.text = flashcard.category
         cell.pendingLabel.text = "3"
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let category = categories[indexPath.row]
-        guard let flashcards = flashcardsByCategory[category] else { return }
+        //let flashcard = flashcardsDue[indexPath.row]
         
         DispatchQueue.main.async {
             let vc = CardVC()
-            vc.titleLabel.text = category
-            vc.flashcards = flashcards
-            vc.modalPresentationStyle = .overFullScreen
-            self.present(vc, animated: true)
+            vc.flashcards = self.flashcardsDue
+            vc.delegate = self
+            self.navigationController?.pushViewController(vc, animated: true)
         }
     }
     
@@ -166,7 +159,14 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-//MARK: - Constraints Setup
+// MARK: - StudyFlashcardDelegate
+extension HomeVC: CardDelegate {
+    func didFinishReviewingFlashcard() {
+        loadDueFlashcards()
+    }
+}
+
+// MARK: - Constraints Setup
 extension HomeVC {
     private func setupConstraints() {
         view.addSubview(scrollView)
@@ -180,8 +180,7 @@ extension HomeVC {
         dashboardContainer.addSubview(dateLabel)
         dashboardContainer.addSubview(calendarIcon)
         dashboardContainer.addSubview(separatorLine)
-        dashboardContainer.addSubview(pendingCategoriesLabel)
-        
+        dashboardContainer.addSubview(pendingFlashcardsLabel)
         
         scrollView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
@@ -222,7 +221,6 @@ extension HomeVC {
             make.left.equalTo(calendarIcon.snp.right).offset(5)
         }
         
-        
         dashboardTitleLabel.snp.makeConstraints { make in
             make.top.greaterThanOrEqualTo(dateLabel.snp.bottom).offset(10)
             make.bottom.equalTo(dashboardInfoLabel.snp.top).offset(-5)
@@ -233,7 +231,6 @@ extension HomeVC {
         dashboardInfoLabel.snp.makeConstraints { make in
             make.left.equalTo(dashboardContainer).offset(20)
             make.right.equalTo(dashboardContainer).offset(-20)
-            
         }
         
         separatorLine.snp.makeConstraints { make in
@@ -243,7 +240,7 @@ extension HomeVC {
             make.height.equalTo(1)
         }
         
-        pendingCategoriesLabel.snp.makeConstraints { make in
+        pendingFlashcardsLabel.snp.makeConstraints { make in
             make.top.equalTo(separatorLine.snp.bottom).offset(10)
             make.left.equalTo(dashboardContainer).offset(20)
             make.right.equalTo(dashboardContainer).offset(-20)
@@ -261,7 +258,7 @@ extension HomeVC {
             make.left.equalTo(contentView)
             make.right.equalTo(contentView)
             make.bottom.equalTo(contentView.snp.bottom).offset(-20)
-            make.height.equalTo(categories.count == 0 ? 40 : categories.count * 50)
+            make.height.equalTo(flashcardsDue.count * 50)
         }
     }
 }
