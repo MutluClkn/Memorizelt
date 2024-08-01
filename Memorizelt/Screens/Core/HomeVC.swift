@@ -29,7 +29,7 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
     // Variables
     private let coreDataManager = CoreDataManager.shared
     private var flashcardsDue: [Flashcard] = []
-    private var flashcardArray : [String] = []
+    private var categoriesDue: [String] = []
     
     // Lifecycle
     override func viewDidLoad() {
@@ -80,21 +80,12 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
     // Load Due Flashcards
     private func loadDueFlashcards() {
         flashcardsDue = coreDataManager.fetchDueFlashcards()
+        categoriesDue = Array(Set(flashcardsDue.compactMap { $0.category }))
         tableView.reloadData()
         
-        
-        self.flashcardArray = []
-        
-        for flashcard in flashcardsDue {
-            
-            flashcardArray.append(flashcard.category ?? "null")
-        }
         // Update pending categories label
-        pendingFlashcardsLabel.text = self.flashcardArray.joined(separator: ", ")
+        pendingFlashcardsLabel.text = categoriesDue.joined(separator: ", ")
         updateTableViewHeight()
-        print(flashcardsDue)
-        print("##############################################")
-        print(flashcardsDue.count)
     }
     
     private func configureTableView() {
@@ -123,7 +114,7 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
     // Update the height of the table view based on the number of categories
     private func updateTableViewHeight() {
         tableView.snp.updateConstraints { make in
-            make.height.equalTo(flashcardsDue.count == 0 ? 40 : flashcardsDue.count * 50)
+            make.height.equalTo(flashcardsDue.isEmpty ? 40 : flashcardsDue.count * 50)
         }
     }
 }
@@ -132,30 +123,32 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
 extension HomeVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return flashcardsDue.count
+        return categoriesDue.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Cell.cardListCell, for: indexPath) as? CardListCell else { return UITableViewCell() }
-        let flashcard = flashcardsDue[indexPath.row]
-        cell.titleLabel.text = flashcard.category
-        cell.pendingLabel.text = "3"
+        let category = categoriesDue[indexPath.row]
+        let flashcardsInCategory = flashcardsDue.filter { $0.category == category }
+        cell.titleLabel.text = category
+        cell.pendingLabel.text = "\(flashcardsInCategory.count)"
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //let flashcard = flashcardsDue[indexPath.row]
+        let category = categoriesDue[indexPath.row]
+        let flashcardsInCategory = flashcardsDue.filter { $0.category == category }
         
         DispatchQueue.main.async {
             let vc = CardVC()
-            vc.flashcards = self.flashcardsDue
+            vc.flashcards = flashcardsInCategory
             vc.delegate = self
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 40
+        return 50
     }
 }
 

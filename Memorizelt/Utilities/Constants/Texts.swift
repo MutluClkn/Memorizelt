@@ -46,6 +46,12 @@ struct Texts {
         
         static let alertTitle = "Card Added Successfully"
         static let alertMessage = "Your new card has been added to the deck. Keep up the good work!"
+        
+        static let duplicateAlerTitle = "Duplicate"
+        static let duplicateAlertMessage = "A flashcard with this question already exists in the selected category."
+        
+        static let unsavedChangesAlertTitle = "Unsaved Changes"
+        static let unsavedChangesAlertMessage = "You have unsaved changes. Do you really want to close?"
     }
     
     struct CardScreen {

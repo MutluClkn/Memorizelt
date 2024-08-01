@@ -60,10 +60,16 @@ class AddNewCardVC: UIViewController {
         guard let question = questionTextField.text, !question.isEmpty,
               let answer = answerTextView.text, !answer.isEmpty,
               let category = categoryTextField.text, !category.isEmpty else {
-            alertMessage(alertTitle: "Error", alertMesssage: "Missing arguments.", completionHandler: nil)
+            alertMessage(alertTitle: "Error", alertMesssage: "Please fill in all fields.", completionHandler: nil)
             return
         }
         
+        // Check for duplicate questions in the same category (if required)
+        if coreDataManager.doesFlashcardExist(question: question, category: category) {
+            alertMessage(alertTitle: Texts.AddNewCardScreen.duplicateAlerTitle, alertMesssage: Texts.AddNewCardScreen.duplicateAlertMessage, completionHandler: nil)
+            return
+        }
+
         // Save flashcard to Core Data
         coreDataManager.addFlashcard(question: question, answer: answer, category: category)
         delegate?.didAddNewCard()
@@ -71,6 +77,20 @@ class AddNewCardVC: UIViewController {
         answerTextView.text = ""
         alertMessage(alertTitle: Texts.AddNewCardScreen.alertTitle, alertMesssage: Texts.AddNewCardScreen.alertMessage, completionHandler: nil)
         loadCategories()
+    }
+    
+    // Close Button Tapped
+    @objc func closeButtonTapped() {
+        if questionTextField.text?.isEmpty == false || answerTextView.text?.isEmpty == false {
+            let alert = UIAlertController(title: Texts.AddNewCardScreen.unsavedChangesAlertTitle, message: Texts.AddNewCardScreen.unsavedChangesAlertMessage, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Close", style: .destructive, handler: { _ in
+                self.dismiss(animated: true)
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            present(alert, animated: true, completion: nil)
+        } else {
+            self.dismiss(animated: true)
+        }
     }
     
     // Setup Constraints
@@ -138,10 +158,5 @@ class AddNewCardVC: UIViewController {
         
         closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
         saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
-    }
-    
-    // Close Button Tapped
-    @objc func closeButtonTapped() {
-        self.dismiss(animated: true)
     }
 }

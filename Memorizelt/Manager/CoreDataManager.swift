@@ -15,7 +15,7 @@ class CoreDataManager {
     private init() {
         persistentContainer = NSPersistentContainer(name: "Flashcard")
         persistentContainer.loadPersistentStores { description, error in
-            if let error {
+            if let error = error {
                 fatalError("Unable to load persistent stores: \(error)")
             }
         }
@@ -56,7 +56,9 @@ class CoreDataManager {
         flashcard.creationDate = Date()
         flashcard.interval = 1
         flashcard.easeFactor = 2.5
-        flashcard.dueDate = Date()
+        flashcard.lastReviewedDate = Date()
+        flashcard.nextReviewDate = Calendar.current.date(byAdding: .day, value: 1, to: Date())
+        flashcard.isReviewed = false
         saveContext()
     }
     
@@ -93,18 +95,18 @@ class CoreDataManager {
         var easeFactor = flashcard.easeFactor
         
         if correct {
-            // User answered correctly, increase interval
             interval = Int64(Double(interval) * easeFactor)
             easeFactor += 0.05
         } else {
-            // User answered incorrectly, reset interval
             interval = 1
             easeFactor = max(1.3, easeFactor - 0.2)
         }
         
         flashcard.interval = max(1, interval)
         flashcard.easeFactor = max(1.3, easeFactor)
-        flashcard.dueDate = Calendar.current.date(byAdding: .day, value: Int(interval), to: Date())
+        flashcard.lastReviewedDate = Date()
+        flashcard.nextReviewDate = Calendar.current.date(byAdding: .day, value: Int(interval), to: Date())
+        flashcard.isReviewed = true
         
         saveContext()
     }
@@ -112,7 +114,7 @@ class CoreDataManager {
     // Fetch Flashcards Due for Review
     func fetchDueFlashcards() -> [Flashcard] {
         let fetchRequest: NSFetchRequest<Flashcard> = Flashcard.fetchRequest()
-        let predicate = NSPredicate(format: "dueDate <= %@", Date() as NSDate)
+        let predicate = NSPredicate(format: "nextReviewDate <= %@", Date() as NSDate)
         fetchRequest.predicate = predicate
         
         do {
@@ -122,88 +124,21 @@ class CoreDataManager {
             return []
         }
     }
-}
-
-
-
-
-
-
-/*
-
-import UIKit
-import CoreData
-
-class CoreDataManager {
-    static let shared = CoreDataManager()
-    let persistentContainer: NSPersistentContainer
     
-    private init() {
-        persistentContainer = NSPersistentContainer(name: "Flashcard")
-        persistentContainer.loadPersistentStores { description, error in
-            if let error {
-                fatalError("Unable to load persistent stores: \(error)")
-            }
-        }
-    }
-    
-    func fetchFlashcardsGroupedByCategory() -> [String: [Flashcard]] {
+    // Check if a Flashcard Exists with the Given Question and Category
+    func doesFlashcardExist(question: String, category: String) -> Bool {
         let fetchRequest: NSFetchRequest<Flashcard> = Flashcard.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
-        var flashcardsByCategory = [String: [Flashcard]]()
+        let questionPredicate = NSPredicate(format: "question == %@", question)
+        let categoryPredicate = NSPredicate(format: "category == %@", category)
+        let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [questionPredicate, categoryPredicate])
+        fetchRequest.predicate = compoundPredicate
         
         do {
-            let flashcards = try persistentContainer.viewContext.fetch(fetchRequest)
-            for flashcard in flashcards {
-                if let category = flashcard.category {
-                    if flashcardsByCategory[category] != nil {
-                        flashcardsByCategory[category]?.append(flashcard)
-                    } else {
-                        flashcardsByCategory[category] = [flashcard]
-                    }
-                }
-            }
+            let matchingFlashcards = try persistentContainer.viewContext.fetch(fetchRequest)
+            return !matchingFlashcards.isEmpty
         } catch {
-            print("Error fetching flashcards: \(error)")
-        }
-        
-        return flashcardsByCategory
-    }
-    
-    
-    func addFlashcard(question: String, answer: String, category: String) {
-        let context = persistentContainer.viewContext
-        let flashcard = Flashcard(context: context)
-        flashcard.id = UUID()
-        flashcard.question = question
-        flashcard.answer = answer
-        flashcard.category = category
-        flashcard.creationDate = Date()
-        saveContext()
-    }
-    
-    func updateFlashcard(flashcard: Flashcard, question: String, answer: String, category: String?) {
-        flashcard.question = question
-        flashcard.answer = answer
-        flashcard.category = category
-        saveContext()
-    }
-    
-    func deleteFlashcard(flashcard: Flashcard) {
-        let context = persistentContainer.viewContext
-        context.delete(flashcard)
-        saveContext()
-    }
-    
-    func saveContext() {
-        let context = persistentContainer.viewContext
-        if context.hasChanges {
-            do {
-                try context.save()
-            } catch {
-                print("Error saving context: \(error)")
-            }
+            print("Error checking if flashcard exists: \(error)")
+            return false
         }
     }
 }
-*/

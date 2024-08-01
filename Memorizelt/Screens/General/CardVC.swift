@@ -1,17 +1,18 @@
+// CardVC.swift
+// Memorizelt
 //
-//  CardVC.swift
-//  Memorizelt
-//
-//  Created by Mutlu Çalkan on 17.07.2024.
+// Created by Mutlu Çalkan on 17.07.2024.
 //
 
 import UIKit
 import SnapKit
 
+//MARK: - CardDelegate Protocol
 protocol CardDelegate: AnyObject {
     func didFinishReviewingFlashcard()
 }
 
+//MARK: - CardVC
 final class CardVC: UIViewController {
 
     // MARK: - Buttons
@@ -63,8 +64,8 @@ final class CardVC: UIViewController {
 
     private func currentQuestionAndAnswer() {
         if !flashcards.isEmpty {
-            frontText = flashcards[cardIndex].question!
-            backText = flashcards[cardIndex].answer!
+            frontText = flashcards[cardIndex].question ?? "Question not available"
+            backText = flashcards[cardIndex].answer ?? "Answer not available"
         }
     }
 
@@ -84,12 +85,17 @@ final class CardVC: UIViewController {
         cardView.transform = CGAffineTransform(rotationAngle: rotationAngle)
 
         if gesture.state == .ended {
-            if abs(translation.x) > cardWidth / 4 {
+            let didSwipeRight = translation.x > cardWidth / 4
+            let didSwipeLeft = translation.x < -cardWidth / 4
+            
+            if didSwipeRight || didSwipeLeft {
                 UIView.animate(withDuration: 0.3, animations: {
-                    if translation.x > 0 {
+                    if didSwipeRight {
                         self.cardView.center = CGPoint(x: self.view.frame.width + cardWidth, y: self.cardView.center.y)
-                    } else {
+                        self.updateFlashcardAfterReview(isCorrect: true)
+                    } else if didSwipeLeft {
                         self.cardView.center = CGPoint(x: -cardWidth, y: self.cardView.center.y)
+                        self.updateFlashcardAfterReview(isCorrect: false)
                     }
                     self.cardView.alpha = 0
                 }) { _ in
@@ -106,6 +112,18 @@ final class CardVC: UIViewController {
             }
         }
     }
+
+    private func updateFlashcardAfterReview(isCorrect: Bool) {
+        let flashcard = flashcards[cardIndex]
+        flashcard.isReviewed = true
+        flashcard.isCorrect = isCorrect
+        flashcard.lastReviewedDate = Date()
+
+        let calendar = Calendar.current
+        let nextReviewInterval: TimeInterval = isCorrect ? 3 * 24 * 60 * 60 : 1 * 24 * 60 * 60
+        flashcard.nextReviewDate = calendar.date(byAdding: .second, value: Int(nextReviewInterval), to: Date())
+    }
+
 
     private func showNextCard() {
         if cardIndex < flashcards.count - 1 {
@@ -215,52 +233,32 @@ extension CardVC {
         }
 
         scrollView.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(32)
+            make.edges.equalTo(cardView).inset(20)
         }
 
         cardLabel.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-            make.width.equalTo(scrollView)
+            make.edges.equalTo(scrollView)
+            make.width.equalTo(scrollView.snp.width)
         }
-
-        // Buttons' Target
-        flipButton.addTarget(self, action: #selector(flipCard), for: .touchUpInside)
-        closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
-        infoButton.addTarget(self, action: #selector(infoButtonTapped), for: .touchUpInside)
     }
 
-    private func setupNextCardView(nextCardView: MZContainerView, offset: CGFloat) {
-        view.addSubview(nextCardView)
-        nextCardView.backgroundColor = Colors.primary.withAlphaComponent(0.8)
-        nextCardView.layer.cornerRadius = 20
-        nextCardView.layer.shadowColor = UIColor.black.cgColor
-        nextCardView.layer.shadowOpacity = 0.2
-        nextCardView.layer.shadowOffset = CGSize(width: 0, height: 5)
-        nextCardView.layer.shadowRadius = 10
-
+    private func setupNextCardView(nextCardView: UIView, offset: CGFloat) {
+        view.insertSubview(nextCardView, belowSubview: cardView)
         nextCardView.snp.makeConstraints { make in
-            make.top.equalTo(reviewedLabel.snp.bottom).offset(50 + offset)
-            make.left.equalTo(view).offset(30 + offset)
-            make.right.equalTo(view).offset(-30 + offset)
-            make.height.equalTo(view.snp.height).multipliedBy(0.67).offset(-100)
+            make.centerX.equalTo(view)
+            make.centerY.equalTo(view).offset(offset)
+            make.width.equalTo(view.snp.width).multipliedBy(0.8)
+            make.height.equalTo(view.snp.height).multipliedBy(0.45)
         }
     }
 
     private func setupCurrentCardView() {
-        cardView.layer.cornerRadius = 20
-        cardView.layer.shadowColor = UIColor.black.cgColor
-        cardView.layer.shadowOpacity = 0.3
-        cardView.layer.shadowOffset = CGSize(width: 0, height: 10)
-        cardView.layer.shadowRadius = 20
-        cardView.layer.borderColor = Colors.secondary.cgColor
-        cardView.layer.borderWidth = 0.5
-
         view.addSubview(cardView)
         cardView.snp.makeConstraints { make in
-            make.top.equalTo(reviewedLabel.snp.bottom).offset(50)
-            make.left.equalTo(view).offset(30)
-            make.right.equalTo(view).offset(-30)
-            make.height.equalTo(view.snp.height).multipliedBy(0.67).offset(-100)
+            make.centerX.equalTo(view)
+            make.centerY.equalTo(view)
+            make.width.equalTo(view.snp.width).multipliedBy(0.8)
+            make.height.equalTo(view.snp.height).multipliedBy(0.45)
         }
     }
 }
