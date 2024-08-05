@@ -45,6 +45,26 @@ class CoreDataManager {
         return flashcardsByCategory
     }
     
+    
+    // Fetch Flashcards for Home Screen
+    func fetchFlashcardsForHome() -> [Flashcard] {
+        let fetchRequest: NSFetchRequest<Flashcard> = Flashcard.fetchRequest()
+        let predicate = NSCompoundPredicate(orPredicateWithSubpredicates: [
+            NSPredicate(format: "isNew == YES"),
+            NSPredicate(format: "nextReviewDate <= %@", Date() as NSDate)
+        ])
+        fetchRequest.predicate = predicate
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "category", ascending: true)]
+        
+        do {
+            return try persistentContainer.viewContext.fetch(fetchRequest)
+        } catch {
+            print("Error fetching flashcards: \(error)")
+            return []
+        }
+    }
+    
+    
     // Add Flashcard
     func addFlashcard(question: String, answer: String, category: String) {
         let context = persistentContainer.viewContext
@@ -59,6 +79,7 @@ class CoreDataManager {
         flashcard.lastReviewedDate = Date()
         flashcard.nextReviewDate = Calendar.current.date(byAdding: .day, value: 1, to: Date())
         flashcard.isReviewed = false
+        flashcard.isNew = true
         saveContext()
     }
     
@@ -89,7 +110,8 @@ class CoreDataManager {
         }
     }
     
-    // Spaced Repetition Algorithm
+    
+    // Update Flashcard after Review
     func updateFlashcardAfterReview(flashcard: Flashcard, correct: Bool) {
         var interval = flashcard.interval
         var easeFactor = flashcard.easeFactor
@@ -107,6 +129,7 @@ class CoreDataManager {
         flashcard.lastReviewedDate = Date()
         flashcard.nextReviewDate = Calendar.current.date(byAdding: .day, value: Int(interval), to: Date())
         flashcard.isReviewed = true
+        flashcard.isNew = false
         
         saveContext()
     }

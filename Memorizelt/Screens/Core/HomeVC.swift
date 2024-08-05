@@ -79,7 +79,7 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
     
     // Load Due Flashcards
     private func loadDueFlashcards() {
-        flashcardsDue = coreDataManager.fetchDueFlashcards()
+        flashcardsDue = coreDataManager.fetchFlashcardsForHome()
         categoriesDue = Array(Set(flashcardsDue.compactMap { $0.category }))
         tableView.reloadData()
         
@@ -141,9 +141,11 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate {
         
         DispatchQueue.main.async {
             let vc = CardVC()
+            vc.modalPresentationStyle = .overFullScreen
             vc.flashcards = flashcardsInCategory
+            vc.titleLabel.text = category
             vc.delegate = self
-            self.navigationController?.pushViewController(vc, animated: true)
+            self.present(vc, animated: true)
         }
     }
     

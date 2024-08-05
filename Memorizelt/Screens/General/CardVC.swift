@@ -44,6 +44,7 @@ final class CardVC: UIViewController {
 
     // MARK: - Variables
     var flashcards: [Flashcard] = []
+    private let coreDataManager = CoreDataManager.shared
     private let frontFont = UIFont(name: Fonts.interBold, size: 50)
     private let backFont = UIFont(name: Fonts.interMedium, size: 20)
     private var isShowingFront = true
@@ -60,6 +61,7 @@ final class CardVC: UIViewController {
         setupGestureRecognizers()
         currentQuestionAndAnswer()
         cardLabel.text = frontText
+        buttonConfiguration()
     }
 
     private func currentQuestionAndAnswer() {
@@ -92,10 +94,10 @@ final class CardVC: UIViewController {
                 UIView.animate(withDuration: 0.3, animations: {
                     if didSwipeRight {
                         self.cardView.center = CGPoint(x: self.view.frame.width + cardWidth, y: self.cardView.center.y)
-                        self.updateFlashcardAfterReview(isCorrect: true)
+                        self.coreDataManager.updateFlashcardAfterReview(flashcard: self.flashcards[self.cardIndex], correct: true)
                     } else if didSwipeLeft {
                         self.cardView.center = CGPoint(x: -cardWidth, y: self.cardView.center.y)
-                        self.updateFlashcardAfterReview(isCorrect: false)
+                        self.coreDataManager.updateFlashcardAfterReview(flashcard: self.flashcards[self.cardIndex], correct: false)
                     }
                     self.cardView.alpha = 0
                 }) { _ in
@@ -112,19 +114,8 @@ final class CardVC: UIViewController {
             }
         }
     }
-
-    private func updateFlashcardAfterReview(isCorrect: Bool) {
-        let flashcard = flashcards[cardIndex]
-        flashcard.isReviewed = true
-        flashcard.isCorrect = isCorrect
-        flashcard.lastReviewedDate = Date()
-
-        let calendar = Calendar.current
-        let nextReviewInterval: TimeInterval = isCorrect ? 3 * 24 * 60 * 60 : 1 * 24 * 60 * 60
-        flashcard.nextReviewDate = calendar.date(byAdding: .second, value: Int(nextReviewInterval), to: Date())
-    }
-
-
+    
+    
     private func showNextCard() {
         if cardIndex < flashcards.count - 1 {
             cardIndex += 1
@@ -136,6 +127,13 @@ final class CardVC: UIViewController {
             delegate?.didFinishReviewingFlashcard()
             dismiss(animated: true, completion: nil)
         }
+    }
+    
+    //MARK: - Buttons
+    private func buttonConfiguration() {
+        self.closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
+        self.infoButton.addTarget(self, action: #selector(infoButtonTapped), for: .touchUpInside)
+        self.flipButton.addTarget(self, action: #selector(flipCard), for: .touchUpInside)
     }
 
     // MARK: - Button Actions
@@ -153,7 +151,7 @@ final class CardVC: UIViewController {
     }
 
     @objc func closeButtonTapped() {
-        dismiss(animated: true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
 
     @objc func infoButtonTapped() {
