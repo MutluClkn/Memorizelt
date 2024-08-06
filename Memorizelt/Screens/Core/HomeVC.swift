@@ -153,6 +153,7 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate {
             vc.modalPresentationStyle = .overFullScreen
             vc.flashcards = flashcardsInCategory
             vc.titleLabel.text = category
+            vc.totalCount = Float(flashcardsInCategory.count)
             vc.delegate = self
             self.present(vc, animated: true)
         }

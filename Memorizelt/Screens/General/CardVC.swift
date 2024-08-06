@@ -32,7 +32,7 @@ final class CardVC: UIViewController {
         progressView.translatesAutoresizingMaskIntoConstraints = false
         progressView.progressTintColor = Colors.accent
         progressView.trackTintColor = Colors.secondary
-        progressView.setProgress(0.2, animated: false)
+        progressView.setProgress(0.0, animated: false)
         return progressView
     }()
 
@@ -51,16 +51,24 @@ final class CardVC: UIViewController {
     var frontText = "FRONT"
     var backText = "BACK"
     var cardIndex = 0
+    var reviewedCount = 0
+    var totalCount: Float = 0.0
+    var progressIncrease: Float = 0.0
+    var progress: Float = 0.0
     weak var delegate: CardDelegate?
 
     // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Colors.background
+        currentQuestionAndAnswer()
+        
+        cardLabel.text = frontText
+        totalLabel.text = "\(Int(totalCount)) cards"
+        progressIncrease = 1 / totalCount
+        
         setupCardView()
         setupGestureRecognizers()
-        currentQuestionAndAnswer()
-        cardLabel.text = frontText
         buttonConfiguration()
     }
 
@@ -122,6 +130,11 @@ final class CardVC: UIViewController {
             currentQuestionAndAnswer()
             cardLabel.text = frontText
             cardLabel.font = frontFont
+            reviewedCount = reviewedCount + 1
+            reviewedLabel.text = "\(reviewedCount) cards reviewed"
+            progress = progress + progressIncrease
+            print(progressIncrease)
+            progressView.setProgress(progress, animated: true)
             isShowingFront = true
         } else {
             // Notify the delegate that the review session is finished

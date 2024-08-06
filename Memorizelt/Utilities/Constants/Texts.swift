@@ -13,7 +13,7 @@ struct Texts {
         static let dashboardInfo = "You have 3 cards to study today"
         static let pendingCategories = "English, Deneme, Math"
         
-        static let reviewedCardText = "2 cards reviewed"
+        static let reviewedCardText = "0 cards reviewed"
         static let totalCardText = "30 cards"
     }
     
