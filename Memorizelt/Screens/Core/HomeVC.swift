@@ -123,10 +123,18 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
         let pendingFlashcards = coreDataManager.fetchPendingFlashcards()
         
         groupFlashcardsByCategory(newFlashcards: newFlashcards, pendingFlashcards: pendingFlashcards)
+        
+        categoriesDue = Array(flashcardCounts.keys).sorted { category1, category2 in
+                let flashcards1 = coreDataManager.fetchNewAndPendingFlashcards(forCategory: category1)
+                let flashcards2 = coreDataManager.fetchNewAndPendingFlashcards(forCategory: category2)
+                
+                guard let date1 = flashcards1.first?.creationDate else { return false }
+                guard let date2 = flashcards2.first?.creationDate else { return true }
+                
+                return date1 < date2
+            }
 
         tableView.reloadData()
-        
-        categoriesDue = Array(flashcardCounts.keys)
         
         // Update pending categories label
         pendingFlashcardsLabel.text = categoriesDue.joined(separator: ", ")
@@ -168,24 +176,24 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
 extension HomeVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return flashcardCounts.count
+        return categoriesDue.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Cell.cardListCell, for: indexPath) as? CardListCell else { return UITableViewCell() }
         
-        let category = Array(flashcardCounts.keys)[indexPath.row]
-        let counts = flashcardCounts[category]!
-        
-        cell.titleLabel.text = category
-        cell.newQuantity.text = "\(counts.newCount)"
-        cell.pendingQuantity.text = "\(counts.pendingCount)"
+        let category = categoriesDue[indexPath.row]
+                let counts = flashcardCounts[category]!
+                
+                cell.titleLabel.text = category
+                cell.newQuantity.text = "\(counts.newCount)"
+                cell.pendingQuantity.text = "\(counts.pendingCount)"
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let category = Array(flashcardCounts.keys)[indexPath.row]
+        let category = categoriesDue[indexPath.row]
         let flashcardsForCategory = coreDataManager.fetchNewAndPendingFlashcards(forCategory: category)
         
         DispatchQueue.main.async {

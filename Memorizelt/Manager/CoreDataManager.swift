@@ -45,13 +45,12 @@ class CoreDataManager {
         return flashcardsByCategory
     }
     
-    
     // Fetch New Flashcards for Home Screen
     func fetchNewFlashcards() -> [Flashcard] {
         let fetchRequest: NSFetchRequest<Flashcard> = Flashcard.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "isNew == YES")
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "category", ascending: true)]
-        
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)] // Ensure sorting by creationDate
+
         do {
             return try persistentContainer.viewContext.fetch(fetchRequest)
         } catch {
@@ -59,13 +58,13 @@ class CoreDataManager {
             return []
         }
     }
-    
+
     // Fetch Pending Flashcards for Home Screen
     func fetchPendingFlashcards() -> [Flashcard] {
         let fetchRequest: NSFetchRequest<Flashcard> = Flashcard.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "nextReviewDate <= %@", Date() as NSDate)
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "category", ascending: true)]
-        
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)] // Ensure sorting by creationDate
+
         do {
             return try persistentContainer.viewContext.fetch(fetchRequest)
         } catch {
@@ -73,7 +72,7 @@ class CoreDataManager {
             return []
         }
     }
-    
+
     
     // Fetch new and pending Flashcards for a specific category
     func fetchNewAndPendingFlashcards(forCategory category: String) -> [Flashcard] {
