@@ -84,7 +84,9 @@ extension DecksVC: UITableViewDataSource, UITableViewDelegate {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Cell.deckListCell, for: indexPath) as? DeckListCell else { return UITableViewCell() }
         
         let category = categories[indexPath.row]
+        
         cell.titleLabel.text = category
+        cell.quantity.text = "(\(category.count))"
         
         cell.tintColor = Colors.accent
         cell.accessoryType = .disclosureIndicator
@@ -94,7 +96,7 @@ extension DecksVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 40
+        return 50
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {

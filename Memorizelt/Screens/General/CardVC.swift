@@ -203,6 +203,7 @@ final class CardVC: UIViewController {
     }
     
     @objc func closeButtonTapped() {
+        delegate?.didFinishReviewingFlashcard()
         self.dismiss(animated: true, completion: nil)
     }
     

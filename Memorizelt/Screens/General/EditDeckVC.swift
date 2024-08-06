@@ -59,7 +59,7 @@ final class EditDeckVC: UIViewController {
         
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(DeckListCell.self, forCellReuseIdentifier: Cell.deckListCell)
+        tableView.register(EditDeckCell.self, forCellReuseIdentifier: Cell.editDeckCell)
     }
     
     //Setup Constraints
@@ -76,7 +76,7 @@ final class EditDeckVC: UIViewController {
             make.top.equalTo(categoryTextField.snp.bottom).offset(30)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
-            make.bottom.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         
     }
@@ -140,7 +140,7 @@ extension EditDeckVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: Cell.deckListCell, for: indexPath) as? DeckListCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: Cell.editDeckCell, for: indexPath) as? EditDeckCell else { return UITableViewCell() }
         cell.titleLabel.text = flashcards[indexPath.row].question
         cell.accessoryType = .disclosureIndicator
         return cell
@@ -167,7 +167,7 @@ extension EditDeckVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 40
+        return 50
     }
 }
 

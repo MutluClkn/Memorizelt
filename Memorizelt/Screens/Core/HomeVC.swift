@@ -21,7 +21,7 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
     private let dashboardTitleLabel = MZLabel(text: Texts.HomeScreen.dashboardTitle, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: Colors.alternativeTextColor)
     private let dashboardInfoLabel = MZLabel(text: Texts.PrototypeTexts.dashboardInfo, textAlignment: .left, numberOfLines: 0, fontName: Fonts.interSemiBold, fontSize: 22, textColor: Colors.alternativeTextColor)
     private let dashboardSeparatorLine = MZContainerView(cornerRadius: 0, bgColor: Colors.secondary)
-    private let pendingFlashcardsLabel = MZLabel(text: "", textAlignment: .left, numberOfLines: 0, fontName: Fonts.interMedium, fontSize: 14, textColor: Colors.accent)
+    private let pendingFlashcardsLabel = MZLabel(text: "", textAlignment: .left, numberOfLines: 0, fontName: Fonts.interMedium, fontSize: 12, textColor: Colors.accent)
     private let tableViewTitleLabel = MZLabel(text: Texts.HomeScreen.tableViewTitle, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interBold, fontSize: 17, textColor: Colors.mainTextColor)
     private let tableViewSeparatorLine = MZContainerView(cornerRadius: 0, bgColor: Colors.secondary)
     private let tableView = MZTableView(isScrollEnabled: false)
@@ -29,7 +29,8 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
     
     // Variables
     private let coreDataManager = CoreDataManager.shared
-    private var flashcardsDue: [Flashcard] = []
+    private var flashcardCounts: [String: FlashcardCount] = [:]
+    private var flaschardsDue: [Flashcard] = []
     private var categoriesDue: [String] = []
     
     // Lifecycle
@@ -78,20 +79,54 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
         self.tabBarController?.tabBar.tintColor = Colors.primary
     }
     
-    // Load Due Flashcards
-    private func loadDueFlashcards() {
-        flashcardsDue = coreDataManager.fetchFlashcardsForHome()
-        categoriesDue = Array(Set(flashcardsDue.compactMap { $0.category }))
-        tableView.reloadData()
+    // Group flashcards by category and calculate counts
+    private func groupFlashcardsByCategory(newFlashcards: [Flashcard], pendingFlashcards: [Flashcard]) {
+        var flashcardCounts: [String: FlashcardCount] = [:]
+        
+        var total = 0
+        
+        for flashcard in newFlashcards {
+            let category = flashcard.category ?? "Unknown"
+            if flashcardCounts[category] == nil {
+                flashcardCounts[category] = FlashcardCount(newCount: 0, pendingCount: 0)
+            }
+            flashcardCounts[category]?.newCount += 1
+            total += 1
+        }
+        
+        for flashcard in pendingFlashcards {
+            let category = flashcard.category ?? "Unknown"
+            if flashcardCounts[category] == nil {
+                flashcardCounts[category] = FlashcardCount(newCount: 0, pendingCount: 0)
+            }
+            flashcardCounts[category]?.pendingCount += 1
+            total += 1
+        }
         
         // Update dashboard
-        if flashcardsDue.count > 0 {
-            self.dashboardInfoLabel.text = "You have \(flashcardsDue.count) flashcards to review today."
+        if flashcardCounts.count > 0 {
+            self.dashboardInfoLabel.text = "You have \(total) flashcards to review today."
         } else {
             self.dashboardInfoLabel.text = "All flashcards have been reviewed. Great job!"
         }
-
         
+        // Filter out categories with zero counts
+        self.flashcardCounts = flashcardCounts.filter { $0.value.newCount > 0 || $0.value.pendingCount > 0 }
+
+    }
+    
+    
+    // Load Due Flashcards
+    private func loadDueFlashcards() {
+        
+        let newFlashcards = coreDataManager.fetchNewFlashcards()
+        let pendingFlashcards = coreDataManager.fetchPendingFlashcards()
+        
+        groupFlashcardsByCategory(newFlashcards: newFlashcards, pendingFlashcards: pendingFlashcards)
+
+        tableView.reloadData()
+        
+        categoriesDue = Array(flashcardCounts.keys)
         
         // Update pending categories label
         pendingFlashcardsLabel.text = categoriesDue.joined(separator: ", ")
@@ -124,7 +159,7 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
     // Update the height of the table view based on the number of categories
     private func updateTableViewHeight() {
         tableView.snp.updateConstraints { make in
-            make.height.equalTo(flashcardsDue.isEmpty ? 40 : flashcardsDue.count * 100)
+            make.height.equalTo(flashcardCounts.isEmpty ? 40 : flashcardCounts.count * 74)
         }
     }
 }
@@ -133,35 +168,39 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
 extension HomeVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categoriesDue.count
+        return flashcardCounts.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Cell.cardListCell, for: indexPath) as? CardListCell else { return UITableViewCell() }
-        let category = categoriesDue[indexPath.row]
-        let flashcardsInCategory = flashcardsDue.filter { $0.category == category }
+        
+        let category = Array(flashcardCounts.keys)[indexPath.row]
+        let counts = flashcardCounts[category]!
+        
         cell.titleLabel.text = category
-        cell.newQuantity.text = "\(flashcardsInCategory.count)"
+        cell.newQuantity.text = "\(counts.newCount)"
+        cell.pendingQuantity.text = "\(counts.pendingCount)"
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let category = categoriesDue[indexPath.row]
-        let flashcardsInCategory = flashcardsDue.filter { $0.category == category }
+        let category = Array(flashcardCounts.keys)[indexPath.row]
+        let flashcardsForCategory = coreDataManager.fetchNewAndPendingFlashcards(forCategory: category)
         
         DispatchQueue.main.async {
             let vc = CardVC()
             vc.modalPresentationStyle = .overFullScreen
-            vc.flashcards = flashcardsInCategory
+            vc.flashcards = flashcardsForCategory
             vc.titleLabel.text = category
-            vc.totalCount = Float(flashcardsInCategory.count)
+            vc.totalCount = Float(flashcardsForCategory.count)
             vc.delegate = self
             self.present(vc, animated: true)
         }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return 64
     }
 }
 
@@ -229,7 +268,7 @@ extension HomeVC {
         }
         
         dashboardTitleLabel.snp.makeConstraints { make in
-            make.top.greaterThanOrEqualTo(dateLabel.snp.bottom).offset(10)
+            make.top.greaterThanOrEqualTo(dateLabel.snp.bottom).offset(50)
             make.bottom.equalTo(dashboardInfoLabel.snp.top).offset(-5)
             make.left.equalTo(dashboardContainer).offset(20)
             make.right.equalTo(dashboardContainer).offset(-20)
@@ -241,7 +280,7 @@ extension HomeVC {
         }
         
         dashboardSeparatorLine.snp.makeConstraints { make in
-            make.top.equalTo(dashboardInfoLabel.snp.bottom).offset(10)
+            make.top.equalTo(dashboardInfoLabel.snp.bottom).offset(15)
             make.left.equalTo(dashboardContainer).offset(20)
             make.right.equalTo(dashboardContainer).offset(-20)
             make.height.equalTo(1)
@@ -251,7 +290,7 @@ extension HomeVC {
             make.top.equalTo(dashboardSeparatorLine.snp.bottom).offset(10)
             make.left.equalTo(dashboardContainer).offset(20)
             make.right.equalTo(dashboardContainer).offset(-20)
-            make.bottom.equalTo(dashboardContainer).offset(-20)
+            make.bottom.equalTo(dashboardContainer).offset(-15)
         }
         
         tableViewTitleLabel.snp.makeConstraints { make in
@@ -272,7 +311,7 @@ extension HomeVC {
             make.left.equalTo(contentView)
             make.right.equalTo(contentView)
             make.bottom.equalTo(contentView.snp.bottom).offset(-20)
-            make.height.equalTo(flashcardsDue.count * 50)
+            make.height.equalTo(flaschardsDue.count * 50)
         }
     }
 }

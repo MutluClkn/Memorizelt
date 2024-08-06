@@ -10,9 +10,15 @@ import SnapKit
 
 class CardListCell: UITableViewCell {
     
+    let image : UIImageView = {
+        let image = UIImageView(image: UIImage(systemName:"clock.arrow.circlepath"))
+        image.tintColor = Colors.accent
+        return image
+    }()
+    
     let titleLabel : UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: Fonts.interSemiBold, size: 18)
+        label.font = UIFont(name: Fonts.interSemiBold, size: 15)
         label.textColor = Colors.mainTextColor
         label.textAlignment = .left
         return label
@@ -20,38 +26,54 @@ class CardListCell: UITableViewCell {
     
     let newTitle: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: Fonts.interRegular, size: 14)
+        label.font = UIFont(name: Fonts.interRegular, size: 11)
         label.text = "New"
         label.textColor = Colors.mainTextColor
-        label.textAlignment = .left
+        label.textAlignment = .center
         return label
     }()
     
     let newQuantity: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: Fonts.interMedium, size: 15)
+        label.font = UIFont(name: Fonts.interMedium, size: 14)
         label.text = "0"
         label.textColor = Colors.secondary
-        label.textAlignment = .left
+        label.textAlignment = .center
         return label
     }()
     
     let pendingTitle: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: Fonts.interRegular, size: 14)
+        label.font = UIFont(name: Fonts.interRegular, size: 11)
         label.text = "Pending"
         label.textColor = Colors.mainTextColor
-        label.textAlignment = .right
+        label.textAlignment = .center
         return label
     }()
     
     let pendingQuantity : UILabel = {
         let label = UILabel()
-        label.textColor = Colors.secondary
+        label.textColor = Colors.accent
         label.text = "0"
-        label.textAlignment = .right
-        label.font = UIFont(name: Fonts.interMedium, size: 15)
+        label.textAlignment = .center
+        label.font = UIFont(name: Fonts.interMedium, size: 14)
         return label
+    }()
+    
+    let newStack: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.alignment = .center
+        stack.spacing = 2
+        return stack
+    }()
+    
+    let pendingStack: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.alignment = .center
+        stack.spacing = 2
+        return stack
     }()
     
     
@@ -68,39 +90,37 @@ class CardListCell: UITableViewCell {
     
     
     private func setupViews() {
+        contentView.addSubview(image)
         contentView.addSubview(titleLabel)
-        contentView.addSubview(newTitle)
-        contentView.addSubview(newQuantity)
-        contentView.addSubview(pendingTitle)
-        contentView.addSubview(pendingQuantity)
+        contentView.addSubview(newStack)
+        contentView.addSubview(pendingStack)
+        
+        newStack.addArrangedSubview(newQuantity)
+        newStack.addArrangedSubview(newTitle)
+        
+        pendingStack.addArrangedSubview(pendingQuantity)
+        pendingStack.addArrangedSubview(pendingTitle)
+        
+        
+        image.snp.makeConstraints { make in
+            make.centerY.equalTo(titleLabel)
+            make.left.equalTo(contentView).offset(30)
+            make.height.width.equalTo(15)
+        }
         
         titleLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(newStack)
+            make.left.equalTo(image.snp.right).offset(5)
+        }
+        
+        newStack.snp.makeConstraints { make in
             make.top.equalTo(contentView).offset(15)
-            make.left.equalTo(contentView).offset(35)
-            make.right.equalTo(contentView).offset(-35)
+            make.right.equalTo(pendingStack.snp.left).offset(-30)
         }
         
-        newQuantity.snp.makeConstraints { make in
-            make.top.greaterThanOrEqualTo(titleLabel.snp.bottom).offset(15)
-            make.centerX.equalTo(newTitle)
-            make.bottom.equalTo(newTitle.snp.top).offset(-5)
-        }
-        
-        newTitle.snp.makeConstraints { make in
-            make.bottom.equalTo(contentView).offset(-15)
-            make.left.equalTo(contentView).offset(50)
-        }
-        
-        pendingTitle.snp.makeConstraints { make in
-            make.bottom.equalTo(contentView).offset(-15)
-            make.right.equalTo(contentView).offset(-50)
-        }
-        
-        pendingQuantity.snp.makeConstraints { make in
-            make.top.greaterThanOrEqualTo(titleLabel.snp.bottom).offset(15)
-            make.centerX.equalTo(pendingTitle)
-            make.bottom.equalTo(pendingTitle.snp.top).offset(-5)
+        pendingStack.snp.makeConstraints { make in
+            make.centerY.equalTo(newStack)
+            make.right.equalTo(contentView).offset(-30)
         }
     }
-    
 }

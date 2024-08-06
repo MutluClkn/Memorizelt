@@ -32,6 +32,8 @@
 		FAA6CD722C5654BA00BD941A /* Texts.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA6CD712C5654BA00BD941A /* Texts.swift */; };
 		FAA84E1B2C621D7000211AC1 /* SuccessAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = FAA84E192C621D7000211AC1 /* SuccessAnimation.json */; };
 		FAA84E1C2C621D7000211AC1 /* SuccessAnimation2.json in Resources */ = {isa = PBXBuildFile; fileRef = FAA84E1A2C621D7000211AC1 /* SuccessAnimation2.json */; };
+		FAA84E1F2C623AC900211AC1 /* FlashcardCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA84E1E2C623AC900211AC1 /* FlashcardCount.swift */; };
+		FAA84E212C6256BA00211AC1 /* EditDeckCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA84E202C6256BA00211AC1 /* EditDeckCell.swift */; };
 		FAACADFA2C4E51BF00DBB93A /* HexColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAACADF92C4E51BF00DBB93A /* HexColor.swift */; };
 		FAB0AA382C4CF1DA0049EAFD /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB0AA372C4CF1DA0049EAFD /* TabBarVC.swift */; };
 		FAB0AA3A2C4CF2DA0049EAFD /* DecksVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB0AA392C4CF2DA0049EAFD /* DecksVC.swift */; };
@@ -81,6 +83,8 @@
 		FAA6CD712C5654BA00BD941A /* Texts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Texts.swift; sourceTree = "<group>"; };
 		FAA84E192C621D7000211AC1 /* SuccessAnimation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SuccessAnimation.json; sourceTree = "<group>"; };
 		FAA84E1A2C621D7000211AC1 /* SuccessAnimation2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SuccessAnimation2.json; sourceTree = "<group>"; };
+		FAA84E1E2C623AC900211AC1 /* FlashcardCount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashcardCount.swift; sourceTree = "<group>"; };
+		FAA84E202C6256BA00211AC1 /* EditDeckCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDeckCell.swift; sourceTree = "<group>"; };
 		FAACADF92C4E51BF00DBB93A /* HexColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexColor.swift; sourceTree = "<group>"; };
 		FAB0AA372C4CF1DA0049EAFD /* TabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
 		FAB0AA392C4CF2DA0049EAFD /* DecksVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecksVC.swift; sourceTree = "<group>"; };
@@ -190,6 +194,14 @@
 			path = Animations;
 			sourceTree = "<group>";
 		};
+		FAA84E1D2C623A9D00211AC1 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				FAA84E1E2C623AC900211AC1 /* FlashcardCount.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		FAACADF82C4E51B000DBB93A /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -262,6 +274,7 @@
 			children = (
 				FAB9DC582C4541E30051D754 /* CardListCell.swift */,
 				FAD6DD292C5295B600A65EA7 /* DeckListCell.swift */,
+				FAA84E202C6256BA00211AC1 /* EditDeckCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -287,6 +300,7 @@
 		FAB9DC3A2C4530FC0051D754 /* Memorizelt */ = {
 			isa = PBXGroup;
 			children = (
+				FAA84E1D2C623A9D00211AC1 /* Models */,
 				FAD6DD142C522CF900A65EA7 /* Manager */,
 				FAB0AA412C4D15320049EAFD /* CustomViews */,
 				FAB0AA3F2C4D14EB0049EAFD /* Utilities */,
@@ -441,6 +455,7 @@
 				FAA6CD702C5652AA00BD941A /* MZTableView.swift in Sources */,
 				FAA2EF742C552004007F8E2C /* MZScrollView.swift in Sources */,
 				FAB9DC3E2C4530FC0051D754 /* SceneDelegate.swift in Sources */,
+				FAA84E212C6256BA00211AC1 /* EditDeckCell.swift in Sources */,
 				FAA2EF6E2C54C743007F8E2C /* MZSearchTextField.swift in Sources */,
 				FAD6DD1C2C52449200A65EA7 /* MZImageButton.swift in Sources */,
 				FAD6DD1A2C52431E00A65EA7 /* MZButton.swift in Sources */,
@@ -460,6 +475,7 @@
 				FAB9DC552C453E000051D754 /* HomeVC.swift in Sources */,
 				FAB9DC462C4530FC0051D754 /* Flashcard.xcdatamodeld in Sources */,
 				FAD6DD222C5266E900A65EA7 /* MZTextField.swift in Sources */,
+				FAA84E1F2C623AC900211AC1 /* FlashcardCount.swift in Sources */,
 				FAB0AA3A2C4CF2DA0049EAFD /* DecksVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

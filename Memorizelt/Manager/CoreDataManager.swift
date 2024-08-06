@@ -46,23 +46,56 @@ class CoreDataManager {
     }
     
     
-    // Fetch Flashcards for Home Screen
-    func fetchFlashcardsForHome() -> [Flashcard] {
+    // Fetch New Flashcards for Home Screen
+    func fetchNewFlashcards() -> [Flashcard] {
         let fetchRequest: NSFetchRequest<Flashcard> = Flashcard.fetchRequest()
-        let predicate = NSCompoundPredicate(orPredicateWithSubpredicates: [
-            NSPredicate(format: "isNew == YES"),
-            NSPredicate(format: "nextReviewDate <= %@", Date() as NSDate)
-        ])
-        fetchRequest.predicate = predicate
+        fetchRequest.predicate = NSPredicate(format: "isNew == YES")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "category", ascending: true)]
         
         do {
             return try persistentContainer.viewContext.fetch(fetchRequest)
         } catch {
-            print("Error fetching flashcards: \(error)")
+            print("Error fetching new flashcards: \(error)")
             return []
         }
     }
+    
+    // Fetch Pending Flashcards for Home Screen
+    func fetchPendingFlashcards() -> [Flashcard] {
+        let fetchRequest: NSFetchRequest<Flashcard> = Flashcard.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "nextReviewDate <= %@", Date() as NSDate)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "category", ascending: true)]
+        
+        do {
+            return try persistentContainer.viewContext.fetch(fetchRequest)
+        } catch {
+            print("Error fetching pending flashcards: \(error)")
+            return []
+        }
+    }
+    
+    
+    // Fetch new and pending Flashcards for a specific category
+    func fetchNewAndPendingFlashcards(forCategory category: String) -> [Flashcard] {
+        let fetchRequest: NSFetchRequest<Flashcard> = Flashcard.fetchRequest()
+        let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [
+            NSPredicate(format: "category == %@", category),
+            NSCompoundPredicate(orPredicateWithSubpredicates: [
+                NSPredicate(format: "isNew == YES"),
+                NSPredicate(format: "nextReviewDate <= %@", Date() as NSDate)
+            ])
+        ])
+        fetchRequest.predicate = predicate
+        
+        do {
+            return try persistentContainer.viewContext.fetch(fetchRequest)
+        } catch {
+            print("Error fetching new and pending flashcards for category \(category): \(error)")
+            return []
+        }
+    }
+    
+    
     
     
     // Add Flashcard
@@ -124,8 +157,8 @@ class CoreDataManager {
             easeFactor = max(1.3, easeFactor - 0.2)
         }
         
-        flashcard.interval = max(1, interval)
-        flashcard.easeFactor = max(1.3, easeFactor)
+        flashcard.interval = max(1, interval)//1
+        flashcard.easeFactor = max(1.3, easeFactor) //1.3
         flashcard.lastReviewedDate = Date()
         flashcard.nextReviewDate = Calendar.current.date(byAdding: .day, value: Int(interval), to: Date())
         flashcard.isReviewed = true
