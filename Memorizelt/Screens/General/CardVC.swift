@@ -228,11 +228,10 @@ extension CardVC {
         view.addSubview(progressView)
         view.addSubview(reviewedLabel)
         view.addSubview(totalLabel)
-        //view.addSubview(animationView)
         
         // Setup next card views for stacking effect
-        setupNextCardView(nextCardView: nextCardView2, offset: -10)
-        setupNextCardView(nextCardView: nextCardView1, offset: -5)
+        setupNextCardView(nextCardView: nextCardView2, offset: 10)
+        setupNextCardView(nextCardView: nextCardView1, offset: 5)
         setupCurrentCardView()
         
         view.addSubview(flipButton)
@@ -294,23 +293,38 @@ extension CardVC {
         }
     }
     
-    private func setupNextCardView(nextCardView: UIView, offset: CGFloat) {
-        view.insertSubview(nextCardView, belowSubview: cardView)
+    private func setupNextCardView(nextCardView: MZContainerView, offset: CGFloat) {
+        view.addSubview(nextCardView)
+        nextCardView.backgroundColor = Colors.mainTextColor.withAlphaComponent(0.8)
+        nextCardView.layer.cornerRadius = 20
+        nextCardView.layer.shadowColor = UIColor.black.cgColor
+        nextCardView.layer.shadowOpacity = 0.2
+        nextCardView.layer.shadowOffset = CGSize(width: 0, height: 5)
+        nextCardView.layer.shadowRadius = 10
+        
         nextCardView.snp.makeConstraints { make in
-            make.centerX.equalTo(view)
-            make.centerY.equalTo(view).offset(offset)
-            make.width.equalTo(view.snp.width).multipliedBy(0.8)
-            make.height.equalTo(view.snp.height).multipliedBy(0.45)
+            make.top.equalTo(reviewedLabel.snp.bottom).offset(40 + offset)
+            make.left.equalTo(view).offset(40 + offset)
+            make.right.equalTo(view).offset(-40 - offset)
+            make.height.equalTo(view.snp.height).multipliedBy(0.67).offset(-100)
         }
     }
     
     private func setupCurrentCardView() {
+        cardView.layer.cornerRadius = 20
+        cardView.layer.shadowColor = UIColor.black.cgColor
+        cardView.layer.shadowOpacity = 0.3
+        cardView.layer.shadowOffset = CGSize(width: 0, height: 10)
+        cardView.layer.shadowRadius = 20
+        cardView.layer.borderColor = UIColor.lightGray.cgColor
+        cardView.layer.borderWidth = 0.5
+        
         view.addSubview(cardView)
         cardView.snp.makeConstraints { make in
-            make.centerX.equalTo(view)
-            make.centerY.equalTo(view)
-            make.width.equalTo(view.snp.width).multipliedBy(0.8)
-            make.height.equalTo(view.snp.height).multipliedBy(0.5)
+            make.top.equalTo(reviewedLabel.snp.bottom).offset(40)
+            make.left.equalTo(view).offset(40)
+            make.right.equalTo(view).offset(-40)
+            make.height.equalTo(view.snp.height).multipliedBy(0.67).offset(-100)
         }
     }
 }
