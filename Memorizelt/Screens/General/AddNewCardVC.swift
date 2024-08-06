@@ -76,7 +76,6 @@ class AddNewCardVC: UIViewController {
         questionTextField.text = ""
         answerTextView.text = ""
         alertMessage(alertTitle: Texts.AddNewCardScreen.alertTitle, alertMesssage: Texts.AddNewCardScreen.alertMessage, completionHandler: nil)
-        loadCategories()
     }
     
     // Close Button Tapped
