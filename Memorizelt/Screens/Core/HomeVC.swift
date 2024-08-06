@@ -20,9 +20,10 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
     private let dateLabel = MZLabel(text: "", textAlignment: .left, numberOfLines: 1, fontName: Fonts.interSemiBold, fontSize: 15, textColor: Colors.alternativeTextColor)
     private let dashboardTitleLabel = MZLabel(text: Texts.HomeScreen.dashboardTitle, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: Colors.alternativeTextColor)
     private let dashboardInfoLabel = MZLabel(text: Texts.PrototypeTexts.dashboardInfo, textAlignment: .left, numberOfLines: 0, fontName: Fonts.interSemiBold, fontSize: 22, textColor: Colors.alternativeTextColor)
-    private let separatorLine = MZContainerView(cornerRadius: 0, bgColor: Colors.secondary)
+    private let dashboardSeparatorLine = MZContainerView(cornerRadius: 0, bgColor: Colors.secondary)
     private let pendingFlashcardsLabel = MZLabel(text: "", textAlignment: .left, numberOfLines: 0, fontName: Fonts.interMedium, fontSize: 14, textColor: Colors.accent)
     private let tableViewTitleLabel = MZLabel(text: Texts.HomeScreen.tableViewTitle, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interBold, fontSize: 17, textColor: Colors.mainTextColor)
+    private let tableViewSeparatorLine = MZContainerView(cornerRadius: 0, bgColor: Colors.secondary)
     private let tableView = MZTableView(isScrollEnabled: false)
     private let addCardButton = MZFloatingButton(bgColor: Colors.primary, tintColor: Colors.background, cornerRadius: 35, systemImage: Texts.HomeScreen.plusIcon)
     
@@ -123,7 +124,7 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
     // Update the height of the table view based on the number of categories
     private func updateTableViewHeight() {
         tableView.snp.updateConstraints { make in
-            make.height.equalTo(flashcardsDue.isEmpty ? 40 : flashcardsDue.count * 50)
+            make.height.equalTo(flashcardsDue.isEmpty ? 40 : flashcardsDue.count * 100)
         }
     }
 }
@@ -140,7 +141,7 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate {
         let category = categoriesDue[indexPath.row]
         let flashcardsInCategory = flashcardsDue.filter { $0.category == category }
         cell.titleLabel.text = category
-        cell.pendingLabel.text = "\(flashcardsInCategory.count)"
+        cell.newQuantity.text = "\(flashcardsInCategory.count)"
         return cell
     }
     
@@ -160,7 +161,7 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
+        return 100
     }
 }
 
@@ -178,13 +179,14 @@ extension HomeVC {
         scrollView.addSubview(contentView)
         view.addSubview(addCardButton)
         contentView.addSubview(tableViewTitleLabel)
+        contentView.addSubview(tableViewSeparatorLine)
         contentView.addSubview(tableView)
         contentView.addSubview(dashboardContainer)
         dashboardContainer.addSubview(dashboardInfoLabel)
         dashboardContainer.addSubview(dashboardTitleLabel)
         dashboardContainer.addSubview(dateLabel)
         dashboardContainer.addSubview(calendarIcon)
-        dashboardContainer.addSubview(separatorLine)
+        dashboardContainer.addSubview(dashboardSeparatorLine)
         dashboardContainer.addSubview(pendingFlashcardsLabel)
         
         scrollView.snp.makeConstraints { make in
@@ -238,7 +240,7 @@ extension HomeVC {
             make.right.equalTo(dashboardContainer).offset(-20)
         }
         
-        separatorLine.snp.makeConstraints { make in
+        dashboardSeparatorLine.snp.makeConstraints { make in
             make.top.equalTo(dashboardInfoLabel.snp.bottom).offset(10)
             make.left.equalTo(dashboardContainer).offset(20)
             make.right.equalTo(dashboardContainer).offset(-20)
@@ -246,7 +248,7 @@ extension HomeVC {
         }
         
         pendingFlashcardsLabel.snp.makeConstraints { make in
-            make.top.equalTo(separatorLine.snp.bottom).offset(10)
+            make.top.equalTo(dashboardSeparatorLine.snp.bottom).offset(10)
             make.left.equalTo(dashboardContainer).offset(20)
             make.right.equalTo(dashboardContainer).offset(-20)
             make.bottom.equalTo(dashboardContainer).offset(-20)
@@ -258,8 +260,15 @@ extension HomeVC {
             make.right.equalTo(contentView).offset(-20)
         }
         
+        tableViewSeparatorLine.snp.makeConstraints { make in
+            make.top.equalTo(tableViewTitleLabel.snp.bottom).offset(10)
+            make.left.equalTo(contentView).offset(20)
+            make.right.equalTo(contentView).offset(-20)
+            make.height.equalTo(1)
+        }
+        
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(tableViewTitleLabel.snp.bottom).offset(15)
+            make.top.equalTo(tableViewSeparatorLine.snp.bottom).offset(10)
             make.left.equalTo(contentView)
             make.right.equalTo(contentView)
             make.bottom.equalTo(contentView.snp.bottom).offset(-20)
