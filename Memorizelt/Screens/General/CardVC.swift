@@ -121,6 +121,7 @@ final class CardVC: UIViewController {
             cardIndex += 1
             currentQuestionAndAnswer()
             cardLabel.text = frontText
+            cardLabel.font = frontFont
             isShowingFront = true
         } else {
             // Notify the delegate that the review session is finished

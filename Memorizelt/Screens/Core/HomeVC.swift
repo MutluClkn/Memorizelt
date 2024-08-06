@@ -19,7 +19,7 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
     private let calendarIcon = UIImageView()
     private let dateLabel = MZLabel(text: "", textAlignment: .left, numberOfLines: 1, fontName: Fonts.interSemiBold, fontSize: 15, textColor: Colors.alternativeTextColor)
     private let dashboardTitleLabel = MZLabel(text: Texts.HomeScreen.dashboardTitle, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: Colors.alternativeTextColor)
-    private let dashboardInfoLabel = MZLabel(text: Texts.PrototypeTexts.dashboardInfo, textAlignment: .left, numberOfLines: 0, fontName: Fonts.interSemiBold, fontSize: 25, textColor: Colors.alternativeTextColor)
+    private let dashboardInfoLabel = MZLabel(text: Texts.PrototypeTexts.dashboardInfo, textAlignment: .left, numberOfLines: 0, fontName: Fonts.interSemiBold, fontSize: 22, textColor: Colors.alternativeTextColor)
     private let separatorLine = MZContainerView(cornerRadius: 0, bgColor: Colors.secondary)
     private let pendingFlashcardsLabel = MZLabel(text: "", textAlignment: .left, numberOfLines: 0, fontName: Fonts.interMedium, fontSize: 14, textColor: Colors.accent)
     private let tableViewTitleLabel = MZLabel(text: Texts.HomeScreen.tableViewTitle, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interBold, fontSize: 17, textColor: Colors.mainTextColor)
@@ -82,6 +82,15 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
         flashcardsDue = coreDataManager.fetchFlashcardsForHome()
         categoriesDue = Array(Set(flashcardsDue.compactMap { $0.category }))
         tableView.reloadData()
+        
+        // Update dashboard
+        if flashcardsDue.count > 0 {
+            self.dashboardInfoLabel.text = "You have \(flashcardsDue.count) flashcards to review today."
+        } else {
+            self.dashboardInfoLabel.text = "All flashcards have been reviewed. Great job!"
+        }
+
+        
         
         // Update pending categories label
         pendingFlashcardsLabel.text = categoriesDue.joined(separator: ", ")
