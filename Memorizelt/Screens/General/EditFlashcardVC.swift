@@ -16,6 +16,7 @@ protocol EditFlashcardDelegate: AnyObject {
 final class EditFlashcardVC: UIViewController {
     
     //Labels
+    private let backButton = MZImageTextButton(systemImage: Texts.EditFlashcardScreen.backIcon, tintColor: Colors.accent)
     private let questionLabel = MZLabel(text: Texts.AddNewCardScreen.questionTitle, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: Colors.mainTextColor)
     
     private let answerLabel = MZLabel(text: Texts.AddNewCardScreen.answerTitle, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: Colors.mainTextColor)
@@ -32,8 +33,8 @@ final class EditFlashcardVC: UIViewController {
     
     
     //Variables
-    var flashcard : Flashcard?
-    var category : String?
+    var flashcard: Flashcard?
+    var category: String?
     private let coreDataManager = CoreDataManager.shared
     weak var delegate: EditFlashcardDelegate?
     
@@ -42,9 +43,11 @@ final class EditFlashcardVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Colors.background
+        
         createDismissKeyboardTapGesture()
         setupConstraints()
         loadFlashcardData()
+        configureBackButton()
     }
     
     //Loads question and answer fields
@@ -55,10 +58,18 @@ final class EditFlashcardVC: UIViewController {
         category = flashcard.category
     }
     
+    //Configure Back Button
+    private func configureBackButton() {
+        backButton.addTarget(self, action: #selector(backButtonDidTap), for: .touchUpInside)
+    }
+    
+    //Back Button Did Tap
+    @objc func backButtonDidTap() {
+        self.dismiss(animated: true)
+    }
+    
     //Save Button Tapped
     @objc func saveButtonTapped() {
-        
-        
         guard let flashcard = flashcard else { return }
         flashcard.question = questionTextField.text ?? ""
         flashcard.answer = answerTextView.text ?? ""
@@ -67,23 +78,29 @@ final class EditFlashcardVC: UIViewController {
         delegate?.didUpdateFlashcard()
         
         alertMessage(alertTitle: Texts.EditFlashcardScreen.alertTitle, alertMesssage: Texts.EditFlashcardScreen.alertMessage, completionHandler: nil)
-        
     }
-    
 }
 
 extension EditFlashcardVC {
     private func setupConstraints() {
+        view.addSubview(backButton)
         view.addSubview(questionLabel)
         view.addSubview(questionTextField)
         view.addSubview(answerLabel)
         view.addSubview(answerTextView)
         view.addSubview(saveButton)
         
+        backButton.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(10)
+            make.left.equalTo(view.safeAreaLayoutGuide).offset(5)
+            make.height.equalTo(30)
+            make.width.equalTo(90)
+        }
+        
         questionLabel.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(0)
-            make.left.equalTo(view.safeAreaLayoutGuide).offset(20)
-            make.right.equalTo(view.safeAreaLayoutGuide).offset(-20)
+            make.top.equalTo(backButton.snp.bottom).offset(40)
+            make.left.equalTo(view.safeAreaLayoutGuide).offset(30)
+            make.right.equalTo(view.safeAreaLayoutGuide).offset(-30)
         }
         
         questionTextField.snp.makeConstraints { make in

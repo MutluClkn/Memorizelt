@@ -12,7 +12,7 @@ import SnapKit
 final class EditDeckVC: UIViewController {
     
     // UI Elements
-    private let cancelButton = MZImageTextButton(systemImage: Texts.EditDeckScreen.cancelIcon, title: Texts.EditDeckScreen.cancelTitle, tintColor: Colors.accent)
+    private let backButton = MZImageTextButton(systemImage: Texts.EditDeckScreen.backIcon, tintColor: Colors.accent)
     private let categoryTextField = MZTextField(returnKeyType: .done)
     
     private let tableView = MZTableView(isScrollEnabled: true)
@@ -34,7 +34,7 @@ final class EditDeckVC: UIViewController {
         setupConstraints()
         loadCategoryData()
         createDismissKeyboardTapGesture()
-        configureCancelButton()
+        configureBackButton()
         
         categoryTextField.delegate = self
     }
@@ -60,12 +60,13 @@ final class EditDeckVC: UIViewController {
         tableView.register(EditDeckCell.self, forCellReuseIdentifier: Cell.editDeckCell)
     }
     
-    //Configure Cancel Button
-    private func configureCancelButton() {
-        cancelButton.addTarget(self, action: #selector(cancelButtonDidTap), for: .touchUpInside)
+    //Configure Back Button
+    private func configureBackButton() {
+        backButton.addTarget(self, action: #selector(backButtonDidTap), for: .touchUpInside)
     }
     
-    @objc func cancelButtonDidTap() {
+    //Back Button Did Tap
+    @objc func backButtonDidTap() {
         self.dismiss(animated: true)
     }
     
@@ -77,9 +78,7 @@ final class EditDeckVC: UIViewController {
     
     //Save Changes for Category Name
     @objc private func saveChanges() {
-        guard let newCategoryName = categoryTextField.text, !newCategoryName.isEmpty else {
-            return
-        }
+        guard let newCategoryName = categoryTextField.text, !newCategoryName.isEmpty else { return }
         
         // Update category in Core Data
         for flashcard in flashcards {
@@ -132,10 +131,13 @@ extension EditDeckVC: UITableViewDataSource, UITableViewDelegate {
         let flashcard = flashcards[indexPath.row]
         
         // Navigate to the edit flashcard screen
-        let editFlashcardVC = EditFlashcardVC()
-        editFlashcardVC.flashcard = flashcard
-        editFlashcardVC.delegate = self
-        navigationController?.pushViewController(editFlashcardVC, animated: true)
+        DispatchQueue.main.async {
+            let editFlashcardVC = EditFlashcardVC()
+            editFlashcardVC.flashcard = flashcard
+            editFlashcardVC.delegate = self
+            editFlashcardVC.modalPresentationStyle = .fullScreen
+            self.present(editFlashcardVC, animated: true)
+        }
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -178,11 +180,11 @@ extension EditDeckVC {
     
     //Setup Constraints
     private func setupConstraints() {
-        view.addSubview(cancelButton)
+        view.addSubview(backButton)
         view.addSubview(categoryTextField)
         view.addSubview(tableView)
         
-        cancelButton.snp.makeConstraints { make in
+        backButton.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(10)
             make.left.equalTo(view.safeAreaLayoutGuide).offset(5)
             make.height.equalTo(30)
@@ -190,7 +192,7 @@ extension EditDeckVC {
         }
         
         categoryTextField.snp.makeConstraints { make in
-            make.top.equalTo(cancelButton.snp.bottom).offset(40)
+            make.top.equalTo(backButton.snp.bottom).offset(40)
             make.left.equalTo(view.safeAreaLayoutGuide).offset(50)
             make.right.equalTo(view.safeAreaLayoutGuide).offset(-50)
             make.height.equalTo(32)

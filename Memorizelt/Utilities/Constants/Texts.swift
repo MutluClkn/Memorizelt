@@ -15,6 +15,8 @@ struct Texts {
         
         static let reviewedCardText = "0 cards reviewed"
         static let totalCardText = "30 cards"
+        
+        static let backButtonText = "Back"
     }
     
     struct TabBar {
@@ -62,8 +64,14 @@ struct Texts {
     }
     
     struct EditDeckScreen {
-        static let cancelIcon = "chevron.backward"
-        static let cancelTitle = "Decks"
+        static let backIcon = "chevron.backward"
+    }
+    
+    struct EditFlashcardScreen {
+        static let backIcon = "chevron.backward"
+        
+        static let alertTitle = "Flashcard Updated"
+        static let alertMessage = "Your changes have been saved."
     }
     
     struct CardScreen {
@@ -81,10 +89,4 @@ struct Texts {
 Slide Left: If you cannot answer the question or find it difficult, slide the card to the left.\n\nFlip Card: Tap the "Flip Card" button to see the answer on the other side.\n\n
 """
     }
-    
-    struct EditFlashcardScreen {
-        static let alertTitle = "Flashcard Updated"
-        static let alertMessage = "Your changes have been saved."
-    }
-    
 }
