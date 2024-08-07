@@ -125,12 +125,13 @@ extension DecksVC: UITableViewDataSource, UITableViewDelegate {
         let category = categories[indexPath.row]
         let flashcards = flashcardsByCategory[category] ?? []
         
-        let editDeckVC = EditDeckVC()
-        
-        editDeckVC.flashcards = flashcards
-        editDeckVC.category = category
-        
-        navigationController?.pushViewController(editDeckVC, animated: true)
+        DispatchQueue.main.async {
+            let editDeckVC = EditDeckVC()
+            editDeckVC.modalPresentationStyle = .fullScreen
+            editDeckVC.flashcards = flashcards
+            editDeckVC.category = category
+            self.present(editDeckVC, animated: true)
+        }
     }
 }
 

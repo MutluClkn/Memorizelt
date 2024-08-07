@@ -66,7 +66,7 @@ final class EditFlashcardVC: UIViewController {
         coreDataManager.saveContext()
         delegate?.didUpdateFlashcard()
         
-        alertMessage(alertTitle: Texts.EditFlashcarScreen.alertTitle, alertMesssage: Texts.EditFlashcarScreen.alertMessage, completionHandler: nil)
+        alertMessage(alertTitle: Texts.EditFlashcardScreen.alertTitle, alertMesssage: Texts.EditFlashcardScreen.alertMessage, completionHandler: nil)
         
     }
     

@@ -61,6 +61,11 @@ struct Texts {
         static let title = "Decks"
     }
     
+    struct EditDeckScreen {
+        static let cancelIcon = "chevron.backward"
+        static let cancelTitle = "Decks"
+    }
+    
     struct CardScreen {
         static let flipButtonIcon = "arrow.2.circlepath"
         
@@ -77,7 +82,7 @@ Slide Left: If you cannot answer the question or find it difficult, slide the ca
 """
     }
     
-    struct EditFlashcarScreen {
+    struct EditFlashcardScreen {
         static let alertTitle = "Flashcard Updated"
         static let alertMessage = "Your changes have been saved."
     }

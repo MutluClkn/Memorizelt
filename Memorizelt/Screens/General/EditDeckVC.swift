@@ -12,6 +12,7 @@ import SnapKit
 final class EditDeckVC: UIViewController {
     
     // UI Elements
+    private let cancelButton = MZImageTextButton(systemImage: Texts.EditDeckScreen.cancelIcon, title: Texts.EditDeckScreen.cancelTitle, tintColor: Colors.accent)
     private let categoryTextField = MZTextField(returnKeyType: .done)
     
     private let tableView = MZTableView(isScrollEnabled: true)
@@ -29,11 +30,11 @@ final class EditDeckVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Colors.background
-        setupViews()
+        configureTableView()
         setupConstraints()
-        configureNavigationBar()
         loadCategoryData()
         createDismissKeyboardTapGesture()
+        configureCancelButton()
         
         categoryTextField.delegate = self
     }
@@ -48,43 +49,24 @@ final class EditDeckVC: UIViewController {
     
     
     // Sort Flashcards by Date
-        private func sortFlashcardsByDate() {
-            flashcards.sort { $0.creationDate ?? Date.distantPast > $1.creationDate ?? Date.distantPast }
-        }
+    private func sortFlashcardsByDate() {
+        flashcards.sort { $0.creationDate ?? Date.distantPast > $1.creationDate ?? Date.distantPast }
+    }
     
-    //Setup Views
-    private func setupViews() {
-        view.addSubview(categoryTextField)
-        view.addSubview(tableView)
-        
+    //Configure Table View
+    private func configureTableView() {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(EditDeckCell.self, forCellReuseIdentifier: Cell.editDeckCell)
     }
     
-    //Setup Constraints
-    private func setupConstraints() {
-        
-        categoryTextField.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(30)
-            make.left.equalTo(view.safeAreaLayoutGuide).offset(20)
-            make.right.equalTo(view.safeAreaLayoutGuide).offset(-20)
-            make.height.equalTo(35)
-        }
-        
-        tableView.snp.makeConstraints { make in
-            make.top.equalTo(categoryTextField.snp.bottom).offset(30)
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
-            make.bottom.equalTo(view.safeAreaLayoutGuide)
-        }
-        
+    //Configure Cancel Button
+    private func configureCancelButton() {
+        cancelButton.addTarget(self, action: #selector(cancelButtonDidTap), for: .touchUpInside)
     }
     
-    //Configure Navigation Bar
-    private func configureNavigationBar() {
-        self.title = category
-        self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: Colors.mainTextColor]
+    @objc func cancelButtonDidTap() {
+        self.dismiss(animated: true)
     }
     
     //Load Category Data
@@ -190,4 +172,37 @@ extension EditDeckVC: EditFlashcardDelegate {
         sortFlashcardsByDate()
         tableView.reloadData()
     }
+}
+
+extension EditDeckVC {
+    
+    //Setup Constraints
+    private func setupConstraints() {
+        view.addSubview(cancelButton)
+        view.addSubview(categoryTextField)
+        view.addSubview(tableView)
+        
+        cancelButton.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(10)
+            make.left.equalTo(view.safeAreaLayoutGuide).offset(5)
+            make.height.equalTo(30)
+            make.width.equalTo(90)
+        }
+        
+        categoryTextField.snp.makeConstraints { make in
+            make.top.equalTo(cancelButton.snp.bottom).offset(40)
+            make.left.equalTo(view.safeAreaLayoutGuide).offset(50)
+            make.right.equalTo(view.safeAreaLayoutGuide).offset(-50)
+            make.height.equalTo(32)
+        }
+        
+        tableView.snp.makeConstraints { make in
+            make.top.equalTo(categoryTextField.snp.bottom).offset(30)
+            make.left.equalTo(view.safeAreaLayoutGuide).offset(10)
+            make.right.equalTo(view.safeAreaLayoutGuide).offset(-10)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-15)
+        }
+        
+    }
+    
 }
