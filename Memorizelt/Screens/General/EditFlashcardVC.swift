@@ -13,7 +13,7 @@ protocol EditFlashcardDelegate: AnyObject {
     func didUpdateFlashcard()
 }
 
-class EditFlashcardVC: UIViewController {
+final class EditFlashcardVC: UIViewController {
     
     //Labels
     private let questionLabel = MZLabel(text: Texts.AddNewCardScreen.questionTitle, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: Colors.mainTextColor)

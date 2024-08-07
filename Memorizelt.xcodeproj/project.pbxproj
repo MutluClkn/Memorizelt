@@ -19,6 +19,7 @@
 		FA8250792C47A92D00675C7D /* Inter-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA8250702C47A92D00675C7D /* Inter-ExtraBold.ttf */; };
 		FA82507C2C47A96000675C7D /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA82507B2C47A96000675C7D /* Fonts.swift */; };
 		FA82507E2C47AB5600675C7D /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA82507D2C47AB5600675C7D /* Cell.swift */; };
+		FAA09F812C6354E300C947E4 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA09F802C6354E300C947E4 /* CustomTabBar.swift */; };
 		FAA2EF6E2C54C743007F8E2C /* MZSearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA2EF6D2C54C743007F8E2C /* MZSearchTextField.swift */; };
 		FAA2EF702C54E15E007F8E2C /* MZContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA2EF6F2C54E15E007F8E2C /* MZContainerView.swift */; };
 		FAA2EF722C5513FF007F8E2C /* MZStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA2EF712C5513FF007F8E2C /* MZStackView.swift */; };
@@ -46,7 +47,7 @@
 		FAB9DC552C453E000051D754 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB9DC542C453E000051D754 /* HomeVC.swift */; };
 		FAB9DC592C4541E30051D754 /* CardListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB9DC582C4541E30051D754 /* CardListCell.swift */; };
 		FAD6DD162C522D0900A65EA7 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD6DD152C522D0900A65EA7 /* CoreDataManager.swift */; };
-		FAD6DD182C523C0900A65EA7 /* MZFloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD6DD172C523C0900A65EA7 /* MZFloatingButton.swift */; };
+		FAD6DD182C523C0900A65EA7 /* MZAddCardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD6DD172C523C0900A65EA7 /* MZAddCardButton.swift */; };
 		FAD6DD1A2C52431E00A65EA7 /* MZButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD6DD192C52431E00A65EA7 /* MZButton.swift */; };
 		FAD6DD1C2C52449200A65EA7 /* MZImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD6DD1B2C52449200A65EA7 /* MZImageButton.swift */; };
 		FAD6DD1E2C52473900A65EA7 /* MZLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD6DD1D2C52473900A65EA7 /* MZLabel.swift */; };
@@ -70,6 +71,7 @@
 		FA8250702C47A92D00675C7D /* Inter-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-ExtraBold.ttf"; sourceTree = "<group>"; };
 		FA82507B2C47A96000675C7D /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		FA82507D2C47AB5600675C7D /* Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
+		FAA09F802C6354E300C947E4 /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
 		FAA2EF6D2C54C743007F8E2C /* MZSearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MZSearchTextField.swift; sourceTree = "<group>"; };
 		FAA2EF6F2C54E15E007F8E2C /* MZContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MZContainerView.swift; sourceTree = "<group>"; };
 		FAA2EF712C5513FF007F8E2C /* MZStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MZStackView.swift; sourceTree = "<group>"; };
@@ -99,7 +101,7 @@
 		FAB9DC542C453E000051D754 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		FAB9DC582C4541E30051D754 /* CardListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListCell.swift; sourceTree = "<group>"; };
 		FAD6DD152C522D0900A65EA7 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
-		FAD6DD172C523C0900A65EA7 /* MZFloatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MZFloatingButton.swift; sourceTree = "<group>"; };
+		FAD6DD172C523C0900A65EA7 /* MZAddCardButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MZAddCardButton.swift; sourceTree = "<group>"; };
 		FAD6DD192C52431E00A65EA7 /* MZButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MZButton.swift; sourceTree = "<group>"; };
 		FAD6DD1B2C52449200A65EA7 /* MZImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MZImageButton.swift; sourceTree = "<group>"; };
 		FAD6DD1D2C52473900A65EA7 /* MZLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MZLabel.swift; sourceTree = "<group>"; };
@@ -167,6 +169,7 @@
 		FAA6CD6D2C56527100BD941A /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				FAA09F802C6354E300C947E4 /* CustomTabBar.swift */,
 				FAB0AA372C4CF1DA0049EAFD /* TabBarVC.swift */,
 				FAB9DC542C453E000051D754 /* HomeVC.swift */,
 				FAB0AA392C4CF2DA0049EAFD /* DecksVC.swift */,
@@ -254,7 +257,7 @@
 			isa = PBXGroup;
 			children = (
 				FAB0AA422C4D15380049EAFD /* Cells */,
-				FAD6DD172C523C0900A65EA7 /* MZFloatingButton.swift */,
+				FAD6DD172C523C0900A65EA7 /* MZAddCardButton.swift */,
 				FAD6DD192C52431E00A65EA7 /* MZButton.swift */,
 				FAD6DD1B2C52449200A65EA7 /* MZImageButton.swift */,
 				FAD6DD1D2C52473900A65EA7 /* MZLabel.swift */,
@@ -445,7 +448,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FAD6DD182C523C0900A65EA7 /* MZFloatingButton.swift in Sources */,
+				FAD6DD182C523C0900A65EA7 /* MZAddCardButton.swift in Sources */,
 				FAA5A04E2C538F5800840F05 /* EditFlashcardVC.swift in Sources */,
 				FAB9DC3C2C4530FC0051D754 /* AppDelegate.swift in Sources */,
 				FAD6DD202C524F3B00A65EA7 /* CardVC.swift in Sources */,
@@ -470,6 +473,7 @@
 				FAD6DD162C522D0900A65EA7 /* CoreDataManager.swift in Sources */,
 				FAA2EF722C5513FF007F8E2C /* MZStackView.swift in Sources */,
 				FA82507E2C47AB5600675C7D /* Cell.swift in Sources */,
+				FAA09F812C6354E300C947E4 /* CustomTabBar.swift in Sources */,
 				FAA5A0522C53A25C00840F05 /* MZTextView.swift in Sources */,
 				FAB0AA3C2C4CF6E40049EAFD /* AddNewCardVC.swift in Sources */,
 				FAB9DC552C453E000051D754 /* HomeVC.swift in Sources */,

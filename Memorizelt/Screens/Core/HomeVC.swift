@@ -25,7 +25,7 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
     private let tableViewTitleLabel = MZLabel(text: Texts.HomeScreen.tableViewTitle, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interBold, fontSize: 17, textColor: Colors.mainTextColor)
     private let tableViewSeparatorLine = MZContainerView(cornerRadius: 0, bgColor: Colors.secondary)
     private let tableView = MZTableView(isScrollEnabled: false)
-    private let addCardButton = MZFloatingButton(bgColor: Colors.primary, tintColor: Colors.background, cornerRadius: 35, systemImage: Texts.HomeScreen.plusIcon)
+    
     
     // Variables
     private let coreDataManager = CoreDataManager.shared
@@ -76,7 +76,6 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
         self.navigationItem.title = Texts.HomeScreen.navigationTitle
         self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: Colors.mainTextColor]
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.tabBarController?.tabBar.tintColor = Colors.primary
     }
     
     // Group flashcards by category and calculate counts
@@ -148,7 +147,7 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
     }
     
     private func configureAddCardButton() {
-        addCardButton.addTarget(self, action: #selector(pushAddCardVC), for: .touchUpInside)
+        //addCardButton.addTarget(self, action: #selector(pushAddCardVC), for: .touchUpInside)
     }
     
     @objc func pushAddCardVC() {
@@ -224,7 +223,6 @@ extension HomeVC {
     private func setupConstraints() {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
-        view.addSubview(addCardButton)
         contentView.addSubview(tableViewTitleLabel)
         contentView.addSubview(tableViewSeparatorLine)
         contentView.addSubview(tableView)
@@ -249,12 +247,6 @@ extension HomeVC {
             make.right.equalTo(scrollView)
             make.bottom.equalTo(scrollView)
             make.width.equalTo(scrollView)
-        }
-        
-        addCardButton.snp.makeConstraints { make in
-            make.height.width.equalTo(70)
-            make.right.equalTo(view.safeAreaLayoutGuide).offset(-20)
-            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-30)
         }
         
         dashboardContainer.snp.makeConstraints { make in

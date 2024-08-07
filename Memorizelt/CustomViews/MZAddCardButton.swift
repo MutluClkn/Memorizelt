@@ -1,5 +1,5 @@
 //
-//  MZFloatingButton.swift
+//  MZAddCardButton.swift
 //  Memorizelt
 //
 //  Created by Mutlu Çalkan on 25.07.2024.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MZFloatingButton: UIButton {
+class MZAddCardButton: UIButton {
 
     override init(frame: CGRect) {
         super.init(frame: frame)

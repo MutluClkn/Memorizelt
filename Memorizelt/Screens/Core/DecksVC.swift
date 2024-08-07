@@ -45,7 +45,6 @@ final class DecksVC: UIViewController {
         self.title = Texts.TabBar.deckTitle
         self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: Colors.mainTextColor]
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.tabBarController?.tabBar.tintColor = Colors.primary
     }
     
     

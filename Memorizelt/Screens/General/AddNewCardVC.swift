@@ -16,7 +16,7 @@ protocol AddNewCardDelegate: AnyObject {
 }
 
 //MARK: - AddNewCard ViewController
-class AddNewCardVC: UIViewController {
+final class AddNewCardVC: UIViewController {
     
     // UI Elements
     private let closeButton = MZImageButton(systemImage: Texts.AddNewCardScreen.closeIcon, tintColor: Colors.accent)
