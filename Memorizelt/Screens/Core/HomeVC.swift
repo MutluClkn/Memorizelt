@@ -50,7 +50,6 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
     private func configureView() {
         configureTableView()
         configureNavAndTabBar()
-        configureAddCardButton()
         setDateLabel()
         configureCalendarIcon()
         setupConstraints()
@@ -144,19 +143,6 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(CardListCell.self, forCellReuseIdentifier: Cell.cardListCell)
-    }
-    
-    private func configureAddCardButton() {
-        //addCardButton.addTarget(self, action: #selector(pushAddCardVC), for: .touchUpInside)
-    }
-    
-    @objc func pushAddCardVC() {
-        DispatchQueue.main.async {
-            let vc = AddNewCardVC()
-            vc.delegate = self
-            vc.modalPresentationStyle = .overFullScreen
-            self.present(vc, animated: true)
-        }
     }
     
     func didAddNewCard() {

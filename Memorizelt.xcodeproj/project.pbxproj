@@ -19,7 +19,6 @@
 		FA8250792C47A92D00675C7D /* Inter-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA8250702C47A92D00675C7D /* Inter-ExtraBold.ttf */; };
 		FA82507C2C47A96000675C7D /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA82507B2C47A96000675C7D /* Fonts.swift */; };
 		FA82507E2C47AB5600675C7D /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA82507D2C47AB5600675C7D /* Cell.swift */; };
-		FAA09F812C6354E300C947E4 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA09F802C6354E300C947E4 /* CustomTabBar.swift */; };
 		FAA2EF6E2C54C743007F8E2C /* MZSearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA2EF6D2C54C743007F8E2C /* MZSearchTextField.swift */; };
 		FAA2EF702C54E15E007F8E2C /* MZContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA2EF6F2C54E15E007F8E2C /* MZContainerView.swift */; };
 		FAA2EF722C5513FF007F8E2C /* MZStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA2EF712C5513FF007F8E2C /* MZStackView.swift */; };
@@ -71,7 +70,6 @@
 		FA8250702C47A92D00675C7D /* Inter-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-ExtraBold.ttf"; sourceTree = "<group>"; };
 		FA82507B2C47A96000675C7D /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		FA82507D2C47AB5600675C7D /* Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
-		FAA09F802C6354E300C947E4 /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
 		FAA2EF6D2C54C743007F8E2C /* MZSearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MZSearchTextField.swift; sourceTree = "<group>"; };
 		FAA2EF6F2C54E15E007F8E2C /* MZContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MZContainerView.swift; sourceTree = "<group>"; };
 		FAA2EF712C5513FF007F8E2C /* MZStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MZStackView.swift; sourceTree = "<group>"; };
@@ -169,7 +167,6 @@
 		FAA6CD6D2C56527100BD941A /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				FAA09F802C6354E300C947E4 /* CustomTabBar.swift */,
 				FAB0AA372C4CF1DA0049EAFD /* TabBarVC.swift */,
 				FAB9DC542C453E000051D754 /* HomeVC.swift */,
 				FAB0AA392C4CF2DA0049EAFD /* DecksVC.swift */,
@@ -473,7 +470,6 @@
 				FAD6DD162C522D0900A65EA7 /* CoreDataManager.swift in Sources */,
 				FAA2EF722C5513FF007F8E2C /* MZStackView.swift in Sources */,
 				FA82507E2C47AB5600675C7D /* Cell.swift in Sources */,
-				FAA09F812C6354E300C947E4 /* CustomTabBar.swift in Sources */,
 				FAA5A0522C53A25C00840F05 /* MZTextView.swift in Sources */,
 				FAB0AA3C2C4CF6E40049EAFD /* AddNewCardVC.swift in Sources */,
 				FAB9DC552C453E000051D754 /* HomeVC.swift in Sources */,
