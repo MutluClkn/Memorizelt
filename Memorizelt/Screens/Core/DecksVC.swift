@@ -10,7 +10,7 @@ import CoreData
 import SnapKit
 
 //MARK: - DecskVC
-final class DecksVC: UIViewController {
+final class DecksVC: UIViewController, AddNewCardDelegate {
     
     //Variables
     private let titleLabel = MZLabel(text: Texts.DeckScreen.title, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interBold, fontSize: 30, textColor: Colors.text)
@@ -27,30 +27,14 @@ final class DecksVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Colors.background
-        configureNavigationBar()
         configureTableView()
         loadFlashcards()
         setupConstraints()
     }
-    
-    /*
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        view.backgroundColor = Colors.background
-        tableView.backgroundColor = Colors.background
-    }*/
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         loadFlashcards()
-    }
-    
-    
-    //NavigationBar & TabBar
-    private func configureNavigationBar() {
-        self.title = Texts.TabBar.deckTitle
-        self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: Colors.mainTextColor]
-        self.navigationController?.navigationBar.prefersLargeTitles = true
     }
     
     
@@ -75,6 +59,18 @@ final class DecksVC: UIViewController {
         }
         
         tableView.reloadData()
+        updateTableViewHeight()
+    }
+    
+    // Update the height of the table view based on the number of categories
+    private func updateTableViewHeight() {
+        tableView.snp.updateConstraints { make in
+            make.height.equalTo(categories.isEmpty ? 40 : categories.count * 60)
+        }
+    }
+    
+    func didAddNewCard() {
+        loadFlashcards()
     }
     
 }
@@ -88,14 +84,13 @@ extension DecksVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Cell.deckListCell, for: indexPath) as? DeckListCell else { return UITableViewCell() }
         
-        let category = categories[indexPath.row]
-        
-        cell.titleLabel.text = category
-        cell.quantity.text = "(\(category.count))"
-        
-        cell.tintColor = Colors.accent
         cell.accessoryType = .disclosureIndicator
         
+        let category = categories[indexPath.row]
+        let flashcard = flashcardsByCategory[category] ?? []
+        
+        cell.titleLabel.text = category
+        cell.quantity.text = "(\(flashcard.count))"
         
         return cell
     }

@@ -238,7 +238,7 @@ extension HomeVC {
             make.top.equalTo(titleLabel.snp.bottom).offset(40)
             make.left.equalTo(contentView).offset(20)
             make.right.equalTo(contentView).offset(-20)
-            make.height.greaterThanOrEqualTo(view.frame.size.height * 0.25)
+            make.height.greaterThanOrEqualTo(150)
         }
         
         calendarIcon.snp.makeConstraints { make in

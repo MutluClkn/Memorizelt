@@ -14,8 +14,6 @@ struct Colors {
     static let accent = UIColor(hex: "#E68369")
     static let background = UIColor(hex: "#131842")
     static let text = UIColor(hex: "#FBF6E2")
-    static let dark = UIColor(hex: "#000000")
-    
     
     static let alternativeTextColor = background
     static let mainTextColor = text

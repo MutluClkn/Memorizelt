@@ -98,7 +98,7 @@ extension EditFlashcardVC {
         }
         
         questionLabel.snp.makeConstraints { make in
-            make.top.equalTo(backButton.snp.bottom).offset(40)
+            make.top.equalTo(backButton.snp.bottom).offset(30)
             make.left.equalTo(view.safeAreaLayoutGuide).offset(30)
             make.right.equalTo(view.safeAreaLayoutGuide).offset(-30)
         }

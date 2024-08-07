@@ -33,6 +33,7 @@ final class AddNewCardVC: UIViewController {
     // Core Data
     private let coreDataManager = CoreDataManager.shared
     private var categories: [String] = []
+    private var flashcardsByCategory: [String: [Flashcard]] = [:]
     weak var delegate: AddNewCardDelegate?
     
     
@@ -48,7 +49,7 @@ final class AddNewCardVC: UIViewController {
     
     // Load categories from Core Data
     private func loadCategories() {
-        let flashcardsByCategory = coreDataManager.fetchFlashcardsGroupedByCategory()
+        flashcardsByCategory = coreDataManager.fetchFlashcardsGroupedByCategory()
         categories = Array(flashcardsByCategory.keys).sorted()
         categoryTextField.filterStrings(categories)
     }
