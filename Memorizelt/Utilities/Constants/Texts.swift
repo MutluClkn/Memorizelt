@@ -26,6 +26,8 @@ struct Texts {
     }
     
     struct HomeScreen {
+        static let title = "Dashboard"
+        
         static let dashboardTitle = "Pending Studies"
         
         static let plusIcon = "plus"
@@ -37,6 +39,7 @@ struct Texts {
     
     struct AddNewCardScreen {
         static let closeIcon = "xmark"
+        static let title = "Add Flashcard"
         
         static let categoryTitle = "Category"
         static let questionTitle = "Question"
@@ -52,6 +55,10 @@ struct Texts {
         
         static let unsavedChangesAlertTitle = "Unsaved Changes"
         static let unsavedChangesAlertMessage = "You have unsaved changes. Do you really want to close?"
+    }
+    
+    struct DeckScreen {
+        static let title = "Decks"
     }
     
     struct CardScreen {

@@ -7,12 +7,17 @@
 
 import UIKit
 import CoreData
+import SnapKit
 
 //MARK: - DecskVC
 final class DecksVC: UIViewController {
     
     //Variables
-    private let tableView = MZTableView(isScrollEnabled: true)
+    private let titleLabel = MZLabel(text: Texts.DeckScreen.title, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interBold, fontSize: 30, textColor: Colors.text)
+    private let scrollView = MZScrollView()
+    private let contentView = UIView()
+    private let separatorLine = MZContainerView(cornerRadius: 0, bgColor: Colors.secondary)
+    private let tableView = MZTableView(isScrollEnabled: false)
     private let coreDataManager = CoreDataManager.shared
     private var flashcardsByCategory: [String: [Flashcard]] = [:]
     private var categories: [String] = []
@@ -25,14 +30,15 @@ final class DecksVC: UIViewController {
         configureNavigationBar()
         configureTableView()
         loadFlashcards()
+        setupConstraints()
     }
     
+    /*
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         view.backgroundColor = Colors.background
         tableView.backgroundColor = Colors.background
-        tableView.frame = view.bounds
-    }
+    }*/
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -115,7 +121,6 @@ extension DecksVC: UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let category = categories[indexPath.row]
         let flashcards = flashcardsByCategory[category] ?? []
@@ -126,7 +131,53 @@ extension DecksVC: UITableViewDataSource, UITableViewDelegate {
         editDeckVC.category = category
         
         navigationController?.pushViewController(editDeckVC, animated: true)
+    }
+}
+
+extension DecksVC {
+    
+    private func setupConstraints() {
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(separatorLine)
+        contentView.addSubview(tableView)
         
+        scrollView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.left.equalTo(view.safeAreaLayoutGuide)
+            make.right.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+        
+        contentView.snp.makeConstraints { make in
+            make.top.equalTo(scrollView)
+            make.left.equalTo(scrollView)
+            make.right.equalTo(scrollView)
+            make.bottom.equalTo(scrollView)
+            make.width.equalTo(scrollView)
+        }
+        
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalTo(contentView).offset(25)
+            make.left.equalTo(contentView).offset(20)
+            make.right.equalTo(contentView).offset(-20)
+        }
+        
+        separatorLine.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(20)
+            make.left.equalTo(contentView).offset(20)
+            make.right.equalTo(contentView).offset(-20)
+            make.height.equalTo(1)
+        }
+        
+        tableView.snp.makeConstraints { make in
+            make.top.equalTo(separatorLine.snp.bottom).offset(5)
+            make.left.equalTo(contentView)
+            make.right.equalTo(contentView)
+            make.bottom.equalTo(contentView.snp.bottom).offset(-20)
+            make.height.equalTo(categories.count * 50)
+        }
     }
     
 }

@@ -13,6 +13,7 @@ import CoreData
 final class HomeVC: UIViewController, AddNewCardDelegate {
     
     // UI Elements
+    private let titleLabel = MZLabel(text: Texts.HomeScreen.title, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interBold, fontSize: 30, textColor: Colors.text)
     private let scrollView = MZScrollView()
     private let contentView = UIView()
     private let dashboardContainer = MZContainerView(cornerRadius: 20, bgColor: Colors.primary)
@@ -30,7 +31,6 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
     // Variables
     private let coreDataManager = CoreDataManager.shared
     private var flashcardCounts: [String: FlashcardCount] = [:]
-    private var flaschardsDue: [Flashcard] = []
     private var categoriesDue: [String] = []
     
     // Lifecycle
@@ -49,7 +49,6 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
     // Configure the initial view setup
     private func configureView() {
         configureTableView()
-        configureNavAndTabBar()
         setDateLabel()
         configureCalendarIcon()
         setupConstraints()
@@ -68,13 +67,6 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
         calendarIcon.image = UIImage(systemName: Texts.HomeScreen.calendarIcon)
         calendarIcon.tintColor = Colors.accent
         calendarIcon.contentMode = .scaleAspectFit
-    }
-    
-    // Configure Navigation and Tab Bar
-    private func configureNavAndTabBar() {
-        self.navigationItem.title = Texts.HomeScreen.navigationTitle
-        self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: Colors.mainTextColor]
-        self.navigationController?.navigationBar.prefersLargeTitles = true
     }
     
     // Group flashcards by category and calculate counts
@@ -152,7 +144,7 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
     // Update the height of the table view based on the number of categories
     private func updateTableViewHeight() {
         tableView.snp.updateConstraints { make in
-            make.height.equalTo(flashcardCounts.isEmpty ? 40 : flashcardCounts.count * 74)
+            make.height.equalTo(flashcardCounts.isEmpty ? 40 : flashcardCounts.count * 70)
         }
     }
 }
@@ -209,6 +201,7 @@ extension HomeVC {
     private func setupConstraints() {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
+        contentView.addSubview(titleLabel)
         contentView.addSubview(tableViewTitleLabel)
         contentView.addSubview(tableViewSeparatorLine)
         contentView.addSubview(tableView)
@@ -235,8 +228,14 @@ extension HomeVC {
             make.width.equalTo(scrollView)
         }
         
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalTo(contentView).offset(25)
+            make.left.equalTo(contentView).offset(20)
+            make.right.equalTo(contentView).offset(-20)
+        }
+        
         dashboardContainer.snp.makeConstraints { make in
-            make.top.equalTo(contentView).offset(20)
+            make.top.equalTo(titleLabel.snp.bottom).offset(40)
             make.left.equalTo(contentView).offset(20)
             make.right.equalTo(contentView).offset(-20)
             make.height.greaterThanOrEqualTo(view.frame.size.height * 0.25)
@@ -297,7 +296,7 @@ extension HomeVC {
             make.left.equalTo(contentView)
             make.right.equalTo(contentView)
             make.bottom.equalTo(contentView.snp.bottom).offset(-20)
-            make.height.equalTo(flaschardsDue.count * 50)
+            make.height.equalTo(flashcardCounts.count * 64)
         }
     }
 }

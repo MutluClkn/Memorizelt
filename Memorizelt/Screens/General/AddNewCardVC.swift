@@ -19,8 +19,7 @@ protocol AddNewCardDelegate: AnyObject {
 final class AddNewCardVC: UIViewController {
     
     // UI Elements
-    private let closeButton = MZImageButton(systemImage: Texts.AddNewCardScreen.closeIcon, tintColor: Colors.accent)
-    
+    private let titleLabel = MZLabel(text: Texts.AddNewCardScreen.title, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interBold, fontSize: 30, textColor: Colors.text)
     private let categoryLabel = MZLabel(text: Texts.AddNewCardScreen.categoryTitle, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: Colors.mainTextColor)
     private let questionLabel = MZLabel(text: Texts.AddNewCardScreen.questionTitle, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: Colors.mainTextColor)
     private let answerLabel = MZLabel(text: Texts.AddNewCardScreen.answerTitle, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: Colors.mainTextColor)
@@ -43,8 +42,8 @@ final class AddNewCardVC: UIViewController {
         view.backgroundColor = Colors.background
         setupConstraints()
         createDismissKeyboardTapGesture()
-        
         loadCategories()
+        saveButtonConfigure()
     }
     
     // Load categories from Core Data
@@ -54,6 +53,10 @@ final class AddNewCardVC: UIViewController {
         categoryTextField.filterStrings(categories)
     }
     
+    //Save Button Configure
+    private func saveButtonConfigure() {
+        saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
+    }
     
     // Save Button Tapped
     @objc func saveButtonTapped() {
@@ -78,23 +81,9 @@ final class AddNewCardVC: UIViewController {
         alertMessage(alertTitle: Texts.AddNewCardScreen.alertTitle, alertMesssage: Texts.AddNewCardScreen.alertMessage, completionHandler: nil)
     }
     
-    // Close Button Tapped
-    @objc func closeButtonTapped() {
-        if questionTextField.text?.isEmpty == false || answerTextView.text?.isEmpty == false {
-            let alert = UIAlertController(title: Texts.AddNewCardScreen.unsavedChangesAlertTitle, message: Texts.AddNewCardScreen.unsavedChangesAlertMessage, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Close", style: .destructive, handler: { _ in
-                self.dismiss(animated: true)
-            }))
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-            present(alert, animated: true, completion: nil)
-        } else {
-            self.dismiss(animated: true)
-        }
-    }
-    
     // Setup Constraints
     private func setupConstraints() {
-        view.addSubview(closeButton)
+        view.addSubview(titleLabel)
         view.addSubview(categoryLabel)
         view.addSubview(categoryTextField)
         view.addSubview(questionLabel)
@@ -103,14 +92,14 @@ final class AddNewCardVC: UIViewController {
         view.addSubview(answerTextView)
         view.addSubview(saveButton)
         
-        closeButton.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
-            make.left.equalTo(view).offset(20)
-            make.width.height.equalTo(20)
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(25)
+            make.left.equalTo(20)
+            make.right.equalTo(-20)
         }
         
         categoryLabel.snp.makeConstraints { make in
-            make.top.equalTo(closeButton.snp.bottom).offset(40)
+            make.top.equalTo(titleLabel.snp.bottom).offset(40)
             make.left.equalTo(20)
             make.right.equalTo(-20)
         }
@@ -154,8 +143,5 @@ final class AddNewCardVC: UIViewController {
             make.height.equalTo(36)
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-30)
         }
-        
-        closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
-        saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
     }
 }
