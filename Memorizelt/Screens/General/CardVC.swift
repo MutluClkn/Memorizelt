@@ -284,22 +284,16 @@ extension CardVC {
             make.height.equalTo(36)
         }
         
-        let cardHeight = cardView.frame.size.height
-        let questionLabelHeight = questionLabel.frame.size.height
-        let answerLabelHeight = answerLabel.frame.size.height
-        let questionHeightOffset = (cardHeight / 2) - (questionLabelHeight / 2)
-        let answerHeightOffset = (cardHeight / 2) - (answerLabelHeight / 2)
-        
         questionLabel.snp.makeConstraints { make in
-            make.top.equalTo(cardView.snp.top).offset(questionHeightOffset)
-            make.bottom.equalTo(cardView.snp.bottom).offset(-questionHeightOffset)
+            make.top.equalTo(cardView.snp.top).offset(20)
+            make.bottom.equalTo(cardView.snp.bottom).offset(-20)
             make.left.equalTo(cardView).offset(20)
             make.right.equalTo(cardView).offset(-20)
         }
         
         answerLabel.snp.makeConstraints { make in
-            make.top.equalTo(cardView.snp.top).offset(answerHeightOffset)
-            make.bottom.equalTo(cardView.snp.bottom).offset(-answerHeightOffset)
+            make.top.equalTo(cardView.snp.top).offset(20)
+            make.bottom.equalTo(cardView.snp.bottom).offset(-20)
             make.left.equalTo(cardView).offset(20)
             make.right.equalTo(cardView).offset(-20)
         }

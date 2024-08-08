@@ -23,6 +23,7 @@ final class AddNewCardVC: UIViewController {
     private let categoryLabel = MZLabel(text: Texts.AddNewCardScreen.categoryTitle, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: Colors.mainTextColor)
     private let questionLabel = MZLabel(text: Texts.AddNewCardScreen.questionTitle, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: Colors.mainTextColor)
     private let answerLabel = MZLabel(text: Texts.AddNewCardScreen.answerTitle, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: Colors.mainTextColor)
+    private let characterCountLabel = MZLabel(text: "", textAlignment: .right, numberOfLines: 1, fontName: Fonts.interRegular, fontSize: 12, textColor: Colors.secondary)
     
     private let categoryTextField = MZSearchTextField(returnKeyType: .done, filterStringsArray: [""])
     private let questionTextField = MZTextField(returnKeyType: .next)
@@ -36,16 +37,50 @@ final class AddNewCardVC: UIViewController {
     private var flashcardsByCategory: [String: [Flashcard]] = [:]
     weak var delegate: AddNewCardDelegate?
     
+    // Character and TextView Limit
+    private let characterLimit = 450
+    private var maxTextHeight: CGFloat = 50
     
     // Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        maxTextHeight = view.frame.size.height * 0.5
+        
         view.backgroundColor = Colors.background
         setupConstraints()
         createDismissKeyboardTapGesture()
         loadCategories()
         saveButtonConfigure()
+        answerTextView.delegate = self
+        updateCharacterCountLabel()
     }
+    
+    
+    /// MARK: - Setting a limit to the text height of TextView. So text will not run off the CardView on card screen.
+    func textViewDidChange(_ textView: UITextView) {
+        // Calculate the size of the textView's content
+        let contentSize = textView.sizeThatFits(textView.bounds.size)
+        
+        // Check if the content height exceeds the maximum height
+        if contentSize.height > maxTextHeight {
+            // Trim the text to fit within the maximum height
+            textView.text = trimTextToFitMaxHeight(textView)
+        }
+    }
+    
+    private func trimTextToFitMaxHeight(_ textView: UITextView) -> String? {
+        var trimmedText = textView.text
+        
+        // Create a loop to trim the text until it fits within the maximum height
+        while textView.sizeThatFits(textView.bounds.size).height > maxTextHeight, trimmedText?.isEmpty == false {
+            trimmedText?.removeLast()
+            textView.text = trimmedText
+        }
+        
+        return trimmedText
+    }
+    
     
     // Load categories from Core Data
     private func loadCategories() {
@@ -73,14 +108,44 @@ final class AddNewCardVC: UIViewController {
             alertMessage(alertTitle: Texts.AddNewCardScreen.duplicateAlerTitle, alertMesssage: Texts.AddNewCardScreen.duplicateAlertMessage, completionHandler: nil)
             return
         }
-
+        
         // Save flashcard to Core Data
         coreDataManager.addFlashcard(question: question, answer: answer, category: category)
         delegate?.didAddNewCard()
         questionTextField.text = ""
         answerTextView.text = ""
+        updateCharacterCountLabel() // Reset the character count
         alertMessage(alertTitle: Texts.AddNewCardScreen.alertTitle, alertMesssage: Texts.AddNewCardScreen.alertMessage, completionHandler: nil)
     }
+    
+    // Update the character count label
+    private func updateCharacterCountLabel() {
+        let remainingCharacters = characterLimit - answerTextView.text.count
+        characterCountLabel.text = "\(remainingCharacters) characters left"
+    }
+}
+
+//MARK: - UITextViewDelegate
+
+extension AddNewCardVC: UITextViewDelegate {
+    
+    // UITextViewDelegate method to enforce the character limit
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let currentText = textView.text ?? ""
+        let updatedText = (currentText as NSString).replacingCharacters(in: range, with: text)
+        if updatedText.count <= characterLimit {
+            updateCharacterCountLabel()
+            return true
+        } else {
+            return false
+        }
+    }
+}
+
+
+//MARK: - Setup Constraints
+
+extension AddNewCardVC {
     
     // Setup Constraints
     private func setupConstraints() {
@@ -90,6 +155,7 @@ final class AddNewCardVC: UIViewController {
         view.addSubview(questionLabel)
         view.addSubview(questionTextField)
         view.addSubview(answerLabel)
+        view.addSubview(characterCountLabel)
         view.addSubview(answerTextView)
         view.addSubview(saveButton)
         
@@ -137,8 +203,13 @@ final class AddNewCardVC: UIViewController {
             make.right.equalTo(categoryLabel)
         }
         
+        characterCountLabel.snp.makeConstraints { make in
+            make.top.equalTo(answerTextView.snp.bottom).offset(10)
+            make.right.equalTo(answerTextView.snp.right).offset(-10)
+        }
+        
         saveButton.snp.makeConstraints { make in
-            make.top.equalTo(answerTextView.snp.bottom).offset(30)
+            make.top.equalTo(characterCountLabel.snp.bottom).offset(30)
             make.centerX.equalTo(view.safeAreaLayoutGuide)
             make.width.equalTo(150)
             make.height.equalTo(36)
