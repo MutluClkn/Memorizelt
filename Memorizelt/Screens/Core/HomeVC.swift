@@ -102,7 +102,7 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
         
         // Filter out categories with zero counts
         self.flashcardCounts = flashcardCounts.filter { $0.value.newCount > 0 || $0.value.pendingCount > 0 }
-
+        
     }
     
     
@@ -115,15 +115,15 @@ final class HomeVC: UIViewController, AddNewCardDelegate {
         groupFlashcardsByCategory(newFlashcards: newFlashcards, pendingFlashcards: pendingFlashcards)
         
         categoriesDue = Array(flashcardCounts.keys).sorted { category1, category2 in
-                let flashcards1 = coreDataManager.fetchNewAndPendingFlashcards(forCategory: category1)
-                let flashcards2 = coreDataManager.fetchNewAndPendingFlashcards(forCategory: category2)
-                
-                guard let date1 = flashcards1.first?.creationDate else { return false }
-                guard let date2 = flashcards2.first?.creationDate else { return true }
-                
-                return date1 < date2
-            }
-
+            let flashcards1 = coreDataManager.fetchNewAndPendingFlashcards(forCategory: category1)
+            let flashcards2 = coreDataManager.fetchNewAndPendingFlashcards(forCategory: category2)
+            
+            guard let date1 = flashcards1.first?.creationDate else { return false }
+            guard let date2 = flashcards2.first?.creationDate else { return true }
+            
+            return date1 < date2
+        }
+        
         tableView.reloadData()
         
         // Update pending categories label
@@ -160,11 +160,11 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Cell.cardListCell, for: indexPath) as? CardListCell else { return UITableViewCell() }
         
         let category = categoriesDue[indexPath.row]
-                let counts = flashcardCounts[category]!
-                
-                cell.titleLabel.text = category
-                cell.newQuantity.text = "\(counts.newCount)"
-                cell.pendingQuantity.text = "\(counts.pendingCount)"
+        guard let counts = flashcardCounts[category] else { return UITableViewCell() }
+        
+        cell.titleLabel.text = category
+        cell.newQuantity.text = "\(counts.newCount)"
+        cell.pendingQuantity.text = "\(counts.pendingCount)"
         
         return cell
     }
