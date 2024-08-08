@@ -150,14 +150,14 @@ class CoreDataManager {
         
         if correct {
             interval = Int64(Double(interval) * easeFactor)
-            easeFactor += 0.05
+            easeFactor += 0.1
         } else {
             interval = 1
-            easeFactor = max(1.3, easeFactor - 0.2)
+            easeFactor = max(1.3, easeFactor - 0.15)
         }
         
-        flashcard.interval = max(1, interval)//1
-        flashcard.easeFactor = max(1.3, easeFactor) //1.3
+        flashcard.interval = max(1, interval)
+        flashcard.easeFactor = max(1.3, easeFactor)
         flashcard.lastReviewedDate = Date()
         flashcard.nextReviewDate = Calendar.current.date(byAdding: .day, value: Int(interval), to: Date())
         flashcard.isReviewed = true

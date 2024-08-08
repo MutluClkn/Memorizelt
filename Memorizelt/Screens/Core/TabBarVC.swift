@@ -39,7 +39,7 @@ final class TabBarVC: UIViewController {
     private let clearColor = UIColor.clear
     private let bgColor = Colors.background
     
-    private let cornerRadius: CGFloat = 29
+    private let cornerRadius: CGFloat = 28
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -166,7 +166,7 @@ final class TabBarVC: UIViewController {
             make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-20)
             make.left.equalTo(view.safeAreaLayoutGuide).offset(30)
             make.right.equalTo(view.safeAreaLayoutGuide).offset(-30)
-            make.height.equalTo(58)
+            make.height.equalTo(56)
         }
         
         tabBarStackView.snp.makeConstraints { make in
