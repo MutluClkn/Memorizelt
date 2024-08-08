@@ -37,4 +37,36 @@ extension UIViewController {
     func roundToHundreds(_ x : Double) -> Int {
         return 100 * Int((x / 100.0).rounded())
     }
+    
+    //MARK: - Round the text character limit to tens or hundreds
+    func roundToFloorTensOrHundreds() -> Int {
+        var tempCountHolder: CGFloat = 0
+        var roundQuantity: Int = 0
+        let maxTxtHeight = view.frame.size.height * 0.5
+        
+        let chrcLimit = maxTxtHeight * 2.01
+        
+        if chrcLimit >= 100.0 {
+            
+            tempCountHolder = chrcLimit
+            
+            roundQuantity = roundToHundreds(chrcLimit)
+            
+            if tempCountHolder < CGFloat(roundQuantity) {
+                roundQuantity -= 150
+            }
+            
+        } else {
+            
+            tempCountHolder = chrcLimit
+            
+            roundQuantity = roundToTens(chrcLimit)
+            
+            if tempCountHolder < CGFloat(roundQuantity) {
+                roundQuantity -= 10
+            }
+        }
+        
+        return roundQuantity
+    }
 }

@@ -38,10 +38,8 @@ final class AddNewCardVC: UIViewController {
     weak var delegate: AddNewCardDelegate?
     
     /// MARK: - Character and TextView Limit
-    private var characterLimit: CGFloat = 150
-    private var temporaryCountHolder: CGFloat = 0
     private var roundToFloor = 0
-    private var maxTextHeight: CGFloat = 50
+    private var maxTextHeight: CGFloat = 0
     
     /// MARK: - Lifecycle
     override func viewDidLoad() {
@@ -49,39 +47,14 @@ final class AddNewCardVC: UIViewController {
         view.backgroundColor = Colors.background
         
         maxTextHeight = view.frame.size.height * 0.5
-        roundToFloorTensOrHundreds()
+        roundToFloor = roundToFloorTensOrHundreds()
+        
         setupConstraints()
         createDismissKeyboardTapGesture()
         loadCategories()
         saveButtonConfigure()
         answerTextView.delegate = self
         updateCharacterCountLabel()
-    }
-    
-    /// MARK: - Round the text character limit to tens or hundreds
-    private func roundToFloorTensOrHundreds() {
-        self.characterLimit = maxTextHeight * 2.01
-        
-        if characterLimit >= 100.0 {
-            
-            self.temporaryCountHolder = characterLimit
-            
-            self.roundToFloor = roundToHundreds(characterLimit)
-            
-            if temporaryCountHolder < CGFloat(roundToFloor) {
-                roundToFloor -= 150
-            }
-            
-        } else {
-            
-            self.temporaryCountHolder = characterLimit
-            
-            self.roundToFloor = roundToTens(characterLimit)
-            
-            if temporaryCountHolder < CGFloat(roundToFloor) {
-                roundToFloor -= 10
-            }
-        }
     }
     
     /// MARK: - Setting a limit to the text height of TextView. So text will not run off the CardView on card screen.
@@ -96,7 +69,8 @@ final class AddNewCardVC: UIViewController {
         }
     }
     
-    private func trimTextToFitMaxHeight(_ textView: UITextView) -> String? {
+    ///MARK: - Trim Text to Fit Max Height
+    func trimTextToFitMaxHeight(_ textView: UITextView) -> String? {
         var trimmedText = textView.text
         
         /// Create a loop to trim the text until it fits within the maximum height
