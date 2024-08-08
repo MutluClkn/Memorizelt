@@ -31,6 +31,7 @@
 		FAA6CD6C2C56367100BD941A /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA6CD6B2C56367100BD941A /* Colors.swift */; };
 		FAA6CD702C5652AA00BD941A /* MZTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA6CD6F2C5652AA00BD941A /* MZTableView.swift */; };
 		FAA6CD722C5654BA00BD941A /* Texts.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA6CD712C5654BA00BD941A /* Texts.swift */; };
+		FAA7D11C2C64B3A900D84FC5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FAA7D11B2C64B3A900D84FC5 /* Localizable.strings */; };
 		FAA84E1B2C621D7000211AC1 /* SuccessAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = FAA84E192C621D7000211AC1 /* SuccessAnimation.json */; };
 		FAA84E1C2C621D7000211AC1 /* SuccessAnimation2.json in Resources */ = {isa = PBXBuildFile; fileRef = FAA84E1A2C621D7000211AC1 /* SuccessAnimation2.json */; };
 		FAA84E1F2C623AC900211AC1 /* FlashcardCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA84E1E2C623AC900211AC1 /* FlashcardCount.swift */; };
@@ -83,6 +84,7 @@
 		FAA6CD6B2C56367100BD941A /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		FAA6CD6F2C5652AA00BD941A /* MZTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MZTableView.swift; sourceTree = "<group>"; };
 		FAA6CD712C5654BA00BD941A /* Texts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Texts.swift; sourceTree = "<group>"; };
+		FAA7D11B2C64B3A900D84FC5 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		FAA84E192C621D7000211AC1 /* SuccessAnimation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SuccessAnimation.json; sourceTree = "<group>"; };
 		FAA84E1A2C621D7000211AC1 /* SuccessAnimation2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SuccessAnimation2.json; sourceTree = "<group>"; };
 		FAA84E1E2C623AC900211AC1 /* FlashcardCount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashcardCount.swift; sourceTree = "<group>"; };
@@ -311,6 +313,7 @@
 				FAB0AA3D2C4D149D0049EAFD /* Screens */,
 				FAB9DC4C2C4530FE0051D754 /* Info.plist */,
 				FAB9DC442C4530FC0051D754 /* Flashcard.xcdatamodeld */,
+				FAA7D11B2C64B3A900D84FC5 /* Localizable.strings */,
 			);
 			path = Memorizelt;
 			sourceTree = "<group>";
@@ -386,6 +389,7 @@
 				FA8250722C47A92D00675C7D /* Inter-SemiBold.ttf in Resources */,
 				FA8250792C47A92D00675C7D /* Inter-ExtraBold.ttf in Resources */,
 				FA8250772C47A92D00675C7D /* Inter-Regular.ttf in Resources */,
+				FAA7D11C2C64B3A900D84FC5 /* Localizable.strings in Resources */,
 				FAB9DC4B2C4530FE0051D754 /* LaunchScreen.storyboard in Resources */,
 				FA8250762C47A92D00675C7D /* Inter-Bold.ttf in Resources */,
 				FA8250712C47A92D00675C7D /* Inter-ExtraLight.ttf in Resources */,

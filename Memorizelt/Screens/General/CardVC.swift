@@ -25,7 +25,8 @@ final class CardVC: UIViewController {
     let titleLabel = MZLabel(text: "", textAlignment: .left, numberOfLines: 1, fontName: Fonts.interBold, fontSize: 25, textColor: Colors.mainTextColor)
     let reviewedLabel = MZLabel(text: Texts.PrototypeTexts.reviewedCardText, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interRegular, fontSize: 14, textColor: Colors.mainTextColor)
     let totalLabel = MZLabel(text: Texts.PrototypeTexts.totalCardText, textAlignment: .right, numberOfLines: 1, fontName: Fonts.interRegular, fontSize: 14, textColor: Colors.mainTextColor)
-    let cardLabel = MZLabel(text: "", textAlignment: .center, numberOfLines: 0, fontName: Fonts.interMedium, fontSize: 16, textColor: Colors.background)
+    let questionLabel = MZLabel(text: "", textAlignment: .center, numberOfLines: 0, fontName: Fonts.interBold, fontSize: 36, textColor: Colors.background)
+    let answerLabel = MZLabel(text: "", textAlignment: .center, numberOfLines: 0, fontName: Fonts.interMedium, fontSize: 16, textColor: Colors.background)
     
     // MARK: - ProgressView
     private let progressView: UIProgressView = {
@@ -33,13 +34,12 @@ final class CardVC: UIViewController {
         progressView.translatesAutoresizingMaskIntoConstraints = false
         progressView.progressTintColor = Colors.accent
         progressView.trackTintColor = Colors.secondary
-        progressView.setProgress(0.0, animated: false)
+        progressView.setProgress(0.0, animated: true)
         return progressView
     }()
     
     // MARK: - Views
     private let cardView = MZContainerView(cornerRadius: 20, bgColor: Colors.primary)
-    private let scrollView = MZScrollView()
     private let nextCardView1 = MZContainerView(cornerRadius: 20, bgColor: Colors.primary)
     private let nextCardView2 = MZContainerView(cornerRadius: 20, bgColor: Colors.primary)
     private let animationBgView = UIView()
@@ -49,11 +49,7 @@ final class CardVC: UIViewController {
     // MARK: - Variables
     var flashcards: [Flashcard] = []
     private let coreDataManager = CoreDataManager.shared
-    private let frontFont = UIFont(name: Fonts.interBold, size: 50)
-    private let backFont = UIFont(name: Fonts.interMedium, size: 20)
     private var isShowingFront = true
-    var frontText = "FRONT"
-    var backText = "BACK"
     var cardIndex = 0
     var reviewedCount = 0
     var totalCount: Float = 0.0
@@ -67,7 +63,9 @@ final class CardVC: UIViewController {
         view.backgroundColor = Colors.background
         currentQuestionAndAnswer()
         
-        cardLabel.text = frontText
+        answerLabel.isHidden = true
+        questionLabel.isHidden = false
+        
         totalLabel.text = "\(Int(totalCount)) cards"
         progressIncrease = 1 / totalCount
         
@@ -78,8 +76,8 @@ final class CardVC: UIViewController {
     
     private func currentQuestionAndAnswer() {
         if !flashcards.isEmpty {
-            frontText = flashcards[cardIndex].question ?? "Question not available"
-            backText = flashcards[cardIndex].answer ?? "Answer not available"
+            self.questionLabel.text = flashcards[cardIndex].question ?? "Question not available"
+            self.answerLabel.text = flashcards[cardIndex].answer ?? "Answer not available"
         }
     }
     
@@ -132,8 +130,10 @@ final class CardVC: UIViewController {
         if cardIndex < flashcards.count - 1 {
             cardIndex += 1
             currentQuestionAndAnswer()
-            cardLabel.text = frontText
-            cardLabel.font = frontFont
+            
+            answerLabel.isHidden = true
+            questionLabel.isHidden = false
+            
             reviewedCount += 1
             reviewedLabel.text = "\(reviewedCount) cards reviewed"
             progress += progressIncrease
@@ -192,11 +192,11 @@ final class CardVC: UIViewController {
     @objc func flipCard() {
         UIView.transition(with: cardView, duration: 0.3, options: .transitionFlipFromRight, animations: {
             if self.isShowingFront {
-                self.cardLabel.text = self.backText
-                self.cardLabel.font = self.backFont
+                self.answerLabel.isHidden = false
+                self.questionLabel.isHidden = true
             } else {
-                self.cardLabel.text = self.frontText
-                self.cardLabel.font = self.frontFont
+                self.answerLabel.isHidden = true
+                self.questionLabel.isHidden = false
             }
         }, completion: nil)
         isShowingFront.toggle()
@@ -219,8 +219,9 @@ final class CardVC: UIViewController {
 extension CardVC {
     
     private func setupCardView() {
-        cardLabel.text = frontText
-        cardLabel.font = frontFont
+        self.answerLabel.isHidden = true
+        self.questionLabel.isHidden = false
+        self.isShowingFront = true
         
         view.addSubview(closeButton)
         view.addSubview(titleLabel)
@@ -235,8 +236,8 @@ extension CardVC {
         setupCurrentCardView()
         
         view.addSubview(flipButton)
-        cardView.addSubview(scrollView)
-        scrollView.addSubview(cardLabel)
+        cardView.addSubview(questionLabel)
+        cardView.addSubview(answerLabel)
         
         closeButton.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
@@ -283,13 +284,24 @@ extension CardVC {
             make.height.equalTo(36)
         }
         
-        scrollView.snp.makeConstraints { make in
-            make.edges.equalTo(cardView).inset(20)
+        let cardHeight = cardView.frame.size.height
+        let questionLabelHeight = questionLabel.frame.size.height
+        let answerLabelHeight = answerLabel.frame.size.height
+        let questionHeightOffset = (cardHeight / 2) - (questionLabelHeight / 2)
+        let answerHeightOffset = (cardHeight / 2) - (answerLabelHeight / 2)
+        
+        questionLabel.snp.makeConstraints { make in
+            make.top.equalTo(cardView.snp.top).offset(questionHeightOffset)
+            make.bottom.equalTo(cardView.snp.bottom).offset(-questionHeightOffset)
+            make.left.equalTo(cardView).offset(20)
+            make.right.equalTo(cardView).offset(-20)
         }
         
-        cardLabel.snp.makeConstraints { make in
-            make.edges.equalTo(scrollView)
-            make.width.equalTo(scrollView.snp.width)
+        answerLabel.snp.makeConstraints { make in
+            make.top.equalTo(cardView.snp.top).offset(answerHeightOffset)
+            make.bottom.equalTo(cardView.snp.bottom).offset(-answerHeightOffset)
+            make.left.equalTo(cardView).offset(20)
+            make.right.equalTo(cardView).offset(-20)
         }
     }
     
