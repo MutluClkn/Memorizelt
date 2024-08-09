@@ -25,7 +25,7 @@ final class AddNewCardVC: UIViewController {
     private let answerLabel = MZLabel(text: Texts.AddNewCardScreen.answerTitle, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: Colors.mainTextColor)
     private let characterCountLabel = MZLabel(text: "", textAlignment: .right, numberOfLines: 1, fontName: Fonts.interRegular, fontSize: 12, textColor: Colors.secondary)
     
-    private let categoryTextField = MZSearchTextField(returnKeyType: .done, filterStringsArray: [""])
+    private var categoryTextField = MZSearchTextField(returnKeyType: .done, filterStringsArray: [""])
     private let questionTextField = MZTextField(returnKeyType: .next)
     
     private let answerTextView = MZTextView()
@@ -57,6 +57,11 @@ final class AddNewCardVC: UIViewController {
         updateCharacterCountLabel()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadCategories()
+    }
+    
     /// MARK: - Setting a limit to the text height of TextView. So text will not run off the CardView on card screen.
     func textViewDidChange(_ textView: UITextView) {
         // Calculate the size of the textView's content
@@ -85,6 +90,7 @@ final class AddNewCardVC: UIViewController {
     
     /// MARK: - Load categories from Core Data
     private func loadCategories() {
+        categoryTextField.filterStrings([""])
         flashcardsByCategory = coreDataManager.fetchFlashcardsGroupedByCategory()
         categories = Array(flashcardsByCategory.keys).sorted()
         categoryTextField.filterStrings(categories)
