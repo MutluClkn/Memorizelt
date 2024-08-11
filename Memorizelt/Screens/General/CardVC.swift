@@ -18,10 +18,10 @@ final class CardVC: UIViewController {
     
     // MARK: - Buttons
     private let flipButton = MZButton(title: "Flip Card", backgroundColor: Colors.primary)
-    private let photoButton = MZImageButton(systemImage: "photo.on.rectangle.angled", tintColor: Colors.accent)
-    private let audioButton = MZImageButton(systemImage: "speaker.wave.2", tintColor: Colors.accent)
-    private let closeButton = MZImageButton(systemImage: Texts.AddNewCardScreen.closeIcon, tintColor: Colors.accent)
-    private let infoButton = MZImageButton(systemImage: Texts.CardScreen.infoIcon, tintColor: Colors.accent)
+    private let photoButton = MZImageButton(systemImage: "photo.on.rectangle.angled", tintColor: Colors.accent, backgrounColor: Colors.clear)
+    private let audioButton = MZImageButton(systemImage: "speaker.wave.2", tintColor: Colors.accent, backgrounColor: Colors.clear)
+    private let closeButton = MZImageButton(systemImage: Texts.AddNewCardScreen.closeIcon, tintColor: Colors.accent, backgrounColor: Colors.clear)
+    private let infoButton = MZImageButton(systemImage: Texts.CardScreen.infoIcon, tintColor: Colors.accent, backgrounColor: Colors.clear)
     
     // MARK: - Labels
     let titleLabel = MZLabel(text: "", textAlignment: .left, numberOfLines: 1, fontName: Fonts.interBold, fontSize: 25, textColor: Colors.mainTextColor)
@@ -39,6 +39,7 @@ final class CardVC: UIViewController {
     private let nextCardView2 = MZContainerView(cornerRadius: 20, bgColor: Colors.primary)
     private let animationBgView = UIView()
     private let animationView = LottieAnimationView()
+    private let imageSuperView = MZContainerView(cornerRadius: 0, bgColor: .black.withAlphaComponent(0.9), isHidden: true)
     private let flashcardImageView = MZImageView(isHidden: true)
     
     
@@ -46,6 +47,7 @@ final class CardVC: UIViewController {
     var flashcards: [Flashcard] = []
     private let coreDataManager = CoreDataManager.shared
     private var isShowingFront = true
+    private var maxTextHeight: CGFloat = 0
     var cardIndex = 0
     var reviewedCount = 0
     var totalCount: Float = 0.0
@@ -58,6 +60,8 @@ final class CardVC: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = Colors.background
         currentQuestionAndAnswer()
+        
+        maxTextHeight = view.frame.size.height * 0.5
         
         answerLabel.isHidden = true
         questionLabel.isHidden = false
@@ -84,7 +88,7 @@ final class CardVC: UIViewController {
         
         // Add tap gesture to dismiss image when tapping on the image view
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissFlashcardImage))
-        flashcardImageView.addGestureRecognizer(tapGesture)
+        imageSuperView.addGestureRecognizer(tapGesture)
     }
     
     @objc private func handleSwipe(_ gesture: UIPanGestureRecognizer) {
@@ -199,10 +203,12 @@ final class CardVC: UIViewController {
         }
         
         flashcardImageView.image = image
+        imageSuperView.isHidden = false
         flashcardImageView.isHidden = false
     }
     
     @objc private func dismissFlashcardImage() {
+        imageSuperView.isHidden = true
         flashcardImageView.isHidden = true
     }
     
@@ -255,13 +261,11 @@ extension CardVC {
         view.addSubview(flipButton)
         view.addSubview(photoButton)
         view.addSubview(audioButton)
-        view.addSubview(flashcardImageView)
+        view.addSubview(imageSuperView)
+        imageSuperView.addSubview(flashcardImageView)
         cardView.addSubview(questionLabel)
         cardView.addSubview(answerLabel)
         
-        flashcardImageView.snp.makeConstraints { make in
-            make.edges.equalToSuperview() // Make it full screen
-        }
         
         closeButton.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
@@ -332,6 +336,17 @@ extension CardVC {
             make.bottom.equalTo(cardView.snp.bottom).offset(-20)
             make.left.equalTo(cardView).offset(20)
             make.right.equalTo(cardView).offset(-20)
+        }
+        
+        imageSuperView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        flashcardImageView.snp.makeConstraints { make in
+            make.left.equalTo(imageSuperView.snp.left)
+            make.right.equalTo(imageSuperView.snp.right)
+            make.height.equalTo(maxTextHeight)
+            make.centerY.equalToSuperview()
         }
     }
     

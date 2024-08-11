@@ -25,7 +25,7 @@ class MZImageView: UIImageView {
     }
     
     private func configure() {
-        self.contentMode = .scaleAspectFit
+        self.contentMode = .scaleToFill
         self.backgroundColor = .black.withAlphaComponent(0.9)
         self.isUserInteractionEnabled = true
     }

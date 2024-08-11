@@ -20,8 +20,8 @@ final class AddNewCardVC: UIViewController {
     
     /// MARK: - UI Elements
     
-    private let photoButton = MZImageButton(systemImage: "photo.on.rectangle.angled", tintColor: Colors.accent)
-    private let audioButton = MZImageButton(systemImage: "mic.badge.plus", tintColor: Colors.accent)
+    private let photoButton = MZImageButton(systemImage: "photo.on.rectangle.angled", tintColor: Colors.accent, backgrounColor: Colors.clear)
+    private let audioButton = MZImageButton(systemImage: "mic.badge.plus", tintColor: Colors.accent, backgrounColor: Colors.clear)
     
     private let titleLabel = MZLabel(text: Texts.AddNewCardScreen.title, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interBold, fontSize: 30, textColor: Colors.text)
     private let categoryLabel = MZLabel(text: Texts.AddNewCardScreen.categoryTitle, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: Colors.mainTextColor)
@@ -215,7 +215,7 @@ extension AddNewCardVC {
         
         audioButton.snp.makeConstraints { make in
             make.centerY.equalTo(photoButton)
-            make.right.equalTo(photoButton.snp.left).offset(-12)
+            make.right.equalTo(photoButton.snp.left).offset(-15)
             make.height.width.equalTo(25)
         }
         

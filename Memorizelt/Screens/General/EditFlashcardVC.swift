@@ -13,10 +13,9 @@ protocol EditFlashcardDelegate: AnyObject {
     func didUpdateFlashcard()
 }
 
-final class EditFlashcardVC: UIViewController {
+final class EditFlashcardVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     //Labels
-    private let backButton = MZImageTextButton(systemImage: Texts.EditFlashcardScreen.backIcon, tintColor: Colors.accent)
     private let questionLabel = MZLabel(text: Texts.AddNewCardScreen.questionTitle, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: Colors.mainTextColor)
     private let answerLabel = MZLabel(text: Texts.AddNewCardScreen.answerTitle, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: Colors.mainTextColor)
     private let characterCountLabel = MZLabel(text: "", textAlignment: .right, numberOfLines: 1, fontName: Fonts.interRegular, fontSize: 12, textColor: Colors.secondary)
@@ -24,11 +23,17 @@ final class EditFlashcardVC: UIViewController {
     //TextField
     private let questionTextField = MZTextField(returnKeyType: .next)
     
-    //TextView
+    //Views
     private let answerTextView = MZTextView()
+    private let imageSuperView = MZContainerView(cornerRadius: 0, bgColor: .black.withAlphaComponent(0.9))
+    private let imageView = MZImageView(isHidden: true)
     
     //Button
+    private let backButton = MZImageTextButton(systemImage: Texts.EditFlashcardScreen.backIcon, tintColor: Colors.accent)
     private let saveButton = MZButton(title: Texts.AddNewCardScreen.saveButtonTitle, backgroundColor: Colors.primary)
+    private let photoButton = MZImageButton(systemImage: "photo.on.rectangle.angled", tintColor: Colors.accent, backgrounColor: Colors.clear)
+    private let audioButton = MZImageButton(systemImage: "mic.badge.plus", tintColor: Colors.accent, backgrounColor: Colors.clear)
+    private let editButton = MZImageTextButton(systemImage: "square.and.pencil", tintColor: .black, title: "Edit", bgColor: Colors.primary, cornerRadius: 16)
     
     
     //Variables
@@ -46,6 +51,7 @@ final class EditFlashcardVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Colors.background
+        editButton.layer.cornerRadius = 20
         
         maxTextHeight = view.frame.size.height * 0.5
         roundToFloor = roundToFloorTensOrHundreds()
@@ -53,10 +59,10 @@ final class EditFlashcardVC: UIViewController {
         createDismissKeyboardTapGesture()
         setupConstraints()
         loadFlashcardData()
-        configureBackButton()
-        configureSaveButton()
+        configureButtons()
         answerTextView.delegate = self
         updateCharacterCountLabel()
+        gestureRecognizer()
     }
     
     
@@ -86,22 +92,61 @@ final class EditFlashcardVC: UIViewController {
     }
     
     
+    //Gesture Recognizer
+    private func gestureRecognizer() {
+        // Add tap gesture to dismiss image when tapping on the image view
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissImageView))
+        imageSuperView.addGestureRecognizer(tapGesture)
+    }
+    
     //Loads question and answer fields
     private func loadFlashcardData() {
         guard let flashcard = flashcard else {return}
         questionTextField.text = flashcard.question
         answerTextView.text = flashcard.answer
         category = flashcard.category
+        
+        if let imageData = flashcard.image {
+            imageView.image = UIImage(data: imageData)
+            imageSuperView.isHidden = true
+            imageView.isHidden = true
+            editButton.isHidden = true
+        }
     }
     
-    //Configure Back Button
-    private func configureBackButton() {
-        backButton.addTarget(self, action: #selector(backButtonDidTap), for: .touchUpInside)
+    // Present Image Picker
+    private func presentImagePicker() {
+        imageView.image = nil
+        flashcard?.image = nil
+        imageSuperView.isHidden = true
+        editButton.isHidden = true
+        imageView.isHidden = true
+        
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.sourceType = .photoLibrary
+        present(imagePicker, animated: true, completion: nil)
     }
     
-    //Configure Save Button
-    private func configureSaveButton() {
-        self.saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
+    // Image Picker Controller
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true, completion: nil)
+        if let selectedImage = info[.originalImage] as? UIImage {
+            imageView.image = selectedImage
+            flashcard?.image = selectedImage.jpegData(compressionQuality: 0.8)
+            imageSuperView.isHidden = false
+            imageView.isHidden = false
+            editButton.isHidden = false
+        }
+    }
+    
+    
+    /// MARK: - Configure Back Button
+    private func configureButtons() {
+        self.backButton.addTarget(self, action: #selector(backButtonDidTap), for: .touchUpInside)
+        self.saveButton.addTarget(self, action: #selector(saveButtonDidTap), for: .touchUpInside)
+        self.photoButton.addTarget(self, action: #selector(photoButtonDidTap), for: .touchUpInside)
+        self.editButton.addTarget(self, action: #selector(editButtonDidTap), for: .touchUpInside)
     }
     
     
@@ -109,17 +154,40 @@ final class EditFlashcardVC: UIViewController {
     private func updateCharacterCountLabel() {
         let remainingCharacters = roundToFloor - answerTextView.text.count
         characterCountLabel.text = "\(remainingCharacters) characters left"
-        print(answerTextView.text.count)
     }
     
     
+    ///MARK: - Button Actions
+    // Photo Button Did Tap
+    @objc private func photoButtonDidTap() {
+        guard let flashcard = flashcard, let imageData = flashcard.image else { return }
+        imageSuperView.isHidden = false
+        imageView.isHidden = false
+        imageView.image = UIImage(data: imageData)
+        
+        self.editButton.isHidden = false
+    }
+    
+    //Edit Button Did Tap
+    @objc private func editButtonDidTap() {
+        let alert = UIAlertController(title: "Edit Image", message: "The current image will be deleted, and you will be redirected to the gallery to select a new one. Do you want to proceed?", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
+            self?.presentImagePicker()
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alert.addAction(okAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true, completion: nil)
+    }
+    
     //Back Button Did Tap
-    @objc func backButtonDidTap() {
+    @objc private func backButtonDidTap() {
         self.dismiss(animated: true)
     }
     
     //Save Button Tapped
-    @objc func saveButtonTapped() {
+    @objc private func saveButtonDidTap() {
         guard let flashcard = flashcard else { return }
         flashcard.question = questionTextField.text ?? ""
         flashcard.answer = answerTextView.text ?? ""
@@ -128,6 +196,13 @@ final class EditFlashcardVC: UIViewController {
         delegate?.didUpdateFlashcard()
         
         alertMessage(alertTitle: Texts.EditFlashcardScreen.alertTitle, alertMesssage: Texts.EditFlashcardScreen.alertMessage, completionHandler: nil)
+    }
+    
+    //Dismiss ImageView
+    @objc private func dismissImageView() {
+        self.imageView.isHidden = true
+        self.editButton.isHidden = true
+        self.imageSuperView.isHidden = true
     }
 }
 
@@ -154,18 +229,36 @@ extension EditFlashcardVC: UITextViewDelegate {
 extension EditFlashcardVC {
     private func setupConstraints() {
         view.addSubview(backButton)
+        view.addSubview(photoButton)
+        view.addSubview(audioButton)
         view.addSubview(questionLabel)
         view.addSubview(questionTextField)
         view.addSubview(answerLabel)
         view.addSubview(answerTextView)
         view.addSubview(characterCountLabel)
         view.addSubview(saveButton)
+        view.addSubview(imageSuperView)
+        imageSuperView.addSubview(imageView)
+        imageSuperView.addSubview(editButton)
+        
         
         backButton.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(10)
             make.left.equalTo(view.safeAreaLayoutGuide).offset(5)
             make.height.equalTo(30)
             make.width.equalTo(90)
+        }
+        
+        photoButton.snp.makeConstraints { make in
+            make.centerY.equalTo(backButton.snp.centerY)
+            make.right.equalTo(view.safeAreaLayoutGuide).offset(-20)
+            make.height.width.equalTo(25)
+        }
+        
+        audioButton.snp.makeConstraints { make in
+            make.centerY.equalTo(photoButton)
+            make.right.equalTo(photoButton.snp.left).offset(-15)
+            make.height.width.equalTo(25)
         }
         
         questionLabel.snp.makeConstraints { make in
@@ -204,6 +297,24 @@ extension EditFlashcardVC {
             make.width.equalTo(150)
             make.height.equalTo(36)
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-30)
+        }
+        
+        imageSuperView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        imageView.snp.makeConstraints { make in
+            make.left.equalTo(imageSuperView.snp.left)
+            make.right.equalTo(imageSuperView.snp.right)
+            make.height.equalTo(maxTextHeight)
+            make.centerY.equalToSuperview()
+        }
+        
+        editButton.snp.makeConstraints { make in
+            make.top.equalTo(imageView.snp.bottom).offset(30)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(150)
+            make.height.equalTo(36)
         }
     }
 }

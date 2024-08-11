@@ -18,19 +18,20 @@ class MZImageTextButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(systemImage: String, tintColor: UIColor) {
+    init(systemImage: String, tintColor: UIColor, title: String? = Texts.PrototypeTexts.backButtonText, bgColor: UIColor? = Colors.clear, cornerRadius: CGFloat? = 0) {
         super.init(frame: .zero)
         
         var configuration = UIButton.Configuration.filled()
-        configuration.title = Texts.PrototypeTexts.backButtonText
+        configuration.title = title
         configuration.image = UIImage(systemName: systemImage)
         configuration.titlePadding = 1
         configuration.imagePadding = 4
         configuration.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
         configuration.buttonSize = .small
         configuration.baseForegroundColor = tintColor
-        configuration.baseBackgroundColor = UIColor.clear
+        configuration.baseBackgroundColor = bgColor
         
+        self.layer.cornerRadius = cornerRadius ?? 0
         self.configuration = configuration
         
         configure()

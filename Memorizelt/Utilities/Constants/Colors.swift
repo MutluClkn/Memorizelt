@@ -17,6 +17,7 @@ struct Colors {
     
     static let alternativeTextColor = background
     static let mainTextColor = text
+    static let clear = UIColor.clear
     
     //Don't forget to change SearchTextField theme color.
     

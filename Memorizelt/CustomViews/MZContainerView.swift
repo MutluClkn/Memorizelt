@@ -17,10 +17,11 @@ class MZContainerView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(cornerRadius: CGFloat, bgColor: UIColor) {
+    init(cornerRadius: CGFloat, bgColor: UIColor, isHidden: Bool? = false) {
         super.init(frame: .zero)
         self.backgroundColor = bgColor
         self.layer.cornerRadius = cornerRadius
+        self.isHidden = isHidden ?? false
     }
 
 }

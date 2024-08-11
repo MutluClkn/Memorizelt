@@ -18,19 +18,16 @@ class MZImageButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(systemImage: String, tintColor: UIColor) {
+    init(systemImage: String, tintColor: UIColor, backgrounColor: UIColor, isHidden: Bool? = false) {
         super.init(frame: .zero)
         var configuration = UIButton.Configuration.filled()
         configuration.image = UIImage(systemName: systemImage)
         configuration.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
         configuration.buttonSize = .small
         configuration.baseForegroundColor = tintColor
-        configuration.baseBackgroundColor = UIColor.clear
-        
+        configuration.baseBackgroundColor = backgrounColor
+        self.isHidden = isHidden ?? false
         self.configuration = configuration
-                                                                    
-        //setImage(UIImage(systemName: systemImage), for: .normal)
-        //self.tintColor = tintColor
         configure()
     }
     
