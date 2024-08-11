@@ -19,6 +19,10 @@ protocol AddNewCardDelegate: AnyObject {
 final class AddNewCardVC: UIViewController {
     
     /// MARK: - UI Elements
+    
+    private let photoButton = MZImageButton(systemImage: "photo.on.rectangle.angled", tintColor: Colors.accent)
+    private let audioButton = MZImageButton(systemImage: "mic.badge.plus", tintColor: Colors.accent)
+    
     private let titleLabel = MZLabel(text: Texts.AddNewCardScreen.title, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interBold, fontSize: 30, textColor: Colors.text)
     private let categoryLabel = MZLabel(text: Texts.AddNewCardScreen.categoryTitle, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: Colors.mainTextColor)
     private let questionLabel = MZLabel(text: Texts.AddNewCardScreen.questionTitle, textAlignment: .left, numberOfLines: 1, fontName: Fonts.interMedium, fontSize: 16, textColor: Colors.mainTextColor)
@@ -156,6 +160,8 @@ extension AddNewCardVC {
     
     /// Setup Constraints
     private func setupConstraints() {
+        view.addSubview(photoButton)
+        view.addSubview(audioButton)
         view.addSubview(titleLabel)
         view.addSubview(categoryLabel)
         view.addSubview(categoryTextField)
@@ -170,6 +176,18 @@ extension AddNewCardVC {
             make.top.equalTo(view.safeAreaLayoutGuide).offset(25)
             make.left.equalTo(20)
             make.right.equalTo(-20)
+        }
+        
+        photoButton.snp.makeConstraints { make in
+            make.centerY.equalTo(titleLabel)
+            make.right.equalTo(view.safeAreaLayoutGuide).offset(-20)
+            make.height.width.equalTo(25)
+        }
+        
+        audioButton.snp.makeConstraints { make in
+            make.centerY.equalTo(photoButton)
+            make.right.equalTo(photoButton.snp.left).offset(-12)
+            make.height.width.equalTo(25)
         }
         
         categoryLabel.snp.makeConstraints { make in

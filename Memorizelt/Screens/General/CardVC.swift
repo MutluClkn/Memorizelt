@@ -18,6 +18,8 @@ final class CardVC: UIViewController {
     
     // MARK: - Buttons
     private let flipButton = MZButton(title: "Flip Card", backgroundColor: Colors.primary)
+    private let photoButton = MZImageButton(systemImage: "photo.on.rectangle.angled", tintColor: Colors.accent)
+    private let audioButton = MZImageButton(systemImage: "speaker.wave.2", tintColor: Colors.accent)
     private let closeButton = MZImageButton(systemImage: Texts.AddNewCardScreen.closeIcon, tintColor: Colors.accent)
     private let infoButton = MZImageButton(systemImage: Texts.CardScreen.infoIcon, tintColor: Colors.accent)
     
@@ -236,6 +238,8 @@ extension CardVC {
         setupCurrentCardView()
         
         view.addSubview(flipButton)
+        view.addSubview(photoButton)
+        view.addSubview(audioButton)
         cardView.addSubview(questionLabel)
         cardView.addSubview(answerLabel)
         
@@ -282,6 +286,18 @@ extension CardVC {
             make.centerX.equalTo(view.safeAreaLayoutGuide)
             make.width.equalTo(150)
             make.height.equalTo(36)
+        }
+        
+        photoButton.snp.makeConstraints { make in
+            make.centerY.equalTo(flipButton)
+            make.left.equalTo(flipButton.snp.right).offset(20)
+            make.height.width.equalTo(30)
+        }
+        
+        audioButton.snp.makeConstraints { make in
+            make.centerY.equalTo(flipButton)
+            make.right.equalTo(flipButton.snp.left).offset(-20)
+            make.width.height.equalTo(30)
         }
         
         questionLabel.snp.makeConstraints { make in

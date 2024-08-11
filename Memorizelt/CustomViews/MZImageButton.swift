@@ -20,8 +20,17 @@ class MZImageButton: UIButton {
     
     init(systemImage: String, tintColor: UIColor) {
         super.init(frame: .zero)
-        setImage(UIImage(systemName: systemImage), for: .normal)
-        self.tintColor = tintColor
+        var configuration = UIButton.Configuration.filled()
+        configuration.image = UIImage(systemName: systemImage)
+        configuration.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        configuration.buttonSize = .small
+        configuration.baseForegroundColor = tintColor
+        configuration.baseBackgroundColor = UIColor.clear
+        
+        self.configuration = configuration
+                                                                    
+        //setImage(UIImage(systemName: systemImage), for: .normal)
+        //self.tintColor = tintColor
         configure()
     }
     
