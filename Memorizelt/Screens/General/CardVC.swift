@@ -31,14 +31,7 @@ final class CardVC: UIViewController {
     let answerLabel = MZLabel(text: "", textAlignment: .center, numberOfLines: 0, fontName: Fonts.interMedium, fontSize: 16, textColor: Colors.background)
     
     // MARK: - ProgressView
-    private let progressView: UIProgressView = {
-        let progressView = UIProgressView(progressViewStyle: .default)
-        progressView.translatesAutoresizingMaskIntoConstraints = false
-        progressView.progressTintColor = Colors.accent
-        progressView.trackTintColor = Colors.secondary
-        progressView.setProgress(0.0, animated: true)
-        return progressView
-    }()
+    private let progressView = MZProgressView(progressTintColor: Colors.accent, trackTintColor: Colors.secondary, progressViewStyle: .default)
     
     // MARK: - Views
     private let cardView = MZContainerView(cornerRadius: 20, bgColor: Colors.primary)
@@ -46,6 +39,7 @@ final class CardVC: UIViewController {
     private let nextCardView2 = MZContainerView(cornerRadius: 20, bgColor: Colors.primary)
     private let animationBgView = UIView()
     private let animationView = LottieAnimationView()
+    private let flashcardImageView = MZImageView(isHidden: true)
     
     
     // MARK: - Variables
@@ -87,6 +81,10 @@ final class CardVC: UIViewController {
     private func setupGestureRecognizers() {
         let swipeGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handleSwipe(_:)))
         cardView.addGestureRecognizer(swipeGestureRecognizer)
+        
+        // Add tap gesture to dismiss image when tapping on the image view
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissFlashcardImage))
+        flashcardImageView.addGestureRecognizer(tapGesture)
     }
     
     @objc private func handleSwipe(_ gesture: UIPanGestureRecognizer) {
@@ -188,9 +186,26 @@ final class CardVC: UIViewController {
         self.closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
         self.infoButton.addTarget(self, action: #selector(infoButtonTapped), for: .touchUpInside)
         self.flipButton.addTarget(self, action: #selector(flipCard), for: .touchUpInside)
+        self.photoButton.addTarget(self, action: #selector(showImage), for: .touchUpInside)
     }
     
     // MARK: - Button Actions
+    @objc private func showImage() {
+        guard let imageData = flashcards[cardIndex].image, let image = UIImage(data: imageData) else {
+            let alert = UIAlertController(title: "No Image", message: "This flashcard does not have an image.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            present(alert, animated: true)
+            return
+        }
+        
+        flashcardImageView.image = image
+        flashcardImageView.isHidden = false
+    }
+    
+    @objc private func dismissFlashcardImage() {
+        flashcardImageView.isHidden = true
+    }
+    
     @objc func flipCard() {
         UIView.transition(with: cardView, duration: 0.3, options: .transitionFlipFromRight, animations: {
             if self.isShowingFront {
@@ -240,8 +255,13 @@ extension CardVC {
         view.addSubview(flipButton)
         view.addSubview(photoButton)
         view.addSubview(audioButton)
+        view.addSubview(flashcardImageView)
         cardView.addSubview(questionLabel)
         cardView.addSubview(answerLabel)
+        
+        flashcardImageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview() // Make it full screen
+        }
         
         closeButton.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)

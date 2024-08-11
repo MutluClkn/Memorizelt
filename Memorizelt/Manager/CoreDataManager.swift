@@ -98,7 +98,7 @@ class CoreDataManager {
     
     
     // Add Flashcard
-    func addFlashcard(question: String, answer: String, category: String) {
+    func addFlashcard(question: String, answer: String, category: String, image: Data?) {
         let context = persistentContainer.viewContext
         let flashcard = Flashcard(context: context)
         flashcard.id = UUID()
@@ -110,6 +110,7 @@ class CoreDataManager {
         flashcard.easeFactor = 2.5
         flashcard.lastReviewedDate = Date()
         flashcard.nextReviewDate = Calendar.current.date(byAdding: .day, value: 1, to: Date())
+        flashcard.image = image
         flashcard.isReviewed = false
         flashcard.isNew = true
         saveContext()

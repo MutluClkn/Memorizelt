@@ -45,6 +45,9 @@ final class AddNewCardVC: UIViewController {
     private var roundToFloor = 0
     private var maxTextHeight: CGFloat = 0
     
+    /// MARK: - Image and Audio
+    private var selectedImage: UIImage?
+    
     /// MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,7 +59,7 @@ final class AddNewCardVC: UIViewController {
         setupConstraints()
         createDismissKeyboardTapGesture()
         loadCategories()
-        saveButtonConfigure()
+        buttonsConfigure()
         answerTextView.delegate = self
         updateCharacterCountLabel()
     }
@@ -100,13 +103,28 @@ final class AddNewCardVC: UIViewController {
         categoryTextField.filterStrings(categories)
     }
     
-    /// MARK: - Save Button Configure
-    private func saveButtonConfigure() {
-        saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
+    /// MARK: - Buttons Configure
+    private func buttonsConfigure() {
+        saveButton.addTarget(self, action: #selector(saveButtonDidTap), for: .touchUpInside)
+        photoButton.addTarget(self, action: #selector(photoButtonDidTap), for: .touchUpInside)
+        audioButton.addTarget(self, action: #selector(audioButtonDidTap), for: .touchUpInside)
+    }
+    
+    ///MARK: - Photo Button Tapped
+    @objc func photoButtonDidTap() {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.sourceType = .photoLibrary
+        present(imagePicker, animated: true, completion: nil)
+    }
+    
+    ///MARK: - Audio Button Tapped
+    @objc func audioButtonDidTap() {
+        
     }
     
     /// MARK: - Save Button Tapped
-    @objc func saveButtonTapped() {
+    @objc func saveButtonDidTap() {
         guard let question = questionTextField.text, !question.isEmpty,
               let answer = answerTextView.text, !answer.isEmpty,
               let category = categoryTextField.text, !category.isEmpty else {
@@ -120,9 +138,13 @@ final class AddNewCardVC: UIViewController {
             return
         }
         
+        // Convert image to Data
+        let imageData = selectedImage?.jpegData(compressionQuality: 1.0)
+        
         /// Save flashcard to Core Data
-        coreDataManager.addFlashcard(question: question, answer: answer, category: category)
+        coreDataManager.addFlashcard(question: question, answer: answer, category: category, image: imageData)
         delegate?.didAddNewCard()
+        selectedImage = nil
         questionTextField.text = ""
         answerTextView.text = ""
         updateCharacterCountLabel() // Reset the character count
@@ -153,6 +175,13 @@ extension AddNewCardVC: UITextViewDelegate {
     }
 }
 
+//MARK: - UIImagePickerControllerDelegate
+extension AddNewCardVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        selectedImage = info[.originalImage] as? UIImage
+        picker.dismiss(animated: true, completion: nil)
+    }
+}
 
 //MARK: - Setup Constraints
 
