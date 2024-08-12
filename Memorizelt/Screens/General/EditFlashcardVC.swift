@@ -26,7 +26,7 @@ final class EditFlashcardVC: UIViewController, UIImagePickerControllerDelegate, 
     //Views
     private let answerTextView = MZTextView()
     private let imageSuperView = MZContainerView(cornerRadius: 0, bgColor: .black.withAlphaComponent(0.9))
-    private let imageView = MZImageView(isHidden: true)
+    private let imageView = MZImageView(isHidden: true, contentMode: .scaleToFill)
     
     //Button
     private let backButton = MZImageTextButton(systemImage: Texts.EditFlashcardScreen.backIcon, tintColor: Colors.accent)
@@ -166,6 +166,19 @@ final class EditFlashcardVC: UIViewController, UIImagePickerControllerDelegate, 
         imageView.image = UIImage(data: imageData)
         
         self.editButton.isHidden = false
+        
+        // Animate image appearance
+        UIView.animate(withDuration: 0.3,
+                       delay: 0,
+                       usingSpringWithDamping: 0.7,
+                       initialSpringVelocity: 0.5,
+                       options: .curveEaseInOut,
+                       animations: {
+            self.imageView.alpha = 1.0
+            self.imageView.transform = .identity
+            self.editButton.alpha = 1.0
+            self.editButton.transform = .identity
+        }, completion: nil)
     }
     
     //Edit Button Did Tap
@@ -200,9 +213,18 @@ final class EditFlashcardVC: UIViewController, UIImagePickerControllerDelegate, 
     
     //Dismiss ImageView
     @objc private func dismissImageView() {
-        self.imageView.isHidden = true
-        self.editButton.isHidden = true
-        self.imageSuperView.isHidden = true
+        // Animate image disappearance
+        UIView.animate(withDuration: 0.3,
+                       animations: {
+            self.imageView.alpha = 0.0
+            self.imageView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+            self.editButton.alpha = 0.0
+            self.editButton.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        }) { _ in
+            self.imageSuperView.isHidden = true
+            self.editButton.isHidden = true
+            self.imageView.isHidden = true
+        }
     }
 }
 
@@ -257,7 +279,7 @@ extension EditFlashcardVC {
         
         audioButton.snp.makeConstraints { make in
             make.centerY.equalTo(photoButton)
-            make.right.equalTo(photoButton.snp.left).offset(-15)
+            make.right.equalTo(photoButton.snp.left).offset(-20)
             make.height.width.equalTo(25)
         }
         

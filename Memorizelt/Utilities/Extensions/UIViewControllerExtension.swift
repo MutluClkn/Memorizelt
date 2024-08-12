@@ -12,13 +12,28 @@ extension UIViewController {
     func alertMessage(alertTitle: String, alertMesssage: String, completionHandler: (() -> Void)?) {
         let alertController = UIAlertController(title: alertTitle, message: alertMesssage, preferredStyle: .alert)
         
-        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+        let okAction = UIAlertAction(title: "Okay", style: .default) { _ in
             completionHandler?()
         }
         
         alertController.addAction(okAction)
         
         self.present(alertController, animated: true, completion: nil)
+    }
+    
+    //MARK: - Multiple Option Alert Message
+    func multiOptAlertMessage(alertTitle: String, alertMessage: String, firstActionTitle: String, secondActionTitle: String, secondActionStyle: UIAlertAction.Style, completionHandler: (() -> Void)?) {
+        let alertController = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
+        
+        let firstAction = UIAlertAction(title: firstActionTitle, style: .default) { _ in
+            completionHandler?()
+        }
+        let secondAction = UIAlertAction(title: secondActionTitle, style: secondActionStyle)
+        
+        alertController.addAction(firstAction)
+        alertController.addAction(secondAction)
+        
+        self.present(alertController, animated: true)
     }
     
     //MARK: - Hide Keyboard

@@ -18,14 +18,15 @@ class MZImageView: UIImageView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(isHidden: Bool) {
+    init(isHidden: Bool, contentMode: UIView.ContentMode) {
         super.init(frame: .zero)
         configure()
         self.isHidden = isHidden
+        self.contentMode = contentMode
     }
     
     private func configure() {
-        self.contentMode = .scaleToFill
+        //self.contentMode = .scaleToFill
         self.backgroundColor = .black.withAlphaComponent(0.9)
         self.isUserInteractionEnabled = true
     }

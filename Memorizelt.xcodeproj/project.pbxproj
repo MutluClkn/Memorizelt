@@ -21,6 +21,7 @@
 		FA82507E2C47AB5600675C7D /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA82507D2C47AB5600675C7D /* Cell.swift */; };
 		FA9EAFA92C68C1900044ED6F /* MZImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9EAFA82C68C1900044ED6F /* MZImageView.swift */; };
 		FA9EAFAB2C68C2890044ED6F /* MZProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9EAFAA2C68C2890044ED6F /* MZProgressView.swift */; };
+		FA9EAFAD2C68F21C0044ED6F /* AddAudioVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9EAFAC2C68F21C0044ED6F /* AddAudioVC.swift */; };
 		FAA09F832C63A98900C947E4 /* MZImageTextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA09F822C63A98900C947E4 /* MZImageTextButton.swift */; };
 		FAA2EF6E2C54C743007F8E2C /* MZSearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA2EF6D2C54C743007F8E2C /* MZSearchTextField.swift */; };
 		FAA2EF702C54E15E007F8E2C /* MZContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA2EF6F2C54E15E007F8E2C /* MZContainerView.swift */; };
@@ -38,6 +39,7 @@
 		FAA84E1C2C621D7000211AC1 /* SuccessAnimation2.json in Resources */ = {isa = PBXBuildFile; fileRef = FAA84E1A2C621D7000211AC1 /* SuccessAnimation2.json */; };
 		FAA84E1F2C623AC900211AC1 /* FlashcardCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA84E1E2C623AC900211AC1 /* FlashcardCount.swift */; };
 		FAA84E212C6256BA00211AC1 /* EditDeckCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA84E202C6256BA00211AC1 /* EditDeckCell.swift */; };
+		FAA87D5D2C6A0F8E0050CF41 /* SoundWaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA87D5C2C6A0F8E0050CF41 /* SoundWaveView.swift */; };
 		FAACADFA2C4E51BF00DBB93A /* HexColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAACADF92C4E51BF00DBB93A /* HexColor.swift */; };
 		FAB0AA382C4CF1DA0049EAFD /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB0AA372C4CF1DA0049EAFD /* TabBarVC.swift */; };
 		FAB0AA3A2C4CF2DA0049EAFD /* DecksVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB0AA392C4CF2DA0049EAFD /* DecksVC.swift */; };
@@ -76,6 +78,7 @@
 		FA82507D2C47AB5600675C7D /* Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
 		FA9EAFA82C68C1900044ED6F /* MZImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MZImageView.swift; sourceTree = "<group>"; };
 		FA9EAFAA2C68C2890044ED6F /* MZProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MZProgressView.swift; sourceTree = "<group>"; };
+		FA9EAFAC2C68F21C0044ED6F /* AddAudioVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAudioVC.swift; sourceTree = "<group>"; };
 		FAA09F822C63A98900C947E4 /* MZImageTextButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MZImageTextButton.swift; sourceTree = "<group>"; };
 		FAA2EF6D2C54C743007F8E2C /* MZSearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MZSearchTextField.swift; sourceTree = "<group>"; };
 		FAA2EF6F2C54E15E007F8E2C /* MZContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MZContainerView.swift; sourceTree = "<group>"; };
@@ -93,6 +96,7 @@
 		FAA84E1A2C621D7000211AC1 /* SuccessAnimation2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SuccessAnimation2.json; sourceTree = "<group>"; };
 		FAA84E1E2C623AC900211AC1 /* FlashcardCount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashcardCount.swift; sourceTree = "<group>"; };
 		FAA84E202C6256BA00211AC1 /* EditDeckCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDeckCell.swift; sourceTree = "<group>"; };
+		FAA87D5C2C6A0F8E0050CF41 /* SoundWaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundWaveView.swift; sourceTree = "<group>"; };
 		FAACADF92C4E51BF00DBB93A /* HexColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexColor.swift; sourceTree = "<group>"; };
 		FAB0AA372C4CF1DA0049EAFD /* TabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
 		FAB0AA392C4CF2DA0049EAFD /* DecksVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecksVC.swift; sourceTree = "<group>"; };
@@ -189,6 +193,7 @@
 				FAD6DD1F2C524F3B00A65EA7 /* CardVC.swift */,
 				FAA5A04B2C538B9E00840F05 /* EditDeckVC.swift */,
 				FAA5A04D2C538F5800840F05 /* EditFlashcardVC.swift */,
+				FA9EAFAC2C68F21C0044ED6F /* AddAudioVC.swift */,
 			);
 			path = General;
 			sourceTree = "<group>";
@@ -261,6 +266,7 @@
 		FAB0AA412C4D15320049EAFD /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
+				FAA87D5C2C6A0F8E0050CF41 /* SoundWaveView.swift */,
 				FAB0AA422C4D15380049EAFD /* Cells */,
 				FAD6DD172C523C0900A65EA7 /* MZAddCardButton.swift */,
 				FAD6DD192C52431E00A65EA7 /* MZButton.swift */,
@@ -480,6 +486,7 @@
 				FAA09F832C63A98900C947E4 /* MZImageTextButton.swift in Sources */,
 				FAB9DC592C4541E30051D754 /* CardListCell.swift in Sources */,
 				FAD6DD2A2C5295B600A65EA7 /* DeckListCell.swift in Sources */,
+				FAA87D5D2C6A0F8E0050CF41 /* SoundWaveView.swift in Sources */,
 				FAA6CD722C5654BA00BD941A /* Texts.swift in Sources */,
 				FAA6CD6C2C56367100BD941A /* Colors.swift in Sources */,
 				FAA5A04A2C53831000840F05 /* UIViewControllerExtension.swift in Sources */,
@@ -493,6 +500,7 @@
 				FAD6DD222C5266E900A65EA7 /* MZTextField.swift in Sources */,
 				FAA84E1F2C623AC900211AC1 /* FlashcardCount.swift in Sources */,
 				FAB0AA3A2C4CF2DA0049EAFD /* DecksVC.swift in Sources */,
+				FA9EAFAD2C68F21C0044ED6F /* AddAudioVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

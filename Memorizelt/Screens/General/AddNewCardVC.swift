@@ -9,6 +9,7 @@ import UIKit
 import CoreData
 import SnapKit
 import SearchTextField
+import Photos
 
 //MARK: - AddNewCardDelegate Protocol
 protocol AddNewCardDelegate: AnyObject {
@@ -47,6 +48,8 @@ final class AddNewCardVC: UIViewController {
     
     /// MARK: - Image and Audio
     private var selectedImage: UIImage?
+    var selectedAudioURL: URL?
+    
     
     /// MARK: - Lifecycle
     override func viewDidLoad() {
@@ -112,15 +115,33 @@ final class AddNewCardVC: UIViewController {
     
     ///MARK: - Photo Button Tapped
     @objc func photoButtonDidTap() {
-        let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
-        imagePicker.sourceType = .photoLibrary
-        present(imagePicker, animated: true, completion: nil)
+        requestPhotoLibraryPermission { granted in
+            if granted {
+                let imagePicker = UIImagePickerController()
+                imagePicker.delegate = self
+                imagePicker.sourceType = .photoLibrary
+                self.present(imagePicker, animated: true, completion: nil)
+            } else {
+                print("Photo library access denied.")
+                
+                self.multiOptAlertMessage(alertTitle: "Photo Library Access Required", alertMessage: "Please enable photo library access in Settings to use this feature.", firstActionTitle: "Go to Settings", secondActionTitle: "Cancel", secondActionStyle: .cancel) {
+                    if let appSettings = URL(string: UIApplication.openSettingsURLString) {
+                        UIApplication.shared.open(appSettings, options: [:], completionHandler: nil)
+                    }
+                }
+            }
+        }
     }
     
     ///MARK: - Audio Button Tapped
     @objc func audioButtonDidTap() {
-        
+        let addAudioVC = AddAudioVC()
+        addAudioVC.delegate = self
+        addAudioVC.audioTitle = "Audio.m4a"
+        if !(categoryTextField.text == "") {
+            addAudioVC.audioTitle = categoryTextField.text
+        }
+        present(addAudioVC, animated: true, completion: nil)
     }
     
     /// MARK: - Save Button Tapped
@@ -141,12 +162,17 @@ final class AddNewCardVC: UIViewController {
         // Convert image to Data
         let imageData = selectedImage?.jpegData(compressionQuality: 1.0)
         
+        // Convert audio to Data
+        let audioData = selectedAudioURL.flatMap { try? Data(contentsOf: $0) }
+        
         /// Save flashcard to Core Data
-        coreDataManager.addFlashcard(question: question, answer: answer, category: category, image: imageData)
+        coreDataManager.addFlashcard(question: question, answer: answer, category: category, image: imageData, audio: audioData)
+        
         delegate?.didAddNewCard()
-        selectedImage = nil
         questionTextField.text = ""
         answerTextView.text = ""
+        selectedImage = nil
+        selectedAudioURL = nil
         updateCharacterCountLabel() // Reset the character count
         alertMessage(alertTitle: Texts.AddNewCardScreen.alertTitle, alertMesssage: Texts.AddNewCardScreen.alertMessage, completionHandler: nil)
     }
@@ -156,7 +182,32 @@ final class AddNewCardVC: UIViewController {
         let remainingCharacters = roundToFloor - answerTextView.text.count
         characterCountLabel.text = "\(remainingCharacters) characters left"
     }
+    
+    ///MARK: - Permission To Access Gallery
+    private func requestPhotoLibraryPermission(completion: @escaping (Bool) -> Void) {
+        PHPhotoLibrary.requestAuthorization { status in
+            DispatchQueue.main.async {
+                switch status {
+                case .authorized:
+                    print("Photo library access granted")
+                    completion(true)
+                case .denied, .restricted:
+                    print("Photo library access denied or not determined")
+                    completion(false)
+                case .notDetermined:
+                    print("Permission not requested yet")
+                    self.requestPhotoLibraryPermission(completion: completion)
+                case .limited:
+                    print("Permission granted but with limited access")
+                    completion(true)
+                @unknown default:
+                    fatalError("Unknown case for PHAuthorizationStatus")
+                }
+            }
+        }
+    }
 }
+
 
 //MARK: - UITextViewDelegate
 
@@ -175,7 +226,9 @@ extension AddNewCardVC: UITextViewDelegate {
     }
 }
 
+
 //MARK: - UIImagePickerControllerDelegate
+
 extension AddNewCardVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         selectedImage = info[.originalImage] as? UIImage
@@ -215,7 +268,7 @@ extension AddNewCardVC {
         
         audioButton.snp.makeConstraints { make in
             make.centerY.equalTo(photoButton)
-            make.right.equalTo(photoButton.snp.left).offset(-15)
+            make.right.equalTo(photoButton.snp.left).offset(-20)
             make.height.width.equalTo(25)
         }
         

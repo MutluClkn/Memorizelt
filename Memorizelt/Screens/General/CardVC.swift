@@ -18,7 +18,7 @@ final class CardVC: UIViewController {
     
     // MARK: - Buttons
     private let flipButton = MZButton(title: "Flip Card", backgroundColor: Colors.primary)
-    private let photoButton = MZImageButton(systemImage: "photo.on.rectangle.angled", tintColor: Colors.accent, backgrounColor: Colors.clear)
+    private let photoButton = MZImageButton(systemImage: "", tintColor: Colors.clear, backgrounColor: Colors.clear)//photo.on.rectangle.angled
     private let audioButton = MZImageButton(systemImage: "speaker.wave.2", tintColor: Colors.accent, backgrounColor: Colors.clear)
     private let closeButton = MZImageButton(systemImage: Texts.AddNewCardScreen.closeIcon, tintColor: Colors.accent, backgrounColor: Colors.clear)
     private let infoButton = MZImageButton(systemImage: Texts.CardScreen.infoIcon, tintColor: Colors.accent, backgrounColor: Colors.clear)
@@ -40,7 +40,8 @@ final class CardVC: UIViewController {
     private let animationBgView = UIView()
     private let animationView = LottieAnimationView()
     private let imageSuperView = MZContainerView(cornerRadius: 0, bgColor: .black.withAlphaComponent(0.9), isHidden: true)
-    private let flashcardImageView = MZImageView(isHidden: true)
+    private let flashcardImageView = MZImageView(isHidden: true, contentMode: .scaleToFill)
+    private let thumbnailImageView = MZImageView(isHidden: false, contentMode: .scaleAspectFill)
     
     
     // MARK: - Variables
@@ -72,6 +73,15 @@ final class CardVC: UIViewController {
         setupCardView()
         setupGestureRecognizers()
         buttonConfiguration()
+        configureThumbnailImageView()
+        loadThumbnailImage()
+    }
+    
+    private func configureThumbnailImageView() {
+        self.thumbnailImageView.clipsToBounds = true
+        self.thumbnailImageView.layer.cornerRadius = 5
+        self.thumbnailImageView.layer.borderWidth = 1
+        self.thumbnailImageView.layer.borderColor = Colors.accent.cgColor
     }
     
     private func currentQuestionAndAnswer() {
@@ -80,6 +90,17 @@ final class CardVC: UIViewController {
             self.answerLabel.text = flashcards[cardIndex].answer ?? "Answer not available"
         }
     }
+    
+    // MARK: - Load Thumbnail Image
+    private func loadThumbnailImage() {
+        if let imageData = flashcards[cardIndex].image, let image = UIImage(data: imageData) {
+            thumbnailImageView.image = image
+        } else {
+            thumbnailImageView.backgroundColor = .black
+            thumbnailImageView.tintColor = Colors.accent
+        }
+    }
+    
     
     // MARK: - Gesture Recognizers
     private func setupGestureRecognizers() {
@@ -205,11 +226,34 @@ final class CardVC: UIViewController {
         flashcardImageView.image = image
         imageSuperView.isHidden = false
         flashcardImageView.isHidden = false
+        
+        // Initial state for animation
+        flashcardImageView.alpha = 0.0
+        flashcardImageView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        
+        // Animate image appearance
+        UIView.animate(withDuration: 0.3,
+                       delay: 0,
+                       usingSpringWithDamping: 0.7,
+                       initialSpringVelocity: 0.5,
+                       options: .curveEaseInOut,
+                       animations: {
+            self.flashcardImageView.alpha = 1.0
+            self.flashcardImageView.transform = .identity
+        }, completion: nil)
+        
     }
     
     @objc private func dismissFlashcardImage() {
-        imageSuperView.isHidden = true
-        flashcardImageView.isHidden = true
+        // Animate image disappearance
+        UIView.animate(withDuration: 0.3,
+                       animations: {
+            self.flashcardImageView.alpha = 0.0
+            self.flashcardImageView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        }) { _ in
+            self.imageSuperView.isHidden = true
+            self.flashcardImageView.isHidden = true
+        }
     }
     
     @objc func flipCard() {
@@ -259,8 +303,9 @@ extension CardVC {
         setupCurrentCardView()
         
         view.addSubview(flipButton)
-        view.addSubview(photoButton)
+        view.addSubview(thumbnailImageView)
         view.addSubview(audioButton)
+        thumbnailImageView.addSubview(photoButton)
         view.addSubview(imageSuperView)
         imageSuperView.addSubview(flashcardImageView)
         cardView.addSubview(questionLabel)
@@ -312,10 +357,15 @@ extension CardVC {
             make.height.equalTo(36)
         }
         
-        photoButton.snp.makeConstraints { make in
+        thumbnailImageView.snp.makeConstraints { make in
             make.centerY.equalTo(flipButton)
             make.left.equalTo(flipButton.snp.right).offset(20)
-            make.height.width.equalTo(30)
+            make.height.equalTo(50)
+            make.width.equalTo(40)
+        }
+        
+        photoButton.snp.makeConstraints { make in
+            make.edges.equalTo(thumbnailImageView)
         }
         
         audioButton.snp.makeConstraints { make in
